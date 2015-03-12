@@ -146,7 +146,7 @@ public class Jogo {
 		}
 		else {
 			jogo = new Jogo(choice);
-			Lab.random_maze(choice);
+			Random_generator maze = new Random_generator(choice);
 		}
 		//--------------Inicio-do-jogo---------------------
 				
