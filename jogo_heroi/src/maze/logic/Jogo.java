@@ -142,7 +142,7 @@ public class Jogo {
 		int choice = console_interface.choose_maze();
 		if (choice == -1) {
 			jogo = new Jogo(10);
-			Lab.first_maze();
+			Default_maze maze = new Default_maze(10);
 		}
 		else {
 			jogo = new Jogo(choice);
