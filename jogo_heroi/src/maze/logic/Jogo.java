@@ -21,7 +21,9 @@ public class Jogo {
 	public static int interpreta_opcao(int choice) {
 		//3 -- left
 		if (choice == 3) {
-			if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'X' && Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'S') {
+			if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'X' &&
+					Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'S' &&
+					Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'd') {
 				if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'E')
 					heroi.set_armado(true);
 				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
@@ -29,14 +31,16 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'S') {
-				if (Dragao.get_alive() == false) {
+				if (dragoes[0].get_alive() == false) {
 					console_interface.way_out();
-					choice = 0;
+					choice = 10;
 				}
 				else {
 					console_interface.dragon_still_alive();
 				}
 			}
+			else if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'd')
+				console_interface.dragon_sleeping();
 			else {
 				console_interface.wall();
 			}
@@ -51,21 +55,25 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'S') {
-				if (Dragao.get_alive() == false) {
+				if (dragoes[0].get_alive() == false) {
 					console_interface.way_out();
-					choice = 0;
+					choice = 10;
 				}
 				else {
 					console_interface.dragon_still_alive();
 				}
 			}
+			else if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'd')
+				console_interface.dragon_sleeping();
 			else {
 				console_interface.wall();
 			}
 		}
 		//1 -- up
 		else if (choice == 1) {
-			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'X' && Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'S') {
+			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'X' &&
+					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'S' &&
+					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'd') {
 				if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'E')
 					heroi.set_armado(true);
 				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
@@ -73,20 +81,24 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'S') {
-				if (Dragao.get_alive() == false) {
+				if (dragoes[0].get_alive() == false) {
 					console_interface.way_out();
-					choice = 0;
+					choice = 10;
 				}
 				else {
 					console_interface.dragon_still_alive();}
 			}
+			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'd')
+				console_interface.dragon_sleeping();
 			else {		
 				console_interface.wall();
 			}
 		}
 		//2 -- down
 		else if (choice == 2) {
-			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'X' && Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'S') {
+			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'X' && 
+					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'S' &&
+					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'd') {
 				if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'E')
 					heroi.set_armado(true);
 				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
@@ -94,14 +106,16 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'S') {
-				if (Dragao.get_alive() == false) {
+				if (dragoes[0].get_alive() == false) {
 					console_interface.way_out();
-					choice = 0;
+					choice = 10;
 				}
 				else {
 					console_interface.dragon_still_alive();
 				}
 			}
+			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'd')
+				console_interface.dragon_sleeping();
 			else {
 				console_interface.wall();
 			}
@@ -115,19 +129,22 @@ public class Jogo {
 
 		int choice = -1;
 
-		while ((choice != 5) && (choice != 0)) {
+		while ((choice != 5) && (choice != 0) && choice != 10) {
 
 			console_interface.imprimir_lab();
 		
 			choice = console_interface.get_movimento();
 
-			dragoes[0].movimentar_dragao();
-
-
+			if (dragoes[0].get_status() == 0 || dragoes[0].get_status() == 2)
+				dragoes[0].movimentar_dragao();
+			dragoes[0].change_dragon_pos();
+			
 			choice = interpreta_opcao(choice);
-
-			if (choice != 0)
+			
+			if (dragoes[0].get_alive() && choice != 0) {
 				choice = dragoes[0].check_if_dead();
+				dragoes[0].change_status();
+			}
 		}
 		if (choice == 5) {
 			System.out.println();
@@ -135,7 +152,22 @@ public class Jogo {
 			System.out.println();
 		}
 	}
-	
+
+	public static void jogar() {
+		
+		//--------------Inicio-do-jogo---------------------
+
+		dragoes = new Dragao[1];
+		dragoes[0] = new Dragao(1);
+		heroi = new Heroi();
+		espada = new Espada();
+
+		espada.random_sword();
+		heroi.random_start();
+		dragoes[0].random_dragao();
+		movimentar_heroi();
+	}
+
 	public static void main(String[] args) {
 		Jogo jogo;
 		//----------pergunta-qual-o-labirinto.labirinto--------------
@@ -148,17 +180,7 @@ public class Jogo {
 			jogo = new Jogo(choice);
 			Random_generator maze = new Random_generator(choice);
 		}
-		//--------------Inicio-do-jogo---------------------
-				
-		dragoes = new Dragao[1];
-		dragoes[0] = new Dragao();
-		heroi = new Heroi();
-		espada = new Espada();
-		
-		espada.random_sword();
-		heroi.random_start();
-		dragoes[0].random_dragao();
-		movimentar_heroi();
+		jogar();
 
 	}
 }

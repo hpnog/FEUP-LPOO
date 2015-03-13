@@ -76,5 +76,8 @@ public class console_interface {
 		else
 			return -1;
 	}
+	public static void dragon_sleeping() {
+		System.out.printf("\n\nCannot go over sleeping dragon!\n\n");
+	}
 }
 

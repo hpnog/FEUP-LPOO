@@ -41,4 +41,6 @@ public class Heroi extends Object {
 		armado = a;
 	}
 
+	
+	
 }

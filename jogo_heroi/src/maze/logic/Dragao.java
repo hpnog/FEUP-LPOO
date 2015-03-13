@@ -4,19 +4,21 @@ import maze.logic.Jogo;
 
 public class Dragao extends Object {
 	
-	private static boolean alive;
+	private boolean alive;
+	private int status;
 	
-	Dragao() {
+	Dragao(int sleeper) {
 		super(5, 5);
 		alive = true;
+		status = sleeper;		//0 - awake | 1 - asleep | 2 - non sleeper moving | 3 - non sleeper static
 	}
 	
 	public int check_if_dead() {
-				
+		int ret;
 		if ((Jogo.abs(x_coord - Jogo.heroi.get_x_coord()) > 1) || (Jogo.abs(y_coord - Jogo.heroi.get_y_coord()) > 1) ||
 				((y_coord != Jogo.heroi.get_y_coord()) && (x_coord != Jogo.heroi.get_x_coord())))
-			return -1;
-		if (Jogo.heroi.get_armado()) {
+			ret = -1;
+		else if (Heroi.get_armado()) {
 			if (alive) {
 				System.out.println();
 				System.out.println("You just killed the dragon. You can now find your way out!");
@@ -26,17 +28,29 @@ public class Dragao extends Object {
 						Lab.lab[x_coord][y_coord] = ' ';
 			}
 			alive = false;
-			return -1;
+			ret = -1;
 		}
-		return 5;
+		else if (status == 1)
+			ret = -1;
+		else
+			ret = 5;
+		change_dragon_pos();
+		return ret;
 	}
 	public void change_dragon_pos() {
-		if (Lab.lab[x_coord][y_coord] == 'E') {
-			if (alive)
-				Lab.lab[x_coord][y_coord] = 'F';
+		if (alive) {
+			if (Lab.lab[x_coord][y_coord] == 'E') {
+					Lab.lab[x_coord][y_coord] = 'F';
+			}
+			else {
+				if (status == 1)
+					Lab.lab[x_coord][y_coord] = 'd';
+				else
+					Lab.lab[x_coord][y_coord] = 'D';
+			}
 		}
-		else if (alive)
-			Lab.lab[x_coord][y_coord] = 'D';
+		else
+			Lab.lab[x_coord][y_coord] = ' ';
 	}
 	public void movimentar_dragao() {
 		int check = 0;
@@ -49,7 +63,6 @@ public class Dragao extends Object {
 					else
 						Lab.lab[x_coord][y_coord] = ' ';
 					x_coord++;
-					change_dragon_pos();
 					check = 1;
 				}
 			}
@@ -60,7 +73,6 @@ public class Dragao extends Object {
 					else
 						Lab.lab[x_coord][y_coord] = ' ';
 					x_coord--;
-					change_dragon_pos();
 					check = 1;
 				}
 			}
@@ -71,7 +83,6 @@ public class Dragao extends Object {
 					else
 						Lab.lab[x_coord][y_coord] = ' ';
 					y_coord--;
-					change_dragon_pos();
 					check = 1;
 				}
 			}
@@ -82,7 +93,6 @@ public class Dragao extends Object {
 					else
 						Lab.lab[x_coord][y_coord] = ' ';
 					y_coord++;
-					change_dragon_pos();
 					check = 1;
 				}
 			}
@@ -105,12 +115,32 @@ public class Dragao extends Object {
 		change_dragon_pos();
 	}
 
-	public static boolean get_alive() {
+	public boolean get_alive() {
 		return alive;
 	}
-
+	public int get_status() {
+		return status;
+	}
 	
 	public void set_alive(boolean a) {
 		alive = a;
+	}
+
+	public void change_status() {
+		if (status != 0 && status != 1)
+			return;
+		int random = 1 + (int)(Math.random()*4);
+		if (random == 1) {
+			if (status == 1) {
+				status = 0;
+				change_dragon_pos();
+				}
+			else {
+				status = 1;
+				change_dragon_pos();
+				}
+		}
+		
+		System.out.printf("\n\nStatus: %d\n\n", random);
 	}
 }
