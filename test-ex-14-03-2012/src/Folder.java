@@ -26,5 +26,13 @@ public class Folder extends Node{
 	public Node[] getChild() {
 		return childs;
 	}
+
+	public Node getChildByName(String string) {
+		Node fim = null;
+		for (int i = 0; i < num; i++)
+			if (string == childs[i].getName())
+				fim = childs[i];
+		return fim;
+	}
 	
 }
