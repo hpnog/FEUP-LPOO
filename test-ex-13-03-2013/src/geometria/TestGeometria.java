@@ -7,7 +7,8 @@ import org.junit.Test;
 import java.util.TreeSet;
 
 public class TestGeometria {
-
+	
+	
 	@Test
 	public void testPonto() {
 		Ponto p = new Ponto(1, 5);
