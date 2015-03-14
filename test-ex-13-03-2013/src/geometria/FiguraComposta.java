@@ -7,7 +7,6 @@ public class FiguraComposta extends Figura {
 		figs = figuras;
 	}
 	
-	
 	private static double calc_perimetro(Figura[] figuras) {
 		double perimetro = 0;
 		for (int i = 0; i < figuras.length; i++) {
@@ -16,7 +15,6 @@ public class FiguraComposta extends Figura {
 		return perimetro;
 	}
 
-
 	private static double calc_area(Figura[] figuras) {
 		double area = 0;
 		for (int i = 0; i < figuras.length; i++) {
@@ -24,7 +22,6 @@ public class FiguraComposta extends Figura {
 		}
 		return area;
 	}
-
 
 	public int count() {
 		return figs.length;
