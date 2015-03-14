@@ -17,6 +17,7 @@ public class Ponto {
 		return y;
 	}
 
+	@Override
 	public boolean equals(Ponto p1) {
 		if (this.getX() == p1.getX())
 			if (this.getY() == p1.getY())
