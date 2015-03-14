@@ -1,7 +1,9 @@
 package geometria;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
+
 import java.util.TreeSet;
 
 public class TestGeometria {
@@ -56,7 +58,7 @@ public class TestGeometria {
 		Circulo c = new Circulo(new Ponto(2, 2), 1);
 		Rectangulo r = new Rectangulo(0, 0, 1, 1);
 		Figura[] figuras = new Figura[] {c, r};
-		Countable figuraComposta = new FiguraComposta(figuras);
+		FiguraComposta figuraComposta = new FiguraComposta(figuras);
 		assertEquals(2, figuraComposta.count());
 	}
 
