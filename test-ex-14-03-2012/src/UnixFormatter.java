@@ -8,4 +8,5 @@ public class UnixFormatter extends NameFormatter {
 	public char getSeparator() {
 		return form;
 	}
+
 }

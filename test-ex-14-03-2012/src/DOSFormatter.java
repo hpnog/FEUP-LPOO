@@ -8,4 +8,5 @@ public class DOSFormatter extends NameFormatter {
 	public char getSeparator() {
 		return form;
 	}
+
 }

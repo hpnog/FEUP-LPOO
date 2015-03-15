@@ -30,4 +30,10 @@ public class File extends Node {
 		return path;
 	}
 	
+	public void cloner(Folder r, String nam) throws DuplicateNameException {
+			File tempo = new File(r, getName());
+		return;
+	}
+	
+	
 }
