@@ -26,6 +26,6 @@ public class ProbabilityDistribution {
 	}
 
 	public double calcRangeProbability(int i, int j) {
-		return (probabilityDensityFunction(j)  probabilityDensityFunction(i));
+		return (probabilityDensityFunction(j) - probabilityDensityFunction(i));
 	}
 }

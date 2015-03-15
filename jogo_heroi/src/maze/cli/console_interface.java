@@ -79,5 +79,38 @@ public class console_interface {
 	public static void dragon_sleeping() {
 		System.out.printf("\n\nCannot go over sleeping dragon!\n\n");
 	}
+	public static int askHowManyDragons() {
+		int num = -1;
+		
+		Scanner cin = null;
+		
+		while (num > 10 || num < 0) {
+			System.out.printf("\n\nHow many Dragons do you wish to play with?\n\n");
+			cin = new Scanner(System.in);
+			num = cin.nextInt();
+		}
+		return num;
+	}
+	public static int askTypeOfDragon() {
+		int num = -1;
+
+		Scanner cin = null;
+
+		while (num > 3 || num < 0) {
+			System.out.printf("\n\nWhat type do you want the dragons to be?\n"
+					+ "0 - awake\n"
+					+ "1 - asleep\n"
+					+ "2 - non sleeper moving\n"
+					+ "3 - non sleeper static\n\n");
+			cin = new Scanner(System.in);
+			num = cin.nextInt();
+		}
+		return num;
+	}
+	public static void dragonKilled() {
+		System.out.println();
+		System.out.println("You just killed the dragon. You can now find your way out!");
+		System.out.println();
+	}
 }
 

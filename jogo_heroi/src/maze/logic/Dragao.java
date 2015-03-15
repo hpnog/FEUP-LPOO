@@ -1,18 +1,19 @@
 package maze.logic;
 
+import maze.cli.console_interface;
 import maze.logic.Jogo;
 
 public class Dragao extends Object {
-	
+
 	private boolean alive;
 	private int status;
-	
+
 	Dragao(int sleeper) {
 		super(5, 5);
 		alive = true;
 		status = sleeper;		//0 - awake | 1 - asleep | 2 - non sleeper moving | 3 - non sleeper static
 	}
-	
+
 	public int check_if_dead() {
 		int ret;
 		if ((Jogo.abs(x_coord - Jogo.heroi.get_x_coord()) > 1) || (Jogo.abs(y_coord - Jogo.heroi.get_y_coord()) > 1) ||
@@ -20,9 +21,7 @@ public class Dragao extends Object {
 			ret = -1;
 		else if (Heroi.get_armado()) {
 			if (alive) {
-				System.out.println();
-				System.out.println("You just killed the dragon. You can now find your way out!");
-				System.out.println();
+				console_interface.dragonKilled();
 				if (x_coord != Jogo.heroi.get_x_coord())
 					if (y_coord != Jogo.heroi.get_y_coord())
 						Lab.lab[x_coord][y_coord] = ' ';
@@ -40,7 +39,7 @@ public class Dragao extends Object {
 	public void change_dragon_pos() {
 		if (alive) {
 			if (Lab.lab[x_coord][y_coord] == 'E') {
-					Lab.lab[x_coord][y_coord] = 'F';
+				Lab.lab[x_coord][y_coord] = 'F';
 			}
 			else {
 				if (status == 1)
@@ -121,7 +120,7 @@ public class Dragao extends Object {
 	public int get_status() {
 		return status;
 	}
-	
+
 	public void set_alive(boolean a) {
 		alive = a;
 	}
@@ -134,13 +133,11 @@ public class Dragao extends Object {
 			if (status == 1) {
 				status = 0;
 				change_dragon_pos();
-				}
+			}
 			else {
 				status = 1;
 				change_dragon_pos();
-				}
+			}
 		}
-		
-		System.out.printf("\n\nStatus: %d\n\n", random);
 	}
 }

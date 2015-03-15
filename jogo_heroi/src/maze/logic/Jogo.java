@@ -31,7 +31,7 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'S') {
-				if (dragoes[0].get_alive() == false) {
+				if (checkIfDragonsAreAlive() == false) {
 					console_interface.way_out();
 					choice = 10;
 				}
@@ -55,7 +55,7 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'S') {
-				if (dragoes[0].get_alive() == false) {
+				if (checkIfDragonsAreAlive() == false) {
 					console_interface.way_out();
 					choice = 10;
 				}
@@ -81,7 +81,7 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'S') {
-				if (dragoes[0].get_alive() == false) {
+				if (checkIfDragonsAreAlive() == false) {
 					console_interface.way_out();
 					choice = 10;
 				}
@@ -106,7 +106,7 @@ public class Jogo {
 				heroi.change_hero_pos();
 			}
 			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'S') {
-				if (dragoes[0].get_alive() == false) {
+				if (checkIfDragonsAreAlive() == false) {
 					console_interface.way_out();
 					choice = 10;
 				}
@@ -123,6 +123,15 @@ public class Jogo {
 		return choice;
 	}
 
+	private static boolean checkIfDragonsAreAlive() {
+		boolean fim = false;
+		for (int i = 0; i < dragoes.length; i++) {
+			if (dragoes[i].get_alive())
+				fim = true;
+		}
+		return fim;
+	}
+
 	public static void movimentar_heroi() {
 
 		console_interface.print_options();
@@ -132,39 +141,50 @@ public class Jogo {
 		while ((choice != 5) && (choice != 0) && choice != 10) {
 
 			console_interface.imprimir_lab();
-		
+
 			choice = console_interface.get_movimento();
 
-			if (dragoes[0].get_status() == 0 || dragoes[0].get_status() == 2)
-				dragoes[0].movimentar_dragao();
-			dragoes[0].change_dragon_pos();
-			
-			choice = interpreta_opcao(choice);
-			
-			if (dragoes[0].get_alive() && choice != 0) {
-				choice = dragoes[0].check_if_dead();
-				dragoes[0].change_status();
+			for (int i = 0; i < dragoes.length; i++) {
+				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
+					dragoes[i].movimentar_dragao();
+				dragoes[i].change_dragon_pos();
 			}
+
+			choice = interpreta_opcao(choice);
+
+			for (int i = 0; i < dragoes.length; i++) {
+				if (dragoes[i].get_alive() && choice != 0) {
+					choice = dragoes[i].check_if_dead();
+					dragoes[i].change_status();
+				}
+				if (choice == 5) {
+					System.out.println();
+					System.out.println("You just died. Game Over!");
+					System.out.println();
+					break;
+				}
+			}
+
 		}
-		if (choice == 5) {
-			System.out.println();
-			System.out.println("You just died. Game Over!");
-			System.out.println();
-		}
+		
 	}
 
 	public static void jogar() {
 		
 		//--------------Inicio-do-jogo---------------------
 
-		dragoes = new Dragao[1];
-		dragoes[0] = new Dragao(1);
+		int dragonNumber = console_interface.askHowManyDragons();
+		dragoes = new Dragao[dragonNumber];
+		int typeOfDragon = console_interface.askTypeOfDragon();
+		for (int i = 0; i < dragonNumber; i++)
+			dragoes[i] = new Dragao(typeOfDragon);
 		heroi = new Heroi();
 		espada = new Espada();
 
 		espada.random_sword();
 		heroi.random_start();
-		dragoes[0].random_dragao();
+		for (int i = 0; i < dragonNumber; i++)
+			dragoes[i].random_dragao();
 		movimentar_heroi();
 	}
 
