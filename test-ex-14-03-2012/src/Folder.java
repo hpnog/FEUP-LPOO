@@ -7,7 +7,7 @@ public class Folder extends Node{
 		child = new Node[0];
 	}
 
-	Folder(Folder rt, String nam) {
+	Folder(Folder rt, String nam) throws DuplicateNameException {
 		super(nam, rt);
 	}
 
