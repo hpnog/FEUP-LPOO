@@ -1,38 +1,31 @@
 
 public class Folder extends Node{
+	Node [] child;
 	
-	private Node [] childs;
-	private int num;
-	
-	public Folder(Folder a) {
-		super(a, null, true);
-		childs = new Node[0];
-		num = 0;
+	Folder() {
+		super();
+		child = new Node[0];
 	}
 
-	public Folder(Folder root, String string) {
-		super(root, string, true);
-	}
-
-	public void addChild(Node node) {
-		num++;
-		Node [] temp = new Node [num];
-		for (int i = 0; i < num-1; i++)
-			temp[i] = childs[i];
-		temp[num-1] = node;		
-		childs = temp;
+	Folder(Folder rt, String nam) {
+		super(nam, rt);
 	}
 
 	public Node[] getChild() {
-		return childs;
+		return child;
 	}
 
-	public Node getChildByName(String string) {
-		Node fim = null;
-		for (int i = 0; i < num; i++)
-			if (string == childs[i].getName())
-				fim = childs[i];
-		return fim;
+	public void setChild(Node[] child) {
+		this.child = child;
+	}
+
+	public Node getChildByName(String n) {
+		for (int i = 0; i < child.length; i++)
+			if (child[i].getName() == n)
+				return child[i];
+		return null;
 	}
 	
+	
+
 }

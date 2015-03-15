@@ -1,21 +1,28 @@
 
 public class Node {
-	Folder parent;
 	String name;
+	Folder parent;
 	
-	Node(Folder a, String b, boolean bool) {
-		parent = a;
-		name = b;
-		if (a != null && bool)
-			parent.addChild(this);
+	Node() {
+		name = null;
+		parent = null;
 	}
-
-	public Folder getParent() {
-		return parent;
+	
+	Node(String n, Folder rt) {
+		name = n;
+		parent = rt;
+		Node [] temporario = new Node[rt.child.length+1];
+		for (int i = 0; i < rt.child.length; i++)
+			temporario[i] = rt.child[i];
+		temporario[rt.child.length] = this;
+		rt.setChild(temporario);
 	}
 
 	public String getName() {
 		return name;
 	}
-	
+
+	public Folder getParent() {
+		return parent;
+	}
 }

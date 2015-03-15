@@ -1,19 +1,21 @@
 
-public class FileSystem extends Node {
+public class FileSystem extends Folder{
+	String type;
+	Folder root = new Folder();
 	
-	FileSystem(String t) {
-		super(new Folder(null, null), t, false);
-	}
-	
-	FileSystem(String t, Folder a) {
-		super(a, t, false);
-	}
-
-	public Folder getRoot() {
-		return getParent();
+	public FileSystem(String n) {
+		super();
+		type = n;
 	}
 
 	public String getType() {
-		return getName();
+		return type;
 	}
+
+	public Folder getRoot() {
+		return root;
+	}
+	
+	
+
 }
