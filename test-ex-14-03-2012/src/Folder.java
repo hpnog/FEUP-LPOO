@@ -7,6 +7,11 @@ public class Folder extends Node{
 		super();
 		child = new Node[0];
 	}
+	
+	Folder(FileSystem formatter) {
+		super(formatter);
+		child = new Node[0];
+	}
 
 	Folder(Folder rt, String nam) throws DuplicateNameException {
 		super(nam, rt);
@@ -36,7 +41,29 @@ public class Folder extends Node{
 	public int getSize() {
 		return size;
 	}
-	
+
+	public String getPath() {
+String path = "";
+		
+		String sep = parent.getSeparator();
+
+		path = sep + name;
+		
+		if (parent != null)
+			if (parent.name != null)
+			path = parent.getPath() + path;
+		return path;
+	}
+
+	String getSeparator() {
+		String path = "";
+		if (parent == null)
+			path = String.valueOf(formatter.formatter.getSeparator());
+		else
+			path = parent.getSeparator();
+		return path;
+	}
+
 	
 
 }

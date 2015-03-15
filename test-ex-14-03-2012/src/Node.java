@@ -1,5 +1,6 @@
 
 public class Node {
+	FileSystem formatter;
 	String name;
 	Folder parent;
 	static int number = 0;
@@ -8,6 +9,13 @@ public class Node {
 		name = null;
 		parent = null;
 		number++;
+	}
+	
+	Node(FileSystem form) {
+		name = null;
+		parent = null;
+		number++;
+		formatter = form;
 	}
 
 	Node(String n, Folder rt) throws DuplicateNameException {

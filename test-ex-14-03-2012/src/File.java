@@ -16,5 +16,18 @@ public class File extends Node {
 	public int getSize() {
 		return size;
 	}
+
+	public String getPath() {
+		String path = "";
+		
+		String sep = parent.getSeparator();
+
+		path = sep + name;
+		
+		if (parent != null)
+			if (parent.name != null)
+			path = parent.getPath() + path;
+		return path;
+	}
 	
 }

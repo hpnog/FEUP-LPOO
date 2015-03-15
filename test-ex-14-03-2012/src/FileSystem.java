@@ -1,7 +1,8 @@
 
 public class FileSystem {
 	String type;
-	Folder root = new Folder();
+	NameFormatter formatter;
+	Folder root = new Folder(this);
 	
 	public FileSystem(String n) {
 		type = n;
@@ -13,6 +14,10 @@ public class FileSystem {
 
 	public Folder getRoot() {
 		return root;
+	}
+
+	public void setNameFormatter(NameFormatter unix) {
+		formatter = unix;
 	}
 	
 	
