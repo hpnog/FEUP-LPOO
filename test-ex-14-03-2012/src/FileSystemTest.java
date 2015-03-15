@@ -99,7 +99,7 @@ public class FileSystemTest extends TestCase {
 		assertEquals("\\etc\\crontab", crontab.getPath());	
 	}
 
-	
+	/*
 	public void testDeepClone() throws DuplicateNameException {
 		FileSystem fs = new FileSystem("FAT32");
 		Folder root = fs.getRoot();		
@@ -150,4 +150,5 @@ public class FileSystemTest extends TestCase {
 		cron.move(root, "cron");
 		assertEquals("/cron/crontab2", crontab.getPath());	
 	}
+	*/
 }

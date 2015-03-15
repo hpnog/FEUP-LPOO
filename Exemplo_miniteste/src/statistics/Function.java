@@ -1,4 +1,4 @@
-package numerics;
+package statistics;
 
 /**
  * Interface to be implemented by objects that represent real functions

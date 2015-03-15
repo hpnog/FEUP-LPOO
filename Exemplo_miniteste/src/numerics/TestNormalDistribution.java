@@ -1,4 +1,4 @@
-package statistics;
+package numerics;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class TestNormalDistribution {
 		assertEquals(0.0, n.getMean(), 0.0);
 		assertEquals(1.0, n.getStddev(), 0.0);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvallidStddev() {
 		new NormalDistribution(0, 0);
@@ -44,6 +44,7 @@ public class TestNormalDistribution {
 		assertEquals(0.2419707, d.probabilityDensityFunction(-1.0), precision);
 	}
 
+	
 	@Test
 	public void testCalcRangeProbability() {
 		// calcRangeProbability(a,b) : probability of random variable 
@@ -54,6 +55,7 @@ public class TestNormalDistribution {
 		assertEquals(2*prob2sigma, n.calcRangeProbability(-2, 2), precision);
 	}
 
+	
 	@Test
 	public void testCalcLeftProbability() {
 		// calcLeftProbability(x) : probability of random variable <= x
@@ -63,6 +65,7 @@ public class TestNormalDistribution {
 		assertEquals(0.5 - prob2sigma, n.calcLeftProbability(-1.0), precision);
 	}
 
+	
 	@Test
 	public void testEquals() {
 		NormalDistribution d1 = new NormalDistribution(0, 1);
@@ -71,11 +74,13 @@ public class TestNormalDistribution {
 		assertEquals(d1, d2);
 	}
 	
+	
 	@Test
 	public void testAsString() {
 		NormalDistribution d1 = new NormalDistribution(2.0, 5.0);
 		assertEquals("N(2.0, 5.0)", d1 + "");
 	}
+	
 	
 	@Test
 	public void testFindDistribution() {

@@ -1,4 +1,4 @@
-package numerics;
+package statistics;
 
 /**
  * Class that implements the Simpson method for numerical integration.
