@@ -1,10 +1,9 @@
 
-public class FileSystem extends Folder{
+public class FileSystem {
 	String type;
 	Folder root = new Folder();
 	
 	public FileSystem(String n) {
-		super();
 		type = n;
 	}
 

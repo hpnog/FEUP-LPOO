@@ -1,6 +1,7 @@
 
 public class Folder extends Node{
 	Node [] child;
+	int size = 0;
 	
 	Folder() {
 		super();
@@ -24,6 +25,16 @@ public class Folder extends Node{
 			if (child[i].getName() == n)
 				return child[i];
 		return null;
+	}
+
+	public void increaseSize(int size2) {
+		size += size2;
+		if (parent != null)
+			parent.increaseSize(size2);
+	}
+
+	public int getSize() {
+		return size;
 	}
 	
 	
