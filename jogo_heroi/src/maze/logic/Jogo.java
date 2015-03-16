@@ -7,6 +7,7 @@ public class Jogo {
 	public static Heroi heroi;
 	public static Lab labirinto;
 	public static Espada espada;
+	public static Escudo escudo;
 	
 	public Jogo(int size){
 		labirinto = new Lab(size);
@@ -180,6 +181,7 @@ public class Jogo {
 			dragoes[i] = new Dragao(typeOfDragon);
 		heroi = new Heroi();
 		espada = new Espada();
+		escudo = new Escudo();
 
 		espada.random_sword();
 		heroi.random_start();

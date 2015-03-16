@@ -56,7 +56,11 @@ public class Dragao extends Object {
 		while (check == 0) {
 			int random = 0 + (int)(Math.random()*4);
 			if (random == 0) {
-				if (Lab.lab[x_coord+1][y_coord] != 'X' && Lab.lab[x_coord+1][y_coord] != 'S') {
+				if (Lab.lab[x_coord+1][y_coord] != 'X' && 
+						Lab.lab[x_coord+1][y_coord] != 'S' &&
+						Lab.lab[x_coord+1][y_coord] != 'D' && 
+						Lab.lab[x_coord+1][y_coord] != 'd' && 
+						Lab.lab[x_coord+1][y_coord] != 'O') {
 					if (Lab.lab[x_coord][y_coord] == 'F')
 						Lab.lab[x_coord][y_coord] = 'E';
 					else
@@ -66,7 +70,11 @@ public class Dragao extends Object {
 				}
 			}
 			else if (random == 1) {
-				if (Lab.lab[x_coord-1][y_coord] != 'X' && Lab.lab[x_coord-1][y_coord] != 'S') {
+				if (Lab.lab[x_coord-1][y_coord] != 'X' &&
+						Lab.lab[x_coord-1][y_coord] != 'S' &&
+						Lab.lab[x_coord-1][y_coord] != 'D' && 
+						Lab.lab[x_coord-1][y_coord] != 'd' && 
+						Lab.lab[x_coord-1][y_coord] != 'O') {
 					if (Lab.lab[x_coord][y_coord] == 'F')
 						Lab.lab[x_coord][y_coord] = 'E';
 					else
@@ -76,7 +84,11 @@ public class Dragao extends Object {
 				}
 			}
 			else if (random == 2) {
-				if (Lab.lab[x_coord][y_coord-1] != 'X' && Lab.lab[x_coord][y_coord-1] != 'S') {
+				if (Lab.lab[x_coord][y_coord-1] != 'X' &&
+						Lab.lab[x_coord][y_coord-1] != 'S' &&
+						Lab.lab[x_coord][y_coord-1] != 'D' && 
+						Lab.lab[x_coord][y_coord-1] != 'd' && 
+						Lab.lab[x_coord][y_coord-1] != 'O') {
 					if (Lab.lab[x_coord][y_coord] == 'F')
 						Lab.lab[x_coord][y_coord] = 'E';
 					else
@@ -86,7 +98,11 @@ public class Dragao extends Object {
 				}
 			}
 			else {
-				if (Lab.lab[x_coord][y_coord+1] != 'X' && Lab.lab[x_coord][y_coord+1] != 'S' ) {
+				if (Lab.lab[x_coord][y_coord+1] != 'X' &&
+						Lab.lab[x_coord][y_coord+1] != 'S' &&
+						Lab.lab[x_coord][y_coord+1] != 'D' && 
+						Lab.lab[x_coord][y_coord+1] != 'd' && 
+						Lab.lab[x_coord][y_coord+1] != 'O') {
 					if (Lab.lab[x_coord][y_coord] == 'F')
 						Lab.lab[x_coord][y_coord] = 'E';
 					else
