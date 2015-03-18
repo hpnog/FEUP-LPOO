@@ -135,6 +135,8 @@ public class RailRoadTests  {
 	 * Dois comboios sao considerados iguais se tiverem 
 	 * sequencias de carruagens com a mesma capacidade
 	 */
+	
+	
 	@Test
 	public void testComboiosIguais() {
 		Comboio c1 = new Comboio("C1");
