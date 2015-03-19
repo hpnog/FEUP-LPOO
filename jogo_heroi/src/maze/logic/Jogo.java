@@ -146,8 +146,7 @@ public class Jogo {
 
 			choice = console_interface.get_movimento();
 			
-			for (int i = 0; i < Lab.size/8; i++)
-				dardos[i].change_dardo_pos();
+			
 			
 			for (int i = 0; i < dragoes.length; i++) {
 				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
@@ -157,6 +156,9 @@ public class Jogo {
 
 			choice = interpreta_opcao(choice);
 
+			for (int i = 0; i < Lab.size/8; i++)
+				dardos[i].change_dardo_pos();
+			
 			for (int i = 0; i < dragoes.length; i++) {
 				if (dragoes[i].get_alive() && choice != 0) {
 					choice = dragoes[i].check_if_dead();
@@ -169,10 +171,7 @@ public class Jogo {
 					break;
 				}
 			}
-			
-
 		}
-		
 	}
 
 	public static void jogar() {

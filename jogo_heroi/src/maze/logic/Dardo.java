@@ -26,7 +26,8 @@ public class Dardo extends Object{
 
 	public void change_dardo_pos() {
 		if (!caught) {
-			Lab.lab[x_coord][y_coord] = '\\';
+			if (Lab.lab[x_coord][y_coord] == ' ')
+				Lab.lab[x_coord][y_coord] = '\\';
 		}
 	}
 }
