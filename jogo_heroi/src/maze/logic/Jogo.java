@@ -8,6 +8,7 @@ public class Jogo {
 	public static Lab labirinto;
 	public static Espada espada;
 	public static Escudo escudo;
+	public static Dardo [] dardos;
 	
 	public Jogo(int size){
 		labirinto = new Lab(size);
@@ -144,7 +145,10 @@ public class Jogo {
 			console_interface.imprimir_lab();
 
 			choice = console_interface.get_movimento();
-
+			
+			for (int i = 0; i < Lab.size/8; i++)
+				dardos[i].change_dardo_pos();
+			
 			for (int i = 0; i < dragoes.length; i++) {
 				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
 					dragoes[i].movimentar_dragao();
@@ -165,6 +169,7 @@ public class Jogo {
 					break;
 				}
 			}
+			
 
 		}
 		
@@ -182,9 +187,14 @@ public class Jogo {
 		heroi = new Heroi();
 		espada = new Espada();
 		escudo = new Escudo();
+		dardos = new Dardo [Lab.size / 8];
 
 		espada.random_sword();
 		heroi.random_start();
+		for (int i = 0; i < Lab.size / 8; i++) {
+			dardos[i] = new Dardo(1, 1);
+			dardos[i].random_dardo();
+		}
 		for (int i = 0; i < dragonNumber; i++)
 			dragoes[i].random_dragao();
 		movimentar_heroi();
@@ -205,4 +215,5 @@ public class Jogo {
 		jogar();
 
 	}
+
 }
