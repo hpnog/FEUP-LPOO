@@ -31,7 +31,6 @@ public class Dardo extends Object{
 		}
 	}
 
-
 	public void set_caught(boolean b) {
 		caught = true;
 	}

@@ -149,28 +149,38 @@ public class Dragao extends Object {
 	}
 
 	private int spit_fire(int x, int y, Heroi heroi) {
+		
+		//FOGO PASSA PELAS PAREDES
 		if (y == 1) {
 			if (heroi.get_y_coord() == get_y_coord()) {
-				if (heroi.get_x_coord() >= get_x_coord() && heroi.get_x_coord() <= (get_x_coord()+3))
-					return 10;
+				if (heroi.get_x_coord() >= get_x_coord() && heroi.get_x_coord() <= (get_x_coord()+3)){
+					if (!heroi.get_shielded())
+						return 10;
+				}
 			}
 		}
 		else if (y == -1) {
 			if (heroi.get_y_coord() == get_y_coord()) {
-				if (heroi.get_x_coord() <= get_x_coord() && heroi.get_x_coord() >= (get_x_coord()-3))
-					return 10;
+				if (heroi.get_x_coord() <= get_x_coord() && heroi.get_x_coord() >= (get_x_coord()-3)) {
+					if (!heroi.get_shielded())
+						return 10;
+				}
 			}
 		}
 		else if (x == 1) {
 			if (heroi.get_x_coord() == get_x_coord()) {
-				if (heroi.get_y_coord() >= get_y_coord() && heroi.get_y_coord() <= (get_y_coord()+3))
-					return 10;
+				if (heroi.get_y_coord() >= get_y_coord() && heroi.get_y_coord() <= (get_y_coord()+3)){
+					if (!heroi.get_shielded())
+						return 10;
+				}
 			}
 		}
 		else {
 			if (heroi.get_x_coord() == get_x_coord()) {
-				if (heroi.get_y_coord() <= get_y_coord() && heroi.get_y_coord() >= (get_y_coord()-3))
-					return 10;
+				if (heroi.get_y_coord() <= get_y_coord() && heroi.get_y_coord() >= (get_y_coord()-3)){
+					if (!heroi.get_shielded())
+						return 10;
+				}
 			}
 		}
 		return 0;

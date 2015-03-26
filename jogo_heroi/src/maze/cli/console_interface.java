@@ -31,6 +31,14 @@ public class console_interface {
 			choice = 2;
 		else if (choice_str.equals("0"))
 			choice = 0;
+		else if (choice_str.equals("y"))
+			choice = 101;
+		else if (choice_str.equals("h"))
+			choice = 102;
+		else if (choice_str.equals("g"))
+			choice = 103;
+		else if (choice_str.equals("j"))
+			choice = 104;
 		return choice;
 	}
 	public static void print_options() {
@@ -41,6 +49,12 @@ public class console_interface {
 		System.out.println("s - down");
 		System.out.println("a - left");
 		System.out.println("d - right");
+		System.out.println();
+		System.out.println("Shoot dards:");
+		System.out.println("y - up");
+		System.out.println("h - down");
+		System.out.println("g - left");
+		System.out.println("j - right");
 		System.out.println();
 	}
 	public static void way_out() {
@@ -120,6 +134,9 @@ public class console_interface {
 		else
 			System.out.print("\n\nHeroi - não protegido");
 		System.out.printf("\nNumero de dardos - %d\n\n", heroi.get_dardos());
+	}
+	public static void no_dards() {
+		System.out.printf("\n\nYou have no dards.\n\n");
 	}
 }
 

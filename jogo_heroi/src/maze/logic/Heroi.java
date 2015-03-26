@@ -68,5 +68,10 @@ public class Heroi extends Object {
 	public int get_y_coord() {
 		return y_coord;
 	}
+
+	public void dec_dardos() {
+		dardos--;
+		
+	}
 	
 }

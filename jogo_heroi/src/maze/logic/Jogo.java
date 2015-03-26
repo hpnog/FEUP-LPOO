@@ -101,6 +101,82 @@ public class Jogo {
 		return choice;
 	}
 
+	public static void shoot(int x, int y, int choice) {
+		if (heroi.get_dardos() > 0) {
+		//left
+		if (x == 1) {
+			int i = heroi.get_x_coord();
+			while (i > 0 && (Lab.lab[heroi.get_x_coord()-i][heroi.get_y_coord()] != 'X')) {
+				for (int j = 0; j < dragoes.length; j++) {
+					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()-i))
+						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
+							dragoes[j].set_alive(false);
+							console_interface.dragonKilled();
+						}
+				}
+				//-----------------------------------------------------------------
+				i--;
+			}
+			System.out.printf("\nYou shot left.\n");
+		}
+		
+		//right
+		else if (x == -1) {
+			int i = heroi.get_x_coord();
+			while (i < Lab.size && (Lab.lab[heroi.get_x_coord()+i][heroi.get_y_coord()] != 'X')) {
+				for (int j = 0; j < dragoes.length; j++) {
+					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()+i))
+						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
+							dragoes[j].set_alive(false);
+							console_interface.dragonKilled();
+						}
+				}
+				//-----------------------------------------------------------------
+				i++;
+			}
+			System.out.printf("\nYou shot right.\n");
+		}
+		
+		//up
+		else if (y == 1) {
+			int i = heroi.get_y_coord();
+			while (i > 0 && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-i] != 'X')) {
+				for (int j = 0; j < dragoes.length; j++) {
+					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()-i))
+						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
+							dragoes[j].set_alive(false);
+							console_interface.dragonKilled();
+						}
+				}
+				//-----------------------------------------------------------------
+				i--;
+			}
+			System.out.printf("\nYou shot up.\n");
+		}
+		
+		//down
+		else {
+			int i = heroi.get_y_coord();
+			while (i < Lab.size && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+i] != 'X')) {
+				for (int j = 0; j < dragoes.length; j++) {
+					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()+i))
+						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
+							dragoes[j].set_alive(false);
+							console_interface.dragonKilled();
+						}
+				}
+				//-----------------------------------------------------------------
+				i++;
+			}
+			System.out.printf("\nYou shot down.\n");
+		}
+		heroi.dec_dardos();
+		}
+		else
+			console_interface.no_dards();
+		
+	}
+	
 	private static void catch_dardo(int x, int y) {
 		for (int i = 0; i < Lab.size / 4; i++) {
 			if (dardos[i].get_x_coord() == x)
@@ -131,6 +207,20 @@ public class Jogo {
 				return 10;
 			else {}
 
+		//101 -- shoot left
+		else if (choice == 101) 
+			shoot(0, 1, choice);
+		//102 -- shoot left
+		else if (choice == 102) 
+			shoot(0, -1, choice);
+		//103 -- shoot left
+		else if (choice == 103) 
+			shoot(-1, 0, choice);
+		//104 -- shoot left
+		else if (choice == 104) 
+			shoot(1, 0, choice);
+
+
 
 		return choice;
 	}
@@ -152,18 +242,20 @@ public class Jogo {
 
 		while ((choice != 5) && (choice != 0) && choice != 10) {
 
+			for (int i = 0; i < dragoes.length; i++)
+				dragoes[i].change_dragon_pos();
+
 			console_interface.imprimir_lab();
 
 			console_interface.imprimir_heroi_status(heroi);
-			
+
 			choice = console_interface.get_movimento();
-			
-			
-			
+
+
 			for (int i = 0; i < dragoes.length; i++) {
 				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
 					dragoes[i].movimentar_dragao();
-				dragoes[i].change_dragon_pos();
+
 				
 				if (dragoes[i].get_alive()) {
 					int choice2 = dragoes[i].random_dragao_fire(heroi);
