@@ -1,9 +1,11 @@
 package maze.logic;
 
 public class Escudo extends Object {
+	boolean caught;
 	
 	Escudo() {
 		super (1, 1);
+		caught = false;
 	}
 	
 	public void random_start() {
@@ -22,7 +24,12 @@ public class Escudo extends Object {
 		change_escudo_pos();
 	}
 	
+	public void set_caught (boolean a) {
+		caught = a;
+	}
+	
 	public void change_escudo_pos() {
+		if (!caught)
 			Jogo.labirinto.lab[x_coord][y_coord] = 'O';
 	}
 }

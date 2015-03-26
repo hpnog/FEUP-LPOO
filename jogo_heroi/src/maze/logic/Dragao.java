@@ -14,12 +14,12 @@ public class Dragao extends Object {
 		status = sleeper;		//0 - awake | 1 - asleep | 2 - non sleeper moving | 3 - non sleeper static
 	}
 
-	public int check_if_dead() {
+	public int check_if_dead(Heroi heroi) {
 		int ret;
 		if ((Jogo.abs(x_coord - Jogo.heroi.get_x_coord()) > 1) || (Jogo.abs(y_coord - Jogo.heroi.get_y_coord()) > 1) ||
 				((y_coord != Jogo.heroi.get_y_coord()) && (x_coord != Jogo.heroi.get_x_coord())))
 			ret = -1;
-		else if (Heroi.get_armado()) {
+		else if (heroi.get_armado()) {
 			if (alive) {
 				console_interface.dragonKilled();
 				if (x_coord != Jogo.heroi.get_x_coord())
@@ -36,6 +36,7 @@ public class Dragao extends Object {
 		change_dragon_pos();
 		return ret;
 	}
+
 	public void change_dragon_pos() {
 		if (alive) {
 			if (Lab.lab[x_coord][y_coord] == 'E') {
@@ -51,6 +52,7 @@ public class Dragao extends Object {
 		else
 			Lab.lab[x_coord][y_coord] = ' ';
 	}
+
 	public void movimentar_dragao() {
 		int check = 0;
 		while (check == 0) {
@@ -114,6 +116,7 @@ public class Dragao extends Object {
 		}
 
 	}
+
 	public void random_dragao() {
 		int randomX;
 		int randomY;
@@ -130,9 +133,53 @@ public class Dragao extends Object {
 		change_dragon_pos();
 	}
 
+	public int random_dragao_fire(Heroi heroi) {
+		int spit = (int)(1 + Math.random()*5);		
+		if (spit == 1) {
+			int spitX = (int)(1 + Math.random()*2);
+			spitX--;			
+			int spitY = 0;
+			if (spitX != 0) {
+				spitY = (int)(1 + Math.random()*2);
+				spitY--;
+			}			
+			return spit_fire (spitX, spitY, heroi);
+		}
+		return 0;
+	}
+
+	private int spit_fire(int x, int y, Heroi heroi) {
+		if (y == 1) {
+			if (heroi.get_y_coord() == get_y_coord()) {
+				if (heroi.get_x_coord() >= get_x_coord() && heroi.get_x_coord() <= (get_x_coord()+3))
+					return 10;
+			}
+		}
+		else if (y == -1) {
+			if (heroi.get_y_coord() == get_y_coord()) {
+				if (heroi.get_x_coord() <= get_x_coord() && heroi.get_x_coord() >= (get_x_coord()-3))
+					return 10;
+			}
+		}
+		else if (x == 1) {
+			if (heroi.get_x_coord() == get_x_coord()) {
+				if (heroi.get_y_coord() >= get_y_coord() && heroi.get_y_coord() <= (get_y_coord()+3))
+					return 10;
+			}
+		}
+		else {
+			if (heroi.get_x_coord() == get_x_coord()) {
+				if (heroi.get_y_coord() <= get_y_coord() && heroi.get_y_coord() >= (get_y_coord()-3))
+					return 10;
+			}
+		}
+		return 0;
+	}
+
 	public boolean get_alive() {
 		return alive;
 	}
+
 	public int get_status() {
 		return status;
 	}

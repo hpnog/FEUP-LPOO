@@ -20,108 +20,118 @@ public class Jogo {
 		return i;
 	}
 
+	public static int check_movimento(int x, int y, int choice) {
+		//se for a espada
+		if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'E') {
+			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
+			heroi.set_armado(true);
+			if (x == -1)
+				heroi.x_coord_dec();
+			else if (x == 1)
+				heroi.x_coord_inc();
+			else if (y == -1)
+				heroi.y_coord_dec();
+			else
+				heroi.y_coord_inc();
+			heroi.change_hero_pos();
+		}
+		//se for um escudo
+		if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'O') {
+			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
+			heroi.set_shielded(true);
+			escudo.set_caught(true);
+			if (x == -1)
+				heroi.x_coord_dec();
+			else if (x == 1)
+				heroi.x_coord_inc();
+			else if (y == -1)
+				heroi.y_coord_dec();
+			else
+				heroi.y_coord_inc();
+			heroi.change_hero_pos();
+		}
+		
+		//se for um dardo
+		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == '\\') {
+			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
+			heroi.inc_dardos();
+			catch_dardo(heroi.get_x_coord()+x,heroi.get_y_coord()+y);
+			if (x == -1)
+				heroi.x_coord_dec();
+			else if (x == 1)
+				heroi.x_coord_inc();
+			else if (y == -1)
+				heroi.y_coord_dec();
+			else
+				heroi.y_coord_inc();
+			heroi.change_hero_pos();
+		}
+		
+		//se for um espaco
+		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == ' ') {
+			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
+			if (x == -1)
+				heroi.x_coord_dec();
+			else if (x == 1)
+				heroi.x_coord_inc();
+			else if (y == -1)
+				heroi.y_coord_dec();
+			else
+				heroi.y_coord_inc();
+			heroi.change_hero_pos();
+		}
+		
+		//se for a saida
+		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'S') {
+			if (checkIfDragonsAreAlive() == false) {
+				console_interface.way_out();
+				return 10;
+			}
+			else
+				console_interface.dragon_still_alive();
+		}
+		
+		//se for um dragao
+		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'd')
+			console_interface.dragon_sleeping();
+		
+		//se for outra coisa/parede
+		else
+			console_interface.wall();
+		return choice;
+	}
+
+	private static void catch_dardo(int x, int y) {
+		for (int i = 0; i < Lab.size / 4; i++) {
+			if (dardos[i].get_x_coord() == x)
+				if (dardos[i].get_y_coord() == y)
+					dardos[i].set_caught(true);
+		}	
+	}
+
 	public static int interpreta_opcao(int choice) {
 		//3 -- left
-		if (choice == 3) {
-			if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'X' &&
-					Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'S' &&
-					Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] != 'd') {
-				if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'E')
-					heroi.set_armado(true);
-				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
-				heroi.x_coord_dec();
-				heroi.change_hero_pos();
-			}
-			else if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'S') {
-				if (checkIfDragonsAreAlive() == false) {
-					console_interface.way_out();
-					choice = 10;
-				}
-				else {
-					console_interface.dragon_still_alive();
-				}
-			}
-			else if (Lab.lab[heroi.get_x_coord()-1][heroi.get_y_coord()] == 'd')
-				console_interface.dragon_sleeping();
-			else {
-				console_interface.wall();
-			}
-		}
+		if (choice == 3)
+			if (check_movimento(-1, 0, choice) == 10)
+				return 10;
+			else {}
 		//4 -- right
-		else if (choice == 4) {
-			if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'E')
-				heroi.set_armado(true);
-			if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == ' ' || Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'E') {
-				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
-				heroi.x_coord_inc();
-				heroi.change_hero_pos();
-			}
-			else if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'S') {
-				if (checkIfDragonsAreAlive() == false) {
-					console_interface.way_out();
-					choice = 10;
-				}
-				else {
-					console_interface.dragon_still_alive();
-				}
-			}
-			else if (Lab.lab[heroi.get_x_coord()+1][heroi.get_y_coord()] == 'd')
-				console_interface.dragon_sleeping();
-			else {
-				console_interface.wall();
-			}
-		}
+		else if (choice == 4) 
+			if (check_movimento(1, 0, choice) == 10)
+				return 10;
+			else {}
 		//1 -- up
-		else if (choice == 1) {
-			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'X' &&
-					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'S' &&
-					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] != 'd') {
-				if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'E')
-					heroi.set_armado(true);
-				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
-				heroi.y_coord_dec();
-				heroi.change_hero_pos();
-			}
-			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'S') {
-				if (checkIfDragonsAreAlive() == false) {
-					console_interface.way_out();
-					choice = 10;
-				}
-				else {
-					console_interface.dragon_still_alive();}
-			}
-			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-1] == 'd')
-				console_interface.dragon_sleeping();
-			else {		
-				console_interface.wall();
-			}
-		}
+		else if (choice == 1) 
+			if (check_movimento(0, -1, choice) == 10)
+				return 10;
+			else {}
 		//2 -- down
-		else if (choice == 2) {
-			if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'X' && 
-					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'S' &&
-					Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] != 'd') {
-				if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'E')
-					heroi.set_armado(true);
-				Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
-				heroi.y_coord_inc();
-				heroi.change_hero_pos();
-			}
-			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'S') {
-				if (checkIfDragonsAreAlive() == false) {
-					console_interface.way_out();
-					choice = 10;
-				}
-				else {
-					console_interface.dragon_still_alive();
-				}
-			}
-			else if (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+1] == 'd')
-				console_interface.dragon_sleeping();
-			else {
-				console_interface.wall();
-			}
-		}
+		else if (choice == 2) 
+			if (check_movimento(0, 1, choice) == 10)
+				return 10;
+			else {}
+
+
 		return choice;
 	}
 
@@ -144,6 +154,8 @@ public class Jogo {
 
 			console_interface.imprimir_lab();
 
+			console_interface.imprimir_heroi_status(heroi);
+			
 			choice = console_interface.get_movimento();
 			
 			
@@ -152,6 +164,16 @@ public class Jogo {
 				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
 					dragoes[i].movimentar_dragao();
 				dragoes[i].change_dragon_pos();
+				
+				if (dragoes[i].get_alive()) {
+					int choice2 = dragoes[i].random_dragao_fire(heroi);
+					if (choice2 == 10) {
+						System.out.println();
+						System.out.println("You just died. Killed by fire. Game Over!");
+						System.out.println();
+						return;
+					}
+				}
 			}
 
 			choice = interpreta_opcao(choice);
@@ -161,7 +183,7 @@ public class Jogo {
 			
 			for (int i = 0; i < dragoes.length; i++) {
 				if (dragoes[i].get_alive() && choice != 0) {
-					choice = dragoes[i].check_if_dead();
+					choice = dragoes[i].check_if_dead(heroi);
 					dragoes[i].change_status();
 				}
 				if (choice == 5) {
@@ -186,16 +208,20 @@ public class Jogo {
 		heroi = new Heroi();
 		espada = new Espada();
 		escudo = new Escudo();
-		dardos = new Dardo [Lab.size / 8];
+		dardos = new Dardo [Lab.size / 4];
 
 		espada.random_sword();
 		heroi.random_start();
-		for (int i = 0; i < Lab.size / 8; i++) {
+		escudo.random_start();
+		
+		for (int i = 0; i < Lab.size / 4; i++) {
 			dardos[i] = new Dardo(1, 1);
 			dardos[i].random_dardo();
 		}
+		
 		for (int i = 0; i < dragonNumber; i++)
 			dragoes[i].random_dragao();
+		
 		movimentar_heroi();
 	}
 

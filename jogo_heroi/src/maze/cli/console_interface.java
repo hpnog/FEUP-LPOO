@@ -2,6 +2,7 @@ package maze.cli;
 
 import java.util.Scanner;
 
+import maze.logic.Heroi;
 import maze.logic.Lab;
 
 public class console_interface {
@@ -111,6 +112,14 @@ public class console_interface {
 		System.out.println();
 		System.out.println("You just killed the dragon. You can now find your way out!");
 		System.out.println();
+	}
+	public static void imprimir_heroi_status(Heroi heroi) {
+		
+		if (heroi.get_shielded())
+			System.out.printf("\n\nHeroi - protegido");
+		else
+			System.out.print("\n\nHeroi - não protegido");
+		System.out.printf("\nNumero de dardos - %d\n\n", heroi.get_dardos());
 	}
 }
 

@@ -3,9 +3,9 @@ package maze.logic;
 import maze.logic.Lab;
 
 public class Heroi extends Object {
-	private static boolean armado;
-	private static int dardos = 0;
-	private static boolean shielded = false;
+	private boolean armado;
+	private int dardos = 0;
+	private boolean shielded = false;
 	
 	Heroi() {
 		super(1, 1);
@@ -36,15 +36,37 @@ public class Heroi extends Object {
 		change_hero_pos();
 	}
 	
+	public boolean get_shielded() {
+		return shielded;
+	}
+	
+	public int get_dardos() {
+		return dardos;
+	}
 
-	public static boolean get_armado() {
+	public boolean get_armado() {
 		return armado;
 	}
 
+	public void inc_dardos() {
+		dardos++;
+	}
+	
 	public void set_armado(boolean a) {
 		armado = a;
 	}
 
 	
+	public void set_shielded(boolean b) {
+		shielded = b;	
+	}
+
+	public int get_x_coord() {
+		return x_coord;
+	}
+	
+	public int get_y_coord() {
+		return y_coord;
+	}
 	
 }
