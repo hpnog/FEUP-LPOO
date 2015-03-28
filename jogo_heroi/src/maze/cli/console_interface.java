@@ -10,7 +10,7 @@ public class console_interface {
 		for (int i = 0; i < Lab.size; i++) {
 			for (int j = 0; j < Lab.size; j++) {
 				System.out.print(Lab.lab[j][i]);
-				System.out.print('|');
+				System.out.print(' ');
 			}
 			System.out.println();
 		}
