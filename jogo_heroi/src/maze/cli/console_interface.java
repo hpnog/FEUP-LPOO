@@ -36,9 +36,9 @@ public class console_interface {
 		else if (choice_str.equals("h"))
 			choice = 102;
 		else if (choice_str.equals("g"))
-			choice = 103;
-		else if (choice_str.equals("j"))
 			choice = 104;
+		else if (choice_str.equals("j"))
+			choice = 103;
 		return choice;
 	}
 	public static void print_options() {

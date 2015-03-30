@@ -56,7 +56,6 @@ public class Heroi extends Object {
 		armado = a;
 	}
 
-	
 	public void set_shielded(boolean b) {
 		shielded = b;	
 	}

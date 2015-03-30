@@ -106,7 +106,7 @@ public class Jogo {
 		//left
 		if (x == 1) {
 			int i = heroi.get_x_coord();
-			while (i > 0 && (Lab.lab[heroi.get_x_coord()-i][heroi.get_y_coord()] != 'X')) {
+			while ((heroi.get_x_coord()-i) > 0 && (Lab.lab[heroi.get_x_coord()-i][heroi.get_y_coord()] != 'X')) {
 				for (int j = 0; j < dragoes.length; j++) {
 					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()-i))
 						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
@@ -123,7 +123,7 @@ public class Jogo {
 		//right
 		else if (x == -1) {
 			int i = heroi.get_x_coord();
-			while (i < Lab.size && (Lab.lab[heroi.get_x_coord()+i][heroi.get_y_coord()] != 'X')) {
+			while ((heroi.get_x_coord()+i) < Lab.size && (Lab.lab[heroi.get_x_coord()+i][heroi.get_y_coord()] != 'X')) {
 				for (int j = 0; j < dragoes.length; j++) {
 					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()+i))
 						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
@@ -140,7 +140,7 @@ public class Jogo {
 		//up
 		else if (y == 1) {
 			int i = heroi.get_y_coord();
-			while (i > 0 && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-i] != 'X')) {
+			while ((heroi.get_y_coord()-i) > 0 && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()-i] != 'X')) {
 				for (int j = 0; j < dragoes.length; j++) {
 					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()-i))
 						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
@@ -157,7 +157,8 @@ public class Jogo {
 		//down
 		else {
 			int i = heroi.get_y_coord();
-			while (i < Lab.size && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+i] != 'X')) {
+			while ((i+heroi.get_y_coord()) < Lab.size && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+i] != 'X')) {
+				System.out.println("passou aqui");
 				for (int j = 0; j < dragoes.length; j++) {
 					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()+i))
 						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {

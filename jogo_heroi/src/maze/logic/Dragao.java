@@ -49,8 +49,10 @@ public class Dragao extends Object {
 					Lab.lab[x_coord][y_coord] = 'D';
 			}
 		}
-		else
+		else {
+			if (Lab.lab[x_coord][y_coord] == 'd' || Lab.lab[x_coord][y_coord] == 'D')
 			Lab.lab[x_coord][y_coord] = ' ';
+		}
 	}
 
 	public void movimentar_dragao() {
@@ -151,35 +153,56 @@ public class Dragao extends Object {
 	private int spit_fire(int x, int y, Heroi heroi) {
 		
 		//FOGO PASSA PELAS PAREDES
+		int count = 1;
 		if (y == 1) {
 			if (heroi.get_y_coord() == get_y_coord()) {
-				if (heroi.get_x_coord() >= get_x_coord() && heroi.get_x_coord() <= (get_x_coord()+3)){
-					if (!heroi.get_shielded())
-						return 10;
+				while (count < 4) {
+					if (heroi.get_x_coord() == (get_x_coord()+count)) {
+						if (!heroi.get_shielded())
+							return 10;
+						else if (Lab.lab[get_x_coord()+count][get_y_coord()] == 'X')
+							return 0;
+					}
+					count++;
 				}
 			}
 		}
 		else if (y == -1) {
 			if (heroi.get_y_coord() == get_y_coord()) {
-				if (heroi.get_x_coord() <= get_x_coord() && heroi.get_x_coord() >= (get_x_coord()-3)) {
-					if (!heroi.get_shielded())
-						return 10;
+				while (count < 4) {
+					if (heroi.get_x_coord() == (get_x_coord()-count)) {
+						if (!heroi.get_shielded())
+							return 10;
+						else if (Lab.lab[get_x_coord()-count][get_y_coord()] == 'X')
+							return 0;
+					}
+					count++;
 				}
 			}
 		}
 		else if (x == 1) {
 			if (heroi.get_x_coord() == get_x_coord()) {
-				if (heroi.get_y_coord() >= get_y_coord() && heroi.get_y_coord() <= (get_y_coord()+3)){
-					if (!heroi.get_shielded())
-						return 10;
+				while (count < 4) {
+					if ((heroi.get_y_coord()+count) == get_y_coord()) {
+						if (!heroi.get_shielded())
+							return 10;
+						else if (Lab.lab[get_x_coord()][get_y_coord()+count] == 'X')
+							return 0;
+					}
+					count++;
 				}
 			}
 		}
 		else {
 			if (heroi.get_x_coord() == get_x_coord()) {
-				if (heroi.get_y_coord() <= get_y_coord() && heroi.get_y_coord() >= (get_y_coord()-3)){
-					if (!heroi.get_shielded())
-						return 10;
+				while (count < 4) {
+					if ((heroi.get_y_coord()-count) == get_y_coord()) {
+						if (!heroi.get_shielded())
+							return 10;
+						else if (Lab.lab[get_x_coord()][get_y_coord()-count] == 'X')
+							return 0;
+					}
+					count++;
 				}
 			}
 		}
