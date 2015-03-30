@@ -9,7 +9,7 @@ public class Random_generator extends Lab {
 	private int randomYcoord;
 	private Stack <Coord> coord;
 	
-	Random_generator(int s) {
+	public Random_generator(int s) {
 		super(s);
 		randomXcoord = 0;
 		randomYcoord = 0;
@@ -97,8 +97,7 @@ public class Random_generator extends Lab {
 				}
 			}
 			else {									//esta a direita mas nao num canto
-				int randomSaida = 1 + (int)(Math.random()*((size - 1) / 2)-1);
-				lab[size-1][randomSaida] = 'S';
+				lab[size-1][randomYcoord*2+1] = 'S';
 			}
 		}
 		else {	//nao estando a esquerda nem a direita

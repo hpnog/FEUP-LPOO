@@ -7,7 +7,7 @@ public class Heroi extends Object {
 	private int dardos = 0;
 	private boolean shielded = false;
 	
-	Heroi() {
+	public Heroi() {
 		super(1, 1);
 		armado = false;
 	}

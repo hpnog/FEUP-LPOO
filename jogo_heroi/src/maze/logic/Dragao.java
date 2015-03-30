@@ -8,7 +8,7 @@ public class Dragao extends Object {
 	private boolean alive;
 	private int status;
 
-	Dragao(int sleeper) {
+	public Dragao(int sleeper) {
 		super(5, 5);
 		alive = true;
 		status = sleeper;		//0 - awake | 1 - asleep | 2 - non sleeper moving | 3 - non sleeper static

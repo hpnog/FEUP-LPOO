@@ -2,7 +2,7 @@ package maze.logic;
 
 public class Default_maze extends Lab {
 
-	Default_maze(int s) {
+	public Default_maze(int s) {
 		super(s);
 		first_maze();
 	}
@@ -52,5 +52,4 @@ public class Default_maze extends Lab {
 		lab[7][7] = 'X';
 		
 	}
-
 }

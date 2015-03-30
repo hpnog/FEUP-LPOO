@@ -2,7 +2,7 @@ package maze.logic;
 
 public class Espada extends Object {
 	
-	Espada() {
+	public Espada() {
 		super(1, 1);
 	}
 	
