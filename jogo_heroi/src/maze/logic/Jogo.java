@@ -9,9 +9,11 @@ public class Jogo {
 	public static Espada espada;
 	public static Escudo escudo;
 	public static Dardo [] dardos;
+	public static int inter = 0;
 	
 	public Jogo(int size){
 		labirinto = new Lab(size);
+		dragoes = new Dragao[0];
 	}
 
 	public static int abs(int i) {

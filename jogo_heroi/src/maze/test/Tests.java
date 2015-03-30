@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import maze.logic.Dragao;
 import maze.logic.Espada;
 import maze.logic.Heroi;
+import maze.logic.Jogo;
 import maze.logic.Lab;
 import maze.logic.Default_maze;
 import maze.logic.Object;
@@ -218,5 +219,68 @@ public class Tests {
 							           m.getDragonPosition(), m.getSpadePosition()));			
 		}	
 	}
-	
+	@Test
+	public void testHeroMovement() {
+		for (int testNum = 0; testNum < 20; testNum++) {
+			int size = 3 + (int)(Math.random()*(100));
+			if ((size % 2) == 0)
+				size++;
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.random_start();
+			for (int j = 0; j < 20; j++) {
+				int choice = 1 + (int)(Math.random()*4);
+				int actual_x_pos = jogo.heroi.get_x_coord();
+				int actual_y_pos = jogo.heroi.get_y_coord();
+				if (choice == 1) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()-1] == ' ') {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_y_pos, jogo.heroi.get_y_coord()+1);
+					}
+					else {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+					}
+					assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+				}
+				else if (choice == 2) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()+1] == ' ') {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_y_pos, jogo.heroi.get_y_coord()-1);
+					}
+					else {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+					}
+					assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+				}
+				else if (choice == 3) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()-1][jogo.heroi.get_y_coord()] == ' ') {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_x_pos, jogo.heroi.get_x_coord()+1);
+					}
+					else {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+					}
+					assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+				}
+				else {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()+1][jogo.heroi.get_y_coord()] == ' ') {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_x_pos, jogo.heroi.get_x_coord()-1);
+					}
+					else {
+						jogo.interpreta_opcao(choice);
+						assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+					}
+					assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+				}
+				
+			}
+			
+		}
+	}
 }
