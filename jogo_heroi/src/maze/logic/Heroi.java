@@ -73,5 +73,9 @@ public class Heroi extends Object {
 		dardos--;
 		
 	}
+
+	public void setDards(int i) {
+		dardos = i;		
+	}
 	
 }

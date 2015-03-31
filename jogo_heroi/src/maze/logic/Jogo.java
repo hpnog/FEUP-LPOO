@@ -87,11 +87,11 @@ public class Jogo {
 		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'S') {
 			if (checkIfDragonsAreAlive() == false) {
 				console_interface.way_out();
-				return 10;
+				return 10;								//Para terminar o jogo
 			}
 			else {
 				console_interface.dragon_still_alive();
-				return 9;
+				return 9;								//Esta na saida mas o jogo nao pode acabar, ha dragoes vivos no labirinto
 			}
 		}
 		
@@ -121,7 +121,7 @@ public class Jogo {
 				//-----------------------------------------------------------------
 				i--;
 			}
-			System.out.printf("\nYou shot left.\n");
+			console_interface.shotLeft();
 		}
 		
 		//right
@@ -138,7 +138,7 @@ public class Jogo {
 				//-----------------------------------------------------------------
 				i++;
 			}
-			System.out.printf("\nYou shot right.\n");
+			console_interface.shotRight();
 		}
 		
 		//up
@@ -155,14 +155,13 @@ public class Jogo {
 				//-----------------------------------------------------------------
 				i--;
 			}
-			System.out.printf("\nYou shot up.\n");
+			console_interface.shotUp();
 		}
 		
 		//down
 		else {
 			int i = heroi.get_y_coord();
 			while ((i+heroi.get_y_coord()) < Lab.size && (Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()+i] != 'X')) {
-				System.out.println("passou aqui");
 				for (int j = 0; j < dragoes.length; j++) {
 					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()+i))
 						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
@@ -173,7 +172,7 @@ public class Jogo {
 				//-----------------------------------------------------------------
 				i++;
 			}
-			System.out.printf("\nYou shot down.\n");
+			console_interface.shotDown();
 		}
 		heroi.dec_dardos();
 		}
@@ -247,6 +246,53 @@ public class Jogo {
 		return fim;
 	}
 
+	
+	
+	public static void displayDragoes() {
+		for (int i = 0; i < dragoes.length; i++)
+			dragoes[i].change_dragon_pos();
+	}
+	
+	public static void moveDragoes() {
+		for (int i = 0; i < dragoes.length; i++) {
+			if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
+				dragoes[i].movimentar_dragao();
+		}
+	}
+	
+	public static int moveAndSpit_dragoes(int choice) {
+		moveDragoes();
+		for (int i = 0; i < dragoes.length; i++) {
+			if (dragoes[i].get_alive()) {
+				int choice2 = dragoes[i].random_dragao_fire(heroi);
+				if (choice2 == 10) {
+					console_interface.killedByFire();
+					choice = 10;
+				}
+			}
+		}
+		return choice;
+	}
+	
+	public static void displayDardos() {
+		for (int i = 0; i < Lab.size/4; i++)
+			dardos[i].change_dardo_pos();
+	}
+	
+	public static int endOfTurn(int choice) {
+		for (int i = 0; i < dragoes.length; i++) {
+			if (dragoes[i].get_alive() && choice != 0) {
+				choice = dragoes[i].check_if_dead(heroi);
+				dragoes[i].change_status();
+			}
+			if (choice == 5) {
+				console_interface.youDied();
+				break;
+			}
+		}
+		return choice;
+	}
+	
 	public static void movimentar_heroi() {
 
 		console_interface.print_options();
@@ -254,50 +300,16 @@ public class Jogo {
 		int choice = -1;
 
 		while ((choice != 5) && (choice != 0) && choice != 10) {
-
-			for (int i = 0; i < dragoes.length; i++)
-				dragoes[i].change_dragon_pos();
-
+			displayDragoes();
 			console_interface.imprimir_lab();
-
 			console_interface.imprimir_heroi_status(heroi);
-
 			choice = console_interface.get_movimento();
-
-
-			for (int i = 0; i < dragoes.length; i++) {
-				if (dragoes[i].get_status() == 0 || dragoes[i].get_status() == 2)
-					dragoes[i].movimentar_dragao();
-
-				
-				if (dragoes[i].get_alive()) {
-					int choice2 = dragoes[i].random_dragao_fire(heroi);
-					if (choice2 == 10) {
-						System.out.println();
-						System.out.println("You just died. Killed by fire. Game Over!");
-						System.out.println();
-						return;
-					}
-				}
-			}
-
+			choice = moveAndSpit_dragoes(choice);
+			if (choice == 10)
+				return;
 			choice = interpreta_opcao(choice);
-
-			for (int i = 0; i < Lab.size/8; i++)
-				dardos[i].change_dardo_pos();
-			
-			for (int i = 0; i < dragoes.length; i++) {
-				if (dragoes[i].get_alive() && choice != 0) {
-					choice = dragoes[i].check_if_dead(heroi);
-					dragoes[i].change_status();
-				}
-				if (choice == 5) {
-					System.out.println();
-					System.out.println("You just died. Game Over!");
-					System.out.println();
-					break;
-				}
-			}
+			displayDardos();
+			choice = endOfTurn(choice);
 		}
 	}
 

@@ -177,5 +177,35 @@ public class console_interface {
 			System.out.printf("\n\nYou have no dards.\n\n");
 		}
 	}
+	public static void shotLeft() {
+		if (Jogo.inter == 0)
+			System.out.printf("\nYou shot left.\n");
+	}
+	public static void shotRight() {
+		if (Jogo.inter == 0)
+			System.out.printf("\nYou shot right.\n");
+	}
+	public static void shotUp() {
+		if (Jogo.inter == 0)
+			System.out.printf("\nYou shot up.\n");
+	}
+	public static void shotDown() {
+		if (Jogo.inter == 0)
+			System.out.printf("\nYou shot down.\n");
+	}
+	public static void killedByFire() {
+		if (Jogo.inter == 0) {
+			System.out.println();
+			System.out.println("You just died. Killed by fire. Game Over!");
+			System.out.println();
+		}
+	}
+	public static void youDied() {
+		if (Jogo.inter == 0) {
+			System.out.println();
+			System.out.println("You just died. Game Over!");
+			System.out.println();
+		}
+	}
 }
 

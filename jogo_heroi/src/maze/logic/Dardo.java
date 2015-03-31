@@ -3,10 +3,9 @@ package maze.logic;
 public class Dardo extends Object{
 	boolean caught = false;
 
-	Dardo(int x, int y) {
+	public Dardo(int x, int y) {
 		super (x, y);
 	}
-
 
 	public void random_dardo() {
 		int randomX;
@@ -33,5 +32,9 @@ public class Dardo extends Object{
 
 	public void set_caught(boolean b) {
 		caught = true;
+	}
+
+	public boolean getCaught() {
+		return caught;
 	}
 }

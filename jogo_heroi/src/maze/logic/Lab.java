@@ -53,7 +53,7 @@ public class Lab {
 		return null;
 	}
 
-	public Object getSpadePosition() {
+	public Object getSwordPosition() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (lab[i][j] == 'E')

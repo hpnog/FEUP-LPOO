@@ -61,5 +61,4 @@ public class Object {
 		return true;
 	}
 
-	
 }
