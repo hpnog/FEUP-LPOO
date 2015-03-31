@@ -9,8 +9,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import maze.cli.console_interface;
 import maze.logic.Dragao;
+import maze.logic.Escudo;
 import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
@@ -74,7 +74,6 @@ public class Tests {
 						return false;
 		return countExit == 1;
 	}
-
 
 	/* d) there cannot exist 2x2 (or greater) squares with blanks only 
 	// e) there cannot exit 2x2 (or greater) squares with blanks in one diagonal and walls in the other
@@ -178,7 +177,7 @@ public class Tests {
 				(m) -> m.getDragonPosition().equals(tester_2), 
 				(m) -> m.getDragonPosition().equals(tester_3)); 
 	}
-	@Test
+	@Test(timeout=5000)
 	public void testRandomMazeGenerator() throws Exception {
 		int numMazes = 1000;
 		int maxSize = 101; // can change to any odd number >= 5
@@ -220,7 +219,7 @@ public class Tests {
 							m.getDragonPosition(), m.getSpadePosition()));			
 		}	
 	}
-	@Test
+	@Test(timeout=5000)
 	public void testHeroMovement() {
 		for (int testNum = 0; testNum < 100; testNum++) {
 			int size = 5 + (int)(Math.random()*(100));
@@ -284,9 +283,9 @@ public class Tests {
 
 		}
 	}
-	@Test
+	@Test(timeout=5000)
 	public void testCatchesSword() {
-		for (int testNum = 0; testNum < 100; testNum++) {
+		for (int testNum = 0; testNum < 1000; testNum++) {
 			int size = 5 + (int)(Math.random()*15);
 			if ((size % 2) == 0)
 				size++;
@@ -344,9 +343,9 @@ public class Tests {
 
 		}
 	}
-	@Test
+	@Test(timeout=5000)
 	public void testIfDragonKills() {
-		for (int testNum = 0; testNum < 30; testNum++) {
+		for (int testNum = 0; testNum < 1000; testNum++) {
 
 			int size = 21 + (int)(Math.random()*31);
 			if ((size % 2) == 0)
@@ -357,7 +356,7 @@ public class Tests {
 			jogo.labirinto = new Random_generator(size);
 			jogo.heroi = new Heroi();
 			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [5];
+			jogo.dragoes = new Dragao [10];
 			for (int i = 0; i < jogo.dragoes.length; i++) {
 				jogo.dragoes[i] = new Dragao(2);
 				jogo.dragoes[i].random_dragao();
@@ -391,9 +390,9 @@ public class Tests {
 		}
 		
 	}
-	@Test
+	@Test(timeout=5000)
 	public void testIfHeroKills() {
-		for (int testNum = 0; testNum < 30; testNum++) {
+		for (int testNum = 0; testNum < 1000; testNum++) {
 
 			int size = 21 + (int)(Math.random()*31);
 			if ((size % 2) == 0)
@@ -405,7 +404,7 @@ public class Tests {
 			jogo.heroi = new Heroi();
 			jogo.heroi.set_armado(true);
 			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [5];
+			jogo.dragoes = new Dragao [10];
 			for (int i = 0; i < jogo.dragoes.length; i++) {
 				jogo.dragoes[i] = new Dragao(2);
 				jogo.dragoes[i].random_dragao();
@@ -438,4 +437,238 @@ public class Tests {
 			assertTrue(choice == -1);
 		}
 	}
+	@Test(timeout=5000)
+	public void testIfKillsDragonAndFindsExit() {
+		int winCounter = 0; //Muit provavel que ganhe
+		for (int testNum = 0; testNum < 1000; testNum++) {
+
+			int size = 5 + (int)(Math.random()*11);
+			if ((size % 2) == 0)
+				size++;
+
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.set_armado(true);
+			jogo.heroi.random_start();
+			jogo.dragoes = new Dragao [1];
+			for (int i = 0; i < jogo.dragoes.length; i++) {
+				jogo.dragoes[i] = new Dragao(2);
+				jogo.dragoes[i].random_dragao();
+			}
+						
+			int choice = -1;
+			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
+				choice = 1 + (int)(Math.random()*4);
+
+				for (int i = 0; i < jogo.dragoes.length; i++)
+					jogo.dragoes[i].change_dragon_pos();
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_status() == 0 || jogo.dragoes[i].get_status() == 2)
+						jogo.dragoes[i].movimentar_dragao();
+				}
+
+				choice = jogo.interpreta_opcao(choice);
+				if (choice == 10)
+					break;
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_alive() && choice != 0) {
+						choice = jogo.dragoes[i].check_if_dead(jogo.heroi);
+						jogo.dragoes[i].change_status();
+					}
+
+				}
+
+			}
+						
+			assertTrue(choice == -1 || choice == 10 || choice == 9);
+			if (choice == 10)
+				winCounter++;
+		}
+		assertTrue(winCounter > 0);
+	}
+	@Test(timeout=5000)
+	public void testIfFindsExitButDragonAlive() {
+		int exitCounter = 0;
+		for (int testNum = 0; testNum < 1000; testNum++) {
+
+			int size = 5 + (int)(Math.random()*11);
+			if ((size % 2) == 0)
+				size++;
+
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.set_armado(true);
+			jogo.heroi.random_start();
+			jogo.dragoes = new Dragao [1];
+			for (int i = 0; i < jogo.dragoes.length; i++) {
+				jogo.dragoes[i] = new Dragao(1);
+				jogo.dragoes[i].random_dragao();
+			}
+						
+			int choice = -1;
+			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
+				choice = 1 + (int)(Math.random()*4);
+
+				for (int i = 0; i < jogo.dragoes.length; i++)
+					jogo.dragoes[i].change_dragon_pos();
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_status() == 0 || jogo.dragoes[i].get_status() == 2)
+						jogo.dragoes[i].movimentar_dragao();
+				}
+
+				choice = jogo.interpreta_opcao(choice);
+				if (choice == 9)
+					exitCounter++;
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_alive() && choice != 0) {
+						choice = jogo.dragoes[i].check_if_dead(jogo.heroi);
+						jogo.dragoes[i].change_status();
+					}
+
+				}
+
+			}
+						
+			assertTrue(choice == -1 || choice == 10 || choice == 9);
+		}
+		assertTrue(exitCounter > 0);
+	}
+	@Test(timeout=5000)
+	public void testIfDragonSleepsAndWakes() {
+		int awakeningCounter = 0;
+		int asleepCounter = 0;
+		for (int testNum = 0; testNum < 1000; testNum++) {
+
+			int size = 21 + (int)(Math.random()*31);
+			if ((size % 2) == 0)
+				size++;
+
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.set_armado(false);
+			jogo.heroi.random_start();
+			jogo.dragoes = new Dragao [10];
+			for (int i = 0; i < jogo.dragoes.length; i++) {
+				jogo.dragoes[i] = new Dragao(0);
+				jogo.dragoes[i].random_dragao();
+			}
+						
+			int choice = -1;
+			for (int j = 0; j < 20 && choice != 5 && choice != 10; j++) {
+				choice = 1 + (int)(Math.random()*4);
+
+				for (int i = 0; i < jogo.dragoes.length; i++)
+					jogo.dragoes[i].change_dragon_pos();
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_status() == 0 || jogo.dragoes[i].get_status() == 2)
+						jogo.dragoes[i].movimentar_dragao();
+				}
+
+				choice = jogo.interpreta_opcao(choice);
+
+				int [] dragoes_status = new int[jogo.dragoes.length];
+				for (int a = 0; a < jogo.dragoes.length; a++)
+					dragoes_status[a] = jogo.dragoes[a].get_status();
+				
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_alive() && choice != 0) {
+						choice = jogo.dragoes[i].check_if_dead(jogo.heroi);
+						jogo.dragoes[i].change_status();
+					}
+				}
+				
+				for (int a = 0; a < dragoes_status.length; a++) {
+					if (dragoes_status[a] == 0)
+						if (jogo.dragoes[a].get_status() == 1)
+							asleepCounter++;
+						else {}
+					else if (dragoes_status[a] == 1)
+						if (jogo.dragoes[a].get_status() == 0)
+							awakeningCounter++;
+				}
+
+			}
+		}
+		assertTrue(awakeningCounter > 0);
+		assertTrue(asleepCounter > 0);
+	}
+	//Testa multiplos dragoes
+	@Test(timeout=5000)
+	public void testCatchesShield() {
+		int shieldCounter = 0;
+		for (int testNum = 0; testNum < 1000; testNum++) {
+			int size = 5 + (int)(Math.random()*15);
+			if ((size % 2) == 0)
+				size++;
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.escudo = new Escudo();
+			jogo.escudo.random_start();
+			jogo.heroi.random_start();
+
+			assertTrue(!jogo.heroi.get_shielded());
+			for (int j = 0; j < 200; j++) {
+				int choice = 1 + (int)(Math.random()*4);
+				int actual_x_pos = jogo.heroi.get_x_coord();
+				int actual_y_pos = jogo.heroi.get_y_coord();
+				if (choice == 1) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()-1] == 'E') {
+						jogo.interpreta_opcao(choice);
+						assertTrue(jogo.heroi.get_armado());
+						break;
+					}
+					else
+						jogo.interpreta_opcao(choice);
+				}
+				else if (choice == 2) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()+1] == 'E') {
+						jogo.interpreta_opcao(choice);
+						assertTrue(jogo.heroi.get_armado());
+						break;
+					}
+					else
+						jogo.interpreta_opcao(choice);
+				}
+				else if (choice == 3) {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()-1][jogo.heroi.get_y_coord()] == 'E') {
+						jogo.interpreta_opcao(choice);
+						assertTrue(jogo.heroi.get_armado());
+						break;
+					}
+					else
+						jogo.interpreta_opcao(choice);
+				}
+				else {
+					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()+1][jogo.heroi.get_y_coord()] == 'E') {
+						jogo.interpreta_opcao(choice);
+						assertTrue(jogo.heroi.get_armado());
+						break;
+					}
+					else
+						jogo.interpreta_opcao(choice);
+				}
+
+			}
+			if (jogo.heroi.get_shielded())
+				shieldCounter++;
+
+		}
+		assertTrue(shieldCounter > 0);
+	}
+	//Testa fogo - dragao
+	//Testa apanhar dardos - heroi
+	//Testa lancar dardos
 }

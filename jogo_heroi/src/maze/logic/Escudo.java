@@ -3,7 +3,7 @@ package maze.logic;
 public class Escudo extends Object {
 	boolean caught;
 	
-	Escudo() {
+	public Escudo() {
 		super (1, 1);
 		caught = false;
 	}

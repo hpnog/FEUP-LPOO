@@ -2,7 +2,6 @@ package maze.logic;
 
 import maze.cli.console_interface;
 import maze.logic.Jogo;
-import java.util.Random;
 
 public class Dragao extends Object {
 
@@ -58,9 +57,10 @@ public class Dragao extends Object {
 
 	public void movimentar_dragao() {
 		int check = 0;
-		while (check == 0) {
-			int random = 0 + (int)(Math.random()*4);
-			if (random == 0) {
+		int counter = 0; //Ao fim de 1000 tentativas, provavelmente está encurralado e não se move
+		while (check == 0 && counter < 1000) {
+			int random = 1 + (int)(Math.random()*4);
+			if (random == 1) {
 				if (Lab.lab[x_coord+1][y_coord] != 'X' && 
 						Lab.lab[x_coord+1][y_coord] != 'S' &&
 						Lab.lab[x_coord+1][y_coord] != 'D' && 
@@ -74,7 +74,7 @@ public class Dragao extends Object {
 					check = 1;
 				}
 			}
-			else if (random == 1) {
+			else if (random == 2) {
 				if (Lab.lab[x_coord-1][y_coord] != 'X' &&
 						Lab.lab[x_coord-1][y_coord] != 'S' &&
 						Lab.lab[x_coord-1][y_coord] != 'D' && 
@@ -88,7 +88,7 @@ public class Dragao extends Object {
 					check = 1;
 				}
 			}
-			else if (random == 2) {
+			else if (random == 3) {
 				if (Lab.lab[x_coord][y_coord-1] != 'X' &&
 						Lab.lab[x_coord][y_coord-1] != 'S' &&
 						Lab.lab[x_coord][y_coord-1] != 'D' && 
@@ -116,8 +116,8 @@ public class Dragao extends Object {
 					check = 1;
 				}
 			}
+			counter++;
 		}
-
 	}
 
 	public void random_dragao() {

@@ -89,8 +89,10 @@ public class Jogo {
 				console_interface.way_out();
 				return 10;
 			}
-			else
+			else {
 				console_interface.dragon_still_alive();
+				return 9;
+			}
 		}
 		
 		//se for um dragao
@@ -190,25 +192,33 @@ public class Jogo {
 
 	public static int interpreta_opcao(int choice) {
 		//3 -- left
-		if (choice == 3)
-			if (check_movimento(-1, 0, choice) == 10)
-				return 10;
+		if (choice == 3) {
+			choice = check_movimento(-1, 0, choice);
+			if (choice == 10 || choice == 9)
+				return choice;
 			else {}
+		}
 		//4 -- right
-		else if (choice == 4) 
-			if (check_movimento(1, 0, choice) == 10)
-				return 10;
+		else if (choice == 4) {
+			choice = check_movimento(1, 0, choice);
+			if (choice == 10 || choice == 9)
+				return choice;
 			else {}
+		}
 		//1 -- up
-		else if (choice == 1) 
-			if (check_movimento(0, -1, choice) == 10)
-				return 10;
+		else if (choice == 1) {
+			choice = check_movimento(0, -1, choice);
+			if (choice == 10 || choice == 9)
+				return choice;
 			else {}
+		}
 		//2 -- down
-		else if (choice == 2) 
-			if (check_movimento(0, 1, choice) == 10)
-				return 10;
+		else if (choice == 2) {
+			choice = check_movimento(0, 1, choice);
+			if (choice == 10 || choice == 9)
+				return choice;
 			else {}
+		}
 
 		//101 -- shoot left
 		else if (choice == 101) 
@@ -223,9 +233,9 @@ public class Jogo {
 		else if (choice == 104) 
 			shoot(1, 0, choice);
 
-
-
-		return choice;
+		if (choice == 0)
+			return choice;
+		return -1;
 	}
 
 	private static boolean checkIfDragonsAreAlive() {
