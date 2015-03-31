@@ -603,7 +603,6 @@ public class Tests {
 		assertTrue(awakeningCounter > 0);
 		assertTrue(asleepCounter > 0);
 	}
-	//Testa multiplos dragoes
 	@Test(timeout=5000)
 	public void testCatchesShield() {
 		int shieldCounter = 0;
@@ -668,7 +667,85 @@ public class Tests {
 		}
 		assertTrue(shieldCounter > 0);
 	}
-	//Testa fogo - dragao
+	@Test(timeout=5000)
+	public void testFireKill() {
+		int fireCounter = 0;
+		for (int testNum = 0; testNum < 1000; testNum++) {
+			int size = 21 + (int)(Math.random()*31);
+			if ((size % 2) == 0)
+				size++;
+			
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.random_start();
+			jogo.dragoes = new Dragao [5];
+			
+			for (int a = 0; a < jogo.dragoes.length; a++)
+				jogo.dragoes[a] = new Dragao(1);
+			
+			int choice = -1;
+			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
+				choice = 1 + (int)(Math.random()*4);
+
+				for (int i = 0; i < jogo.dragoes.length; i++)
+					jogo.dragoes[i].change_dragon_pos();
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_status() == 0 || jogo.dragoes[i].get_status() == 2)
+						jogo.dragoes[i].movimentar_dragao();
+					
+					if (jogo.dragoes[i].get_alive()) {
+						int choice2 = jogo.dragoes[i].random_dragao_fire(jogo.heroi);
+						if (choice2 == 10) {
+							fireCounter++;
+							choice = 10;
+						}
+					}
+				}
+				
+				if (choice == 10)
+					break;
+
+				choice = jogo.interpreta_opcao(choice);
+
+				for (int i = 0; i < jogo.dragoes.length; i++) {
+					if (jogo.dragoes[i].get_alive() && choice != 0) {
+						choice = jogo.dragoes[i].check_if_dead(jogo.heroi);
+						jogo.dragoes[i].change_status();
+					}
+				}
+
+			}
+		}
+		assertTrue(fireCounter > 0);
+	}
+
+	//-------------------------TERMINAR TESTE DE DARDOS---------------------------------
+	@Test(timeout=5000)
+	public void testCatchesDards() {
+		int fireCounter = 0;
+		for (int testNum = 0; testNum < 1000; testNum++) {
+			int size = 21 + (int)(Math.random()*31);
+			if ((size % 2) == 0)
+				size++;
+			
+			Jogo jogo = new Jogo(size);
+			jogo.inter = 1;
+			jogo.labirinto = new Random_generator(size);
+			jogo.heroi = new Heroi();
+			jogo.heroi.random_start();
+			
+			int choice = -1;
+			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
+				choice = 1 + (int)(Math.random()*4);
+				choice = jogo.interpreta_opcao(choice);
+
+			}
+		}
+		assertTrue(fireCounter > 0);
+	}
 	//Testa apanhar dardos - heroi
 	//Testa lancar dardos
 }

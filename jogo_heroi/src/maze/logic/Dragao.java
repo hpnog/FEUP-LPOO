@@ -155,7 +155,6 @@ public class Dragao extends Object {
 
 	private int spit_fire(int x, int y, Heroi heroi) {
 		
-		//FOGO PASSA PELAS PAREDES
 		int count = 1;
 		if (y == 1) {
 			if (heroi.get_y_coord() == get_y_coord()) {
