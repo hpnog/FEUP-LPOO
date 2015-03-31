@@ -20,6 +20,7 @@ public class Heroi extends Object {
 		else
 			Jogo.labirinto.lab[x_coord][y_coord] = 'H';	
 	}
+	
 	public void random_start() {
 		int randomX;
 		int randomY;

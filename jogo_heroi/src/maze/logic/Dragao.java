@@ -2,12 +2,13 @@ package maze.logic;
 
 import maze.cli.console_interface;
 import maze.logic.Jogo;
+import java.util.Random;
 
 public class Dragao extends Object {
 
 	private boolean alive;
 	private int status;
-
+	
 	public Dragao(int sleeper) {
 		super(5, 5);
 		alive = true;
@@ -120,8 +121,8 @@ public class Dragao extends Object {
 	}
 
 	public void random_dragao() {
-		int randomX;
-		int randomY;
+		int randomX = 1;
+		int randomY = 1;
 		while (true) {
 			randomX = (int)(1 + Math.random()*Lab.size);
 			randomY = (int)(1 + Math.random()*Lab.size);
@@ -133,6 +134,8 @@ public class Dragao extends Object {
 		x_coord = randomX;
 		y_coord = randomY;
 		change_dragon_pos();
+		
+		
 	}
 
 	public int random_dragao_fire(Heroi heroi) {
