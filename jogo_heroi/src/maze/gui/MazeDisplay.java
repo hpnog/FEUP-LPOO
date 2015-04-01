@@ -1,34 +1,22 @@
 package maze.gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-import maze.cli.console_interface;
 import maze.logic.Default_maze;
 import maze.logic.Dragao;
 import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
-import maze.logic.Lab;
 
-public class MazeDisplay
-	extends JFrame
-	implements KeyListener{
-
-	//Para efeitos de jogo
-	Jogo jogo;
-	
-	private JPanel contentPane;
-	//Temporário - a substituir por imagens
-	private JLabel tempo;
+public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
+	private Jogo jogo;
+	private MazeGrid mazeGrid;
 
 	/**
 	 * Launch the application.
@@ -45,7 +33,7 @@ public class MazeDisplay
 			}
 		});
 	}
-	
+		
 	/**
 	 * Inicia o jogo
 	 */
@@ -68,37 +56,15 @@ public class MazeDisplay
 	 */
 	public MazeDisplay() {
 		addKeyListener(this);
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		addComponentListener(this);
 		
 		createGame();
-		
-		//Varible for Panes size
-		int paneSize = 1;
-		if (Lab.size > 0) paneSize = Lab.size;
-
-		//Divide a frame numa grelha com o tamanho correto (layout)
-		contentPane.setLayout(new GridLayout(paneSize, paneSize));
-
-		game(contentPane);
-
-	}
-
-	private void game(JPanel content) {
-		content.removeAll();
-		content.repaint();
-		for (int i = 0; i < Lab.size; i++) {
-			for (int j = 0; j < Lab.size; j++) {
-				tempo = new JLabel("" + Lab.lab[j][i]);
-				content.add(tempo);
-			}
-		}
-		content.revalidate();
+		mazeGrid = new MazeGrid();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		setContentPane(mazeGrid);
+		mazeGrid.setSize(getWidth(), getHeight());
+		mazeGrid.game();
 	}
 
 	@Override
@@ -109,12 +75,15 @@ public class MazeDisplay
 
 		choice = interpretaOpcao(arg);
 		choice = Jogo.moveAndSpit_dragoes(choice);
-		if (choice == 10)
+		if (choice == 10 || choice == 5)
 			System.exit(0);
 		if (choice != -1)
 			choice = Jogo.interpreta_opcao(choice);
 		choice = Jogo.endOfTurn(choice);
-		refresh_maze();
+		if (choice == 10 || choice == 5)
+			System.exit(0);
+		mazeGrid.setSize(getWidth(), getHeight());
+		mazeGrid.game();
 	}
 
 	@Override
@@ -122,6 +91,11 @@ public class MazeDisplay
 		return;
 	}
 
+	@Override
+	public void keyTyped(KeyEvent arg) {
+		return;
+	}
+	
 	public int interpretaOpcao(KeyEvent arg) {
 		if (arg.getKeyChar() == 'w')
 			return 1;
@@ -143,25 +117,29 @@ public class MazeDisplay
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg) {
-		return;
+	public void componentHidden(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	private void refresh_maze() {
-		/*contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
 		
-		//Varible for Panes size
-		int paneSize = 1;
-		if (Lab.size > 0) paneSize = Lab.size;
+	}
 
-		//Divide a frame numa grelha com o tamanho correto (layout)
-		contentPane.setLayout(new GridLayout(paneSize, paneSize));*/
+	/**
+	 * When window is resized
+	 */
+	@Override
+	public void componentResized(ComponentEvent arg0) {
+		mazeGrid.setSize(getWidth(), getHeight());
+		mazeGrid.game();
+	}
 
-		game(contentPane);
-		
+	@Override
+	public void componentShown(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
