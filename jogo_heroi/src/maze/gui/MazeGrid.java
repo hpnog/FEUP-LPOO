@@ -1,5 +1,6 @@
 package maze.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -14,7 +15,6 @@ import maze.logic.Jogo;
 import maze.logic.Lab;
 
 public class MazeGrid extends JPanel {
-	//Temporário - a substituir por imagens
 	private ImageIcon dragon;
 	private ImageIcon sleepingDragon;
 	private ImageIcon hero;
@@ -37,7 +37,6 @@ public class MazeGrid extends JPanel {
 		if (Lab.size > 0) paneSize = Lab.size;
 		//Divide a frame numa grelha com o tamanho correto (layout)
 		this.setLayout(new GridLayout(paneSize, paneSize));
-
 		loadImages();
 	}
 	

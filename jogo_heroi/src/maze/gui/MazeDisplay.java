@@ -1,6 +1,7 @@
 package maze.gui;
 
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -14,9 +15,26 @@ import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
 
+import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JButton;
+
+import java.awt.FlowLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
 	private Jogo jogo;
+	private JPanel game;
 	private MazeGrid mazeGrid;
+	private JPanel buttons;
+	private JButton quit;
 
 	/**
 	 * Launch the application.
@@ -55,14 +73,23 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	 * Create the frame.
 	 */
 	public MazeDisplay() {
-		addKeyListener(this);
+		setTitle("Defeat the dragons!");
 		addComponentListener(this);
+		addKeyListener(this);
 		
 		createGame();
+		game = new JPanel();
 		mazeGrid = new MazeGrid();
+		buttons = new JPanel();
+		quit = new JButton("Quit");
+		quit.addActionListener(new QuitListener());
+		buttons.add(quit);
+		game.setLayout(new BorderLayout(0, 0));
+		game.add(mazeGrid);
+		this.getContentPane().add(buttons, BorderLayout.SOUTH);
+		this.getContentPane().add(game, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		setContentPane(mazeGrid);
+		setBounds(100, 100, 450, 600);
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
@@ -116,6 +143,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		return -1;
 	}
 
+	
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
@@ -140,7 +168,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	public class QuitListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			System.exit(0);
+		}
+	}
 }
