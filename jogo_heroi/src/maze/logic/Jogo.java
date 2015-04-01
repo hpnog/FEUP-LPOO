@@ -24,6 +24,8 @@ public class Jogo {
 
 	public static int check_movimento(int x, int y, int choice) {
 		//se for a espada
+		System.out.printf("\n\nX Coord heroi: %d\n Y Coord heroi: %d\nX: %d\nY: %d\n", heroi.get_x_coord(), heroi.get_y_coord(), x, y);
+		
 		if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'E') {
 			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
 			heroi.set_armado(true);
