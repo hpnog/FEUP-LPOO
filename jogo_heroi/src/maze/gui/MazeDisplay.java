@@ -14,6 +14,7 @@ import maze.logic.Dragao;
 import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
+import maze.logic.Random_generator;
 
 import javax.swing.JPanel;
 
@@ -22,9 +23,11 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 
 import java.awt.FlowLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.BoxLayout;
+
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -35,6 +38,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	private MazeGrid mazeGrid;
 	private JPanel buttons;
 	private JButton quit;
+	private JButton newGame;
 
 	/**
 	 * Launch the application.
@@ -57,11 +61,11 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	 */
 	public void createGame() {
 
-		jogo = new Jogo(10);
-		jogo.labirinto = new Default_maze(10);
+		jogo = new Jogo(21);
+		jogo.labirinto = new Random_generator(21);//Default_maze(10);
 		jogo.heroi = new Heroi();
 		jogo.dragoes = new Dragao[1];
-		jogo.dragoes[0] = new Dragao(2);
+		jogo.dragoes[0] = new Dragao(0);
 		jogo.espada = new Espada();
 		jogo.heroi.random_start();
 		jogo.dragoes[0].random_dragao();
@@ -76,20 +80,33 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		setTitle("Defeat the dragons!");
 		addComponentListener(this);
 		addKeyListener(this);
-		
+		setFocusable(true);
 		createGame();
 		game = new JPanel();
 		mazeGrid = new MazeGrid();
 		buttons = new JPanel();
+		newGame = new JButton("New Game");
 		quit = new JButton("Quit");
-		quit.addActionListener(new QuitListener());
+		newGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				createGame();
+				mazeGrid.game();
+				requestFocus();
+			}
+		});
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		buttons.add(newGame);
 		buttons.add(quit);
 		game.setLayout(new BorderLayout(0, 0));
 		game.add(mazeGrid);
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(game, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 600);
+		setBounds(100, 100, 800, 1000);
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
@@ -171,9 +188,4 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 	}
 
-	public class QuitListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			System.exit(0);
-		}
-	}
 }
