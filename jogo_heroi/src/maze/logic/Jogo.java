@@ -1,5 +1,6 @@
 package maze.logic;
 import maze.cli.console_interface;
+import maze.gui.MazeDisplay;
 
 
 public class Jogo {
@@ -23,9 +24,7 @@ public class Jogo {
 	}
 
 	public static int check_movimento(int x, int y, int choice) {
-		//se for a espada
-		System.out.printf("\n\nX Coord heroi: %d\n Y Coord heroi: %d\nX: %d\nY: %d\n", heroi.get_x_coord(), heroi.get_y_coord(), x, y);
-		
+		//se for a espada		
 		if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'E') {
 			Lab.lab[heroi.get_x_coord()][heroi.get_y_coord()] = ' ';
 			heroi.set_armado(true);
@@ -88,22 +87,30 @@ public class Jogo {
 		//se for a saida
 		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'S') {
 			if (checkIfDragonsAreAlive() == false) {
-				console_interface.way_out();
+				if (inter == 0) console_interface.way_out();
+				else if (inter == 3) MazeDisplay.way_out();
+				else {}
 				return 10;								//Para terminar o jogo
 			}
 			else {
-				console_interface.dragon_still_alive();
+				if (inter == 0)	console_interface.dragon_still_alive();
+				else if (inter == 3) MazeDisplay.dragon_still_alive();
+				else {}
 				return 9;								//Esta na saida mas o jogo nao pode acabar, ha dragoes vivos no labirinto
 			}
 		}
 		
 		//se for um dragao
 		else if (Lab.lab[heroi.get_x_coord()+x][heroi.get_y_coord()+y] == 'd')
-			console_interface.dragon_sleeping();
+			if (inter == 0) console_interface.dragon_sleeping();
+			else if (inter == 3) MazeDisplay.dragon_sleeping();
+			else {}
 		
 		//se for outra coisa/parede
 		else
-			console_interface.wall();
+			if (inter == 0)	console_interface.wall();
+			else if (inter == 3) MazeDisplay.wall();
+			else {}
 		return choice;
 	}
 
@@ -117,13 +124,17 @@ public class Jogo {
 					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()-i))
 						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
 							dragoes[j].set_alive(false);
-							console_interface.dragonKilled();
+							if (inter == 0)	console_interface.dragonKilled();
+							else if (inter == 3) MazeDisplay.messageDragonKilled();
+							else {}
 						}
 				}
 				//-----------------------------------------------------------------
 				i--;
 			}
-			console_interface.shotLeft();
+			if (inter == 0) console_interface.shotLeft();
+			else if (inter == 3) {} //funcao de displaro
+			else {}
 		}
 		
 		//right
@@ -134,13 +145,17 @@ public class Jogo {
 					if (dragoes[j].get_x_coord() == (heroi.get_x_coord()+i))
 						if (dragoes[j].get_y_coord() == (heroi.get_y_coord())) {
 							dragoes[j].set_alive(false);
-							console_interface.dragonKilled();
+							if (inter == 0) console_interface.dragonKilled();
+							else if (inter == 3) MazeDisplay.messageDragonKilled();
+							else {}
 						}
 				}
 				//-----------------------------------------------------------------
 				i++;
 			}
-			console_interface.shotRight();
+			if (inter == 0) console_interface.shotRight();
+			else if (inter == 3) {} //funcao de displaro
+			else {}
 		}
 		
 		//up
@@ -151,13 +166,17 @@ public class Jogo {
 					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()-i))
 						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
 							dragoes[j].set_alive(false);
-							console_interface.dragonKilled();
+							if (inter == 0) console_interface.dragonKilled();
+							else if (inter == 3) MazeDisplay.messageDragonKilled();
+							else {}
 						}
 				}
 				//-----------------------------------------------------------------
 				i--;
 			}
-			console_interface.shotUp();
+			if (inter == 0) console_interface.shotUp();
+			else if (inter == 3) {} //funcao de displaro
+			else {}
 		}
 		
 		//down
@@ -168,18 +187,24 @@ public class Jogo {
 					if (dragoes[j].get_y_coord() == (heroi.get_y_coord()+i))
 						if (dragoes[j].get_x_coord() == (heroi.get_x_coord())) {
 							dragoes[j].set_alive(false);
-							console_interface.dragonKilled();
+							if (inter == 0) console_interface.dragonKilled();
+							else if (inter == 3) MazeDisplay.messageDragonKilled();
+							else {}
 						}
 				}
 				//-----------------------------------------------------------------
 				i++;
 			}
-			console_interface.shotDown();
+			if (inter == 0) console_interface.shotDown();
+			else if (inter == 3) {} //funcao de displaro
+			else {}
 		}
 		heroi.dec_dardos();
 		}
 		else
-			console_interface.no_dards();
+			if (inter == 0) console_interface.no_dards();
+			else if (inter == 3) MazeDisplay.noDards();
+			else {}
 		
 	}
 	
@@ -248,8 +273,6 @@ public class Jogo {
 		return fim;
 	}
 
-	
-	
 	public static void displayDragoes() {
 		for (int i = 0; i < dragoes.length; i++)
 			dragoes[i].change_dragon_pos();
@@ -268,7 +291,9 @@ public class Jogo {
 			if (dragoes[i].get_alive()) {
 				int choice2 = dragoes[i].random_dragao_fire(heroi);
 				if (choice2 == 10) {
-					console_interface.killedByFire();
+					if (inter == 0) console_interface.killedByFire();
+					else if (inter == 3) MazeDisplay.killedByFire();
+					else {}
 					choice = 10;
 				}
 			}
@@ -288,76 +313,13 @@ public class Jogo {
 				dragoes[i].change_status();
 			}
 			if (choice == 5) {
-				console_interface.youDied();
+				if (inter == 0) console_interface.youDied();
+				else if(inter == 3) MazeDisplay.youDied();
+				else {}
 				break;
 			}
 		}
 		return choice;
 	}
 	
-	public static void movimentar_heroi() {
-
-		console_interface.print_options();
-
-		int choice = -1;
-
-		while ((choice != 5) && (choice != 0) && choice != 10) {
-			displayDragoes();
-			console_interface.imprimir_lab();
-			console_interface.imprimir_heroi_status(heroi);
-			choice = console_interface.get_movimento();
-			choice = moveAndSpit_dragoes(choice);
-			if (choice == 10)
-				return;
-			choice = interpreta_opcao(choice);
-			displayDardos();
-			choice = endOfTurn(choice);
-		}
-	}
-
-	public static void jogar() {
-		
-		//--------------Inicio-do-jogo---------------------
-
-		int dragonNumber = console_interface.askHowManyDragons();
-		dragoes = new Dragao[dragonNumber];
-		int typeOfDragon = console_interface.askTypeOfDragon();
-		for (int i = 0; i < dragonNumber; i++)
-			dragoes[i] = new Dragao(typeOfDragon);
-		heroi = new Heroi();
-		espada = new Espada();
-		escudo = new Escudo();
-		dardos = new Dardo [Lab.size / 4];
-
-		espada.random_sword();
-		heroi.random_start();
-		escudo.random_start();
-		
-		for (int i = 0; i < Lab.size / 4; i++) {
-			dardos[i] = new Dardo(1, 1);
-			dardos[i].random_dardo();
-		}
-		
-		for (int i = 0; i < dragonNumber; i++)
-			dragoes[i].random_dragao();
-		
-		movimentar_heroi();
-	}
-
-	public static void main(String[] args) {
-		Jogo jogo;
-		//----------pergunta-qual-o-labirinto.labirinto--------------
-		int choice = console_interface.choose_maze();
-		if (choice == -1) {
-			jogo = new Jogo(10);
-			Default_maze maze = new Default_maze(10);
-		}
-		else {
-			jogo = new Jogo(choice);
-			Random_generator maze = new Random_generator(choice);
-		}
-		jogar();
-
-	}
-
 }

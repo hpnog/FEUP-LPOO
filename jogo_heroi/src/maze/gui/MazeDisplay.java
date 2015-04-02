@@ -62,8 +62,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	 */
 	public void createGame() {
 
-		jogo = new Jogo(21);
-		jogo.labirinto = new Random_generator(21);//Default_maze(10);
+		jogo = new Jogo(11);
+		jogo.inter = 3;
+		jogo.labirinto = new Random_generator(11);//Default_maze(10);
 		jogo.heroi = new Heroi();
 		jogo.dragoes = new Dragao[1];
 		jogo.dragoes[0] = new Dragao(0);
@@ -197,6 +198,32 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public static void messageDragonKilled() {
+		JOptionPane.showMessageDialog(null, "You just killed a dragon!");		
+	}
+
+	public static void way_out() {
+		JOptionPane.showMessageDialog(null, "You just found the way out!");
+	}
+	public static void dragon_still_alive() {
+		JOptionPane.showMessageDialog(null, "You cannot exit. \nThere are dragons still alive!");
+	}
+	public static void dragon_sleeping() {
+		JOptionPane.showMessageDialog(null, "This dragon is asleep");
+		}
+	public static void wall() {
+		JOptionPane.showMessageDialog(null, "You cannot go through a wall");
+	}
+	public static void noDards() {
+		JOptionPane.showMessageDialog(null, "You have no dards");
+	}
+	public static void killedByFire() {
+		JOptionPane.showMessageDialog(null, "You just died by fire!");
+	}
+	public static void youDied() {
+		JOptionPane.showMessageDialog(null, "You just died!");
 	}
 
 }

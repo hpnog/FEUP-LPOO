@@ -1,6 +1,7 @@
 package maze.logic;
 
 import maze.cli.console_interface;
+import maze.gui.MazeDisplay;
 import maze.logic.Jogo;
 
 public class Dragao extends Object {
@@ -21,7 +22,11 @@ public class Dragao extends Object {
 			ret = -1;
 		else if (heroi.get_armado()) {
 			if (alive) {
-				console_interface.dragonKilled();
+				if (Jogo.inter == 0)
+					console_interface.dragonKilled();
+				else if (Jogo.inter == 3) 
+					MazeDisplay.messageDragonKilled();
+				else {}
 				if (x_coord != Jogo.heroi.get_x_coord())
 					if (y_coord != Jogo.heroi.get_y_coord())
 						Lab.lab[x_coord][y_coord] = ' ';

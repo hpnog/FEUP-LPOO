@@ -2,11 +2,19 @@ package maze.cli;
 
 import java.util.Scanner;
 
+import maze.logic.Dardo;
+import maze.logic.Default_maze;
+import maze.logic.Dragao;
+import maze.logic.Escudo;
+import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Lab;
 import maze.logic.Jogo;
+import maze.logic.Random_generator;
 
 public class console_interface {
+	public static Jogo jogo;
+	
 	public static void imprimir_lab() {
 		if (Jogo.inter == 0) {
 			for (int i = 0; i < Lab.size; i++) {
@@ -205,6 +213,67 @@ public class console_interface {
 			System.out.println();
 			System.out.println("You just died. Game Over!");
 			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) {
+		//----------pergunta-qual-o-labirinto.labirinto--------------
+		int choice = choose_maze();
+		if (choice == -1) {
+			jogo = new Jogo(10);
+			Default_maze maze = new Default_maze(10);
+		}
+		else {
+			jogo = new Jogo(choice);
+			Random_generator maze = new Random_generator(choice);
+		}
+		jogar();
+	}
+	public static void jogar() {
+		
+		//--------------Inicio-do-jogo---------------------
+
+		int dragonNumber = askHowManyDragons();
+		Jogo.dragoes = new Dragao[dragonNumber];
+		int typeOfDragon = askTypeOfDragon();
+		for (int i = 0; i < dragonNumber; i++)
+			Jogo.dragoes[i] = new Dragao(typeOfDragon);
+		Jogo.heroi = new Heroi();
+		Jogo.espada = new Espada();
+		Jogo.escudo = new Escudo();
+		Jogo.dardos = new Dardo [Lab.size / 4];
+
+		Jogo.espada.random_sword();
+		Jogo.heroi.random_start();
+		Jogo.escudo.random_start();
+		
+		for (int i = 0; i < Lab.size / 4; i++) {
+			Jogo.dardos[i] = new Dardo(1, 1);
+			Jogo.dardos[i].random_dardo();
+		}
+		
+		for (int i = 0; i < dragonNumber; i++)
+			Jogo.dragoes[i].random_dragao();
+		
+		movimentar_heroi();
+	}
+	public static void movimentar_heroi() {
+
+		print_options();
+
+		int choice = -1;
+
+		while ((choice != 5) && (choice != 0) && choice != 10) {
+			Jogo.displayDragoes();
+			imprimir_lab();
+			imprimir_heroi_status(Jogo.heroi);
+			choice = get_movimento();
+			choice = Jogo.moveAndSpit_dragoes(choice);
+			if (choice == 10)
+				return;
+			choice = Jogo.interpreta_opcao(choice);
+			Jogo.displayDardos();
+			choice = Jogo.endOfTurn(choice);
 		}
 	}
 }
