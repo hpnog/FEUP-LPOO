@@ -27,6 +27,7 @@ import java.awt.FlowLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -89,14 +90,24 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		quit = new JButton("Quit");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				createGame();
-				mazeGrid.game();
-				requestFocus();
+				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to start a New Game?");
+				if (answer == JOptionPane.YES_OPTION) {
+					createGame();
+					mazeGrid.game();
+					requestFocus();
+				}
+				else
+					requestFocus();
 			}
 		});
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
+				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to Quit?");
+				if (answer == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+				else
+					requestFocus();
 			}
 		});
 		buttons.add(newGame);
