@@ -1,11 +1,7 @@
 package maze.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -72,7 +68,7 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledArmedAndShieldedHero = scaleImage(armedAndShieldedHero);
 		ImageIcon scaledWall = scaleImage(wall);
 		ImageIcon scaledOpenedExit = scaleImage(openedExit);
-		ImageIcon scaledClosedExit = scaleImage(openedExit);
+		ImageIcon scaledClosedExit = scaleImage(closedExit);
 		ImageIcon scaledDard = scaleImage(dard);
 		ImageIcon scaledShield = scaleImage(shield);
 		ImageIcon scaledFire = scaleImage(fire);
