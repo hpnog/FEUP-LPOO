@@ -9,11 +9,14 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
+import maze.logic.Dardo;
 import maze.logic.Default_maze;
 import maze.logic.Dragao;
+import maze.logic.Escudo;
 import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
+import maze.logic.Lab;
 import maze.logic.Random_generator;
 
 import javax.swing.JPanel;
@@ -32,6 +35,7 @@ import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.Struct;
 
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
 	private Jogo jogo;
@@ -40,41 +44,39 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	private JPanel buttons;
 	private JButton quit;
 	private JButton newGame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MazeDisplay frame = new MazeDisplay();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-		
+	
+	
 	/**
 	 * Inicia o jogo
 	 */
 	public void createGame() {
+	
+		Jogo.labirinto = new Random_generator(Jogo.gamePreferences.mazeSize);
+		Jogo.dragoes = new Dragao[Jogo.gamePreferences.numberOfDragons];
+		Jogo.dardos = new Dardo [Lab.size / 4];
+		Jogo.inter = 3;
+		Jogo.heroi = new Heroi();
+		Jogo.espada = new Espada();
+		Jogo.escudo = new Escudo();
 
-		jogo = new Jogo(11);
-		jogo.inter = 3;
-		jogo.labirinto = new Random_generator(11);//Default_maze(10);
-		jogo.heroi = new Heroi();
-		jogo.dragoes = new Dragao[1];
-		jogo.dragoes[0] = new Dragao(0);
-		jogo.espada = new Espada();
-		jogo.heroi.random_start();
-		jogo.dragoes[0].random_dragao();
-		jogo.espada.random_sword();
+		for (int i = 0; i < Jogo.dragoes.length; i++)
+			Jogo.dragoes[i] = new Dragao(Jogo.gamePreferences.type);
+
+		Jogo.heroi.random_start();
+		Jogo.espada.random_sword();
+		Jogo.escudo.random_start();
+
+		for (int i = 0; i < Lab.size / 4; i++) {
+			Jogo.dardos[i] = new Dardo(1, 1);
+			Jogo.dardos[i].random_dardo();
+		}
+		
+		for (int i = 0; i < Jogo.dragoes.length; i++)
+			Jogo.dragoes[i].random_dragao();
+
 
 	}
-	
+
 	/**
 	 * Create the frame.
 	 */
@@ -88,7 +90,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid = new MazeGrid();
 		buttons = new JPanel();
 		newGame = new JButton("New Game");
-		quit = new JButton("Quit");
+		quit = new JButton("Quit to Main Menu");
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
 				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to start a New Game?");
@@ -103,12 +105,17 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		});
 		quit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to Quit?");
+				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish\nto quit to MainMenu?");
 				if (answer == JOptionPane.YES_OPTION) {
-					System.exit(0);
+					setVisible(false);
+					try {
+						MainMenu frame = new MainMenu();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				else
-					requestFocus();
+				else {}
 			}
 		});
 		buttons.add(newGame);
@@ -118,30 +125,47 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(game, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 1000);
+		setBounds(100, 100, 800, 900);
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg) {
-		int choice = -1;
-		if (arg.getKeyChar() == 'q')
-			System.exit(0);
+		if (arg.getKeyChar() == Jogo.gamePreferences.exitKey)
+			returnFunc();
 
-		choice = interpretaOpcao(arg);
+		int choice = -1;
+		
 		choice = Jogo.moveAndSpit_dragoes(choice);
 		if (choice == 10 || choice == 5)
-			System.exit(0);
+			returnFunc();
+		
+		choice = interpretaOpcao(arg);
+		if (choice == 10 || choice == 5)
+			returnFunc();
+		
 		if (choice != -1)
 			choice = Jogo.interpreta_opcao(choice);
+		
 		choice = Jogo.endOfTurn(choice);
 		if (choice == 10 || choice == 5)
-			System.exit(0);
+			returnFunc();
+
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
-
+	
+	public void returnFunc() {
+		setVisible(false);
+		try {
+			MainMenu frame = new MainMenu();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		return;
@@ -153,25 +177,24 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 	
 	public int interpretaOpcao(KeyEvent arg) {
-		if (arg.getKeyChar() == 'w')
+		if (arg.getKeyChar() == Jogo.gamePreferences.up)
 			return 1;
-		else if (arg.getKeyChar() == 'a')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.left)
 			return 3;
-		else if (arg.getKeyChar() == 'd')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.right)
 			return 4;
-		else if (arg.getKeyChar() == 's')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.down)
 			return 2;
-		else if (arg.getKeyChar() == 'y')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.sUp)
 			return 101;
-		else if (arg.getKeyChar() == 'h')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.sDown)
 			return 102;
-		else if (arg.getKeyChar() == 'g')
+		else if (arg.getKeyChar() == Jogo.gamePreferences.sLeft)
 			return 104;
-		else if (arg.getKeyCode() == 'j')
+		else if (arg.getKeyCode() == Jogo.gamePreferences.sRight)
 			return 103;
 		return -1;
 	}
-
 	
 	@Override
 	public void componentHidden(ComponentEvent arg0) {

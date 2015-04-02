@@ -22,7 +22,8 @@ public class MazeGrid extends JPanel {
 	private ImageIcon shieldedHero;
 	private ImageIcon armedAndShieldedHero;
 	private ImageIcon wall;
-	private ImageIcon exit;
+	private ImageIcon openedExit;
+	private ImageIcon closedExit;
 	private ImageIcon dard;
 	private ImageIcon shield;
 	private ImageIcon fire;
@@ -54,11 +55,12 @@ public class MazeGrid extends JPanel {
 		shieldedHero = new ImageIcon(this.getClass().getResource("res/shieldedHero.png"));
 		armedAndShieldedHero = new ImageIcon(this.getClass().getResource("res/armedAndShieldedHero.png"));
 		wall = new ImageIcon(this.getClass().getResource("res/wall.png"));
-		exit = new ImageIcon(this.getClass().getResource("res/wall.png")); //temporario
 		dard = new ImageIcon(this.getClass().getResource("res/dard.png"));
 		shield = new ImageIcon(this.getClass().getResource("res/shield.png"));
 		fire = new ImageIcon(this.getClass().getResource("res/fire.png"));
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
+		openedExit = new ImageIcon(this.getClass().getResource("res/openedExit.png")); 
+		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 
 	}
 	
 	private void introduzConteudo() {
@@ -69,7 +71,8 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledShieldedHero = scaleImage(shieldedHero);
 		ImageIcon scaledArmedAndShieldedHero = scaleImage(armedAndShieldedHero);
 		ImageIcon scaledWall = scaleImage(wall);
-		ImageIcon scaledExit = scaleImage(exit);
+		ImageIcon scaledOpenedExit = scaleImage(openedExit);
+		ImageIcon scaledClosedExit = scaleImage(openedExit);
 		ImageIcon scaledDard = scaleImage(dard);
 		ImageIcon scaledShield = scaleImage(shield);
 		ImageIcon scaledFire = scaleImage(fire);
@@ -88,7 +91,7 @@ public class MazeGrid extends JPanel {
 					this.add(new JLabel(scaledHero));
 				else if (Lab.lab[j][i] == 'H' && Jogo.heroi.get_shielded())
 					this.add(new JLabel(scaledShieldedHero));
-				else if (Lab.lab[j][i] == 'D') 
+				else if (Lab.lab[j][i] == 'D')
 					this.add(new JLabel(scaledDragon));
 				else if (Lab.lab[j][i] == 'd') 
 					this.add(new JLabel(scaledSleepingDragon));
@@ -96,8 +99,14 @@ public class MazeGrid extends JPanel {
 					this.add(new JLabel(scaledDard));
 				else if (Lab.lab[j][i] == 'E')
 					this.add(new JLabel(scaledSword));
-				else if (Lab.lab[j][i] == 'S') 
-					this.add(new JLabel(" "));
+				else if (Lab.lab[j][i] == 'S') {
+					if (Jogo.checkIfDragonsAreAlive())
+						this.add(new JLabel(scaledClosedExit));
+					else
+						this.add(new JLabel(scaledOpenedExit));
+				}
+				else if (Lab.lab[j][i] == 'O')
+					this.add(new JLabel(scaledShield));
 				//--------------------------------FALTA-O-FOGO----------------------------------
 			}
 		}

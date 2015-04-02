@@ -11,6 +11,20 @@ public class Jogo {
 	public static Escudo escudo;
 	public static Dardo [] dardos;
 	public static int inter = 0;
+	public static class gamePreferences {
+		public static int mazeSize = 11;
+		public static int numberOfDragons = 1;
+		public static int type = 0;
+		public static char up = 'w';
+		public static char down = 's';
+		public static char left = 'a';
+		public static char right = 'd';
+		public static char sUp = 'y';
+		public static char sDown = 'h';
+		public static char sLeft = 'g';
+		public static char sRight = 'j';
+		public static char exitKey = 'q';
+	};
 	
 	public Jogo(int size){
 		labirinto = new Lab(size);
@@ -264,7 +278,7 @@ public class Jogo {
 		return -1;
 	}
 
-	private static boolean checkIfDragonsAreAlive() {
+	public static boolean checkIfDragonsAreAlive() {
 		boolean fim = false;
 		for (int i = 0; i < dragoes.length; i++) {
 			if (dragoes[i].get_alive())
