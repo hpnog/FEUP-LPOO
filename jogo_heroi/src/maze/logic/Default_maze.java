@@ -3,6 +3,7 @@ package maze.logic;
 import java.io.Serializable;
 
 public class Default_maze extends Lab implements Serializable {
+	private static final long serialVersionUID = 6974825017109150949L;
 
 	public Default_maze(int s) {
 		super(s);

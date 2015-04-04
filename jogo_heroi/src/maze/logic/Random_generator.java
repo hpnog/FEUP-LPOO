@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Stack;
 
 public class Random_generator extends Lab implements Serializable {
-
+	private static final long serialVersionUID = -3817543882507696922L;
 	private char [][] celulasVisitadas;
 	private int randomXcoord;
 	private int randomYcoord;
@@ -211,4 +211,28 @@ public class Random_generator extends Lab implements Serializable {
 		preenche_impares();
 	}
 	
+	public char[][] getCelulasVisitadas() {
+		return celulasVisitadas;
+	}
+	public void setCelulasVisitadas(char[][] celulasVisitadas) {
+		this.celulasVisitadas = celulasVisitadas;
+	}
+	public int getRandomXcoord() {
+		return randomXcoord;
+	}
+	public void setRandomXcoord(int randomXcoord) {
+		this.randomXcoord = randomXcoord;
+	}
+	public int getRandomYcoord() {
+		return randomYcoord;
+	}
+	public void setRandomYcoord(int randomYcoord) {
+		this.randomYcoord = randomYcoord;
+	}
+	public Stack<Coord> getCoord() {
+		return coord;
+	}
+	public void setCoord(Stack<Coord> coord) {
+		this.coord = coord;
+	}	
 }

@@ -3,28 +3,15 @@ package maze.logic;
 import java.io.Serializable;
 
 public class Object implements Serializable {
-	protected int x_coord;
-	protected int y_coord;
+	private static final long serialVersionUID = -4071368693971647608L;
+	private int x_coord;
+	private int y_coord;
 
 	public Object(int x, int y) {
 		x_coord = x;
 		y_coord = y;
 	}
-	
-	public int get_x_coord() {
-		return x_coord;
-	}
-	public int get_y_coord() {
-		return y_coord;
-	}
-	
-	public void set_x_coord(int coord) {
-		x_coord = coord;
-	}
-	public void set_y_coord(int coord) {
-		y_coord = coord;
-	}
-	
+
 	public void x_coord_inc() {
 		x_coord++;
 	}
@@ -61,6 +48,24 @@ public class Object implements Serializable {
 		if (y_coord != other.y_coord)
 			return false;
 		return true;
+	}
+
+	
+	
+	public int getX_coord() {
+		return x_coord;
+	}
+
+	public void setX_coord(int x_coord) {
+		this.x_coord = x_coord;
+	}
+
+	public int getY_coord() {
+		return y_coord;
+	}
+
+	public void setY_coord(int y_coord) {
+		this.y_coord = y_coord;
 	}
 
 }

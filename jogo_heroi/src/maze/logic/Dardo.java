@@ -3,40 +3,17 @@ package maze.logic;
 import java.io.Serializable;
 
 public class Dardo extends Object implements Serializable{
-	boolean caught = false;
+	private static final long serialVersionUID = -4254410647641732977L;
+	private boolean caught = false;
 
 	public Dardo(int x, int y) {
 		super (x, y);
 	}
 
-	public void random_dardo() {
-		int randomX;
-		int randomY;
-		while (true) {
-			randomX = (int)(1 + Math.random()*Lab.size);
-			randomY = (int)(1 + Math.random()*Lab.size);
-			randomX--;
-			randomY--;
-			if (Lab.lab[randomX][randomY] == ' ')
-				break;
-		}
-		x_coord = randomX;
-		y_coord = randomY;
-		change_dardo_pos();
-	}
-
-	public void change_dardo_pos() {
-		if (!caught) {
-			if (Lab.lab[x_coord][y_coord] == ' ' && !caught)
-				Lab.lab[x_coord][y_coord] = '\\';
-		}
-	}
-
 	public void set_caught(boolean b) {
 		caught = true;
 	}
-
-	public boolean getCaught() {
+	public boolean isCaught() {
 		return caught;
 	}
 }

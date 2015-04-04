@@ -22,10 +22,9 @@ import maze.logic.Random_generator;
 
 
 public class Tests {
-
-	Object tester_1 = new Object(3,3);
-	Object tester_2 = new Object(3,2);
-	Object tester_3 = new Object(2,3);
+	private Object tester_1 = new Object(3,3);
+	private Object tester_2 = new Object(3,2);
+	private Object tester_3 = new Object(2,3);
 
 	/**
 	 * Repetidamente gera uma instância do tipo T usando a função geradora, e verifica se a instância
@@ -99,7 +98,7 @@ public class Tests {
 	public boolean checkExitReachable(Lab maze) {
 		Object p = maze.getExitPosition();
 		char [][] m = deepClone(maze.getMatrix());
-		visit(m, p.get_x_coord(), p.get_y_coord());
+		visit(m, p.getX_coord(), p.getY_coord());
 
 		for (int i = 0; i < m.length; i++)
 			for (int j = 0; j < m.length; j++) {				
@@ -136,7 +135,7 @@ public class Tests {
 	}
 
 	// Checks if all the arguments (in the variable arguments list) are not null and distinct
-	public <T> boolean notNullAndDistinct(T ... args) {
+	public <T> boolean notNullAndDistinct(@SuppressWarnings("unchecked") T ... args) {
 		for (int i = 0; i < args.length - 1; i++)
 			for (int j = i + 1; j < args.length ; j++)
 				if (args[i] == null || args[j] == null || args[i].equals(args[j]))
@@ -158,19 +157,24 @@ public class Tests {
 		testAlt(1000,
 				() -> {
 					Lab maze = new Default_maze(10);
-					maze.size = 5;
-					maze.lab = m1;
+					maze.setSize(5);
+					maze.setLab(m1);
 
 					Heroi heroi = new Heroi();
-					heroi.set_x_coord(1);
-					heroi.set_y_coord(1);
+					heroi.setX_coord(1);
+					heroi.setY_coord(1);
 
 					Dragao dragao = new Dragao(2);
-					dragao.set_x_coord(3);
-					dragao.set_y_coord(3);
+					dragao.setX_coord(3);
+					dragao.setY_coord(3);
 
-					heroi.set_x_coord(heroi.get_x_coord()+1);
-					heroi.change_hero_pos();
+					heroi.setX_coord(heroi.getX_coord()+1);
+					if (maze.getLab()[heroi.getX_coord()][heroi.getY_coord()] == 'O')
+						heroi.setShielded(true);
+					if (heroi.isArmado())
+						maze.setLabCell(heroi.getX_coord(), heroi.getY_coord(), 'A');
+					else
+						maze.setLabCell(heroi.getX_coord(), heroi.getY_coord(), 'H');
 
 					return maze;
 				},
@@ -208,9 +212,61 @@ public class Tests {
 			Heroi heroi = new Heroi();
 			Dragao dragao = new Dragao(2);
 			Espada espada = new Espada();
-			heroi.random_start();
-			dragao.random_dragao();
-			espada.random_sword();
+			int randomX;
+			int randomY;
+			while (true) {
+				randomX = (int)(1 + Math.random()*m.getSize());
+				randomY = (int)(1 + Math.random()*m.getSize());
+				randomX--;
+				randomY--;
+				if (m.getLab()[randomX][randomY] == ' ')
+					break;
+			}
+			heroi.setX_coord(randomX);
+			heroi.setY_coord(randomY);
+			if (m.getLab()[heroi.getX_coord()][heroi.getY_coord()] == 'O')
+				heroi.setShielded(true);
+			if (heroi.isArmado())
+				m.setLabCell(heroi.getX_coord(), heroi.getY_coord(), 'A');
+			else
+				m.setLabCell(heroi.getX_coord(), heroi.getY_coord(), 'H');
+			while (true) {
+				randomX = (int)(1 + Math.random()*m.getSize());
+				randomY = (int)(1 + Math.random()*m.getSize());
+				randomX--;
+				randomY--;
+				if (m.getLab()[randomX][randomY] == ' ')
+					break;
+			}
+			dragao.setX_coord(randomX);
+			dragao.setY_coord(randomY);
+			if (dragao.isAlive()) {
+				if (m.getLab()[dragao.getX_coord()][dragao.getY_coord()] == 'E') {
+					m.setLabCell(dragao.getX_coord(), dragao.getY_coord(), 'F');
+				}
+				else {
+					if (dragao.getStatus() == 1)
+						m.setLabCell(dragao.getX_coord(), dragao.getY_coord(), 'd');
+					else
+						m.setLabCell(dragao.getX_coord(), dragao.getY_coord(), 'D');
+				}
+			}
+			else {
+				if (m.getLab()[dragao.getX_coord()][dragao.getY_coord()] == 'd' || 
+						m.getLab()[dragao.getX_coord()][dragao.getY_coord()] == 'D')
+					m.setLabCell(dragao.getX_coord(), dragao.getY_coord(), ' ');
+			}
+			while (true) {
+				randomX = (int)(1 + Math.random()*m.getSize());
+				randomY = (int)(1 + Math.random()*m.getSize());
+				randomX--;
+				randomY--;
+				if (m.getLab()[randomX][randomY] == ' ')
+					break;
+			}
+			espada.setX_coord(randomX);
+			espada.setY_coord(randomY);
+			m.setLabCell(espada.getX_coord(), espada.getY_coord(), 'E');
 
 			assertTrue("Invalid maze boundaries in maze:\n" + m, checkBoundaries(m));
 			assertTrue("Maze exit not reachable in maze:\n" + m, checkExitReachable(m));
@@ -231,58 +287,58 @@ public class Tests {
 			int size = 5 + (int)(Math.random()*(100));
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.random_start();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.random_hero_start();
 			for (int j = 0; j < 20; j++) {
 				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.heroi.get_x_coord();
-				int actual_y_pos = jogo.heroi.get_y_coord();
+				int actual_x_pos = jogo.getHeroi().getX_coord();
+				int actual_y_pos = jogo.getHeroi().getY_coord();
 				if (choice == 1) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()-1] == ' ') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == ' ') {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.heroi.get_y_coord()+1);
+						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord()+1);
 					}
 					else {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
 					}
-					assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+					assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
 				}
 				else if (choice == 2) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()+1] == ' ') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == ' ') {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.heroi.get_y_coord()-1);
+						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord()-1);
 					}
 					else {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
 					}
-					assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+					assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
 				}
 				else if (choice == 3) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()-1][jogo.heroi.get_y_coord()] == ' ') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == ' ') {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.heroi.get_x_coord()+1);
+						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord()+1);
 					}
 					else {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
 					}
-					assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+					assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
 				}
 				else {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()+1][jogo.heroi.get_y_coord()] == ' ') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == ' ') {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.heroi.get_x_coord()-1);
+						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord()-1);
 					}
 					else {
 						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.heroi.get_x_coord());
+						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
 					}
-					assertEquals(actual_y_pos, jogo.heroi.get_y_coord());
+					assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
 				}
 
 			}
@@ -297,50 +353,50 @@ public class Tests {
 			int size = 5 + (int)(Math.random()*15);
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.espada = new Espada();
-			jogo.espada.random_sword();
-			jogo.heroi.random_start();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.setEspada(new Espada());
+			jogo.random_sword();
+			jogo.random_hero_start();
 
-			assertTrue(!jogo.heroi.get_armado());
+			assertTrue(!jogo.getHeroi().get_armado());
 			for (int j = 0; j < 20; j++) {
 				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.heroi.get_x_coord();
-				int actual_y_pos = jogo.heroi.get_y_coord();
+				int actual_x_pos = jogo.getHeroi().getX_coord();
+				int actual_y_pos = jogo.getHeroi().getY_coord();
 				if (choice == 1) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()-1] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else if (choice == 2) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()+1] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else if (choice == 3) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()-1][jogo.heroi.get_y_coord()] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()+1][jogo.heroi.get_y_coord()] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
@@ -359,15 +415,15 @@ public class Tests {
 			int size = 21 + (int)(Math.random()*31);
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [10];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(2);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [10]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(2));
+				jogo.random_dragao(i);
 			}			
 			int choice = -1;
 			for (int j = 0; j < 20 && choice != 5; j++) {
@@ -390,16 +446,16 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.set_armado(true);
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [10];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(2);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.getHeroi().setArmado(true);
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [10]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(2));
+				jogo.random_dragao(i);
 			}
 						
 			int choice = -1;
@@ -424,16 +480,16 @@ public class Tests {
 			int size = 5 + (int)(Math.random()*11);
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.set_armado(true);
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [1];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(2);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.getHeroi().setArmado(true);
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [1]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(2));
+				jogo.random_dragao(i);
 			}
 						
 			int choice = -1;
@@ -461,16 +517,16 @@ public class Tests {
 			int size = 5 + (int)(Math.random()*11);
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.set_armado(true);
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [1];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(1);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.getHeroi().setArmado(true);
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [1]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(2));
+				jogo.random_dragao(i);
 			}
 						
 			int choice = -1;
@@ -500,16 +556,16 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.set_armado(false);
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [10];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(0);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.getHeroi().setArmado(false);
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [10]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(0));
+				jogo.random_dragao(i);
 			}
 						
 			int choice = -1;
@@ -519,19 +575,19 @@ public class Tests {
 				jogo.moveDragoes();
 				choice = jogo.interpreta_opcao(choice);
 				
-				int [] dragoes_status = new int[jogo.dragoes.length];
-				for (int a = 0; a < jogo.dragoes.length; a++)
-					dragoes_status[a] = jogo.dragoes[a].get_status();
+				int [] dragoes_status = new int[jogo.getDragoes().length];
+				for (int a = 0; a < jogo.getDragoes().length; a++)
+					dragoes_status[a] = jogo.getDragoes()[a].getStatus();
 				
 				choice = jogo.endOfTurn(choice);
 				
 				for (int a = 0; a < dragoes_status.length; a++) {
 					if (dragoes_status[a] == 0)
-						if (jogo.dragoes[a].get_status() == 1)
+						if (jogo.getDragoes()[a].getStatus() == 1)
 							asleepCounter++;
 						else {}
 					else if (dragoes_status[a] == 1)
-						if (jogo.dragoes[a].get_status() == 0)
+						if (jogo.getDragoes()[a].getStatus() == 0)
 							awakeningCounter++;
 				}
 
@@ -549,50 +605,49 @@ public class Tests {
 			int size = 5 + (int)(Math.random()*15);
 			if ((size % 2) == 0)
 				size++;
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.escudo = new Escudo();
-			jogo.escudo.random_start();
-			jogo.heroi.random_start();
-
-			assertTrue(!jogo.heroi.get_shielded());
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.setEscudo(new Escudo());
+			jogo.shield_random_start();
+			jogo.random_hero_start();
+			assertTrue(!jogo.getHeroi().get_shielded());
 			for (int j = 0; j < 200; j++) {
 				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.heroi.get_x_coord();
-				int actual_y_pos = jogo.heroi.get_y_coord();
+				int actual_x_pos = jogo.getHeroi().getX_coord();
+				int actual_y_pos = jogo.getHeroi().getY_coord();
 				if (choice == 1) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()-1] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else if (choice == 2) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()][jogo.heroi.get_y_coord()+1] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else if (choice == 3) {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()-1][jogo.heroi.get_y_coord()] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
 						jogo.interpreta_opcao(choice);
 				}
 				else {
-					if (jogo.labirinto.lab[jogo.heroi.get_x_coord()+1][jogo.heroi.get_y_coord()] == 'E') {
+					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.heroi.get_armado());
+						assertTrue(jogo.getHeroi().get_armado());
 						break;
 					}
 					else
@@ -600,7 +655,7 @@ public class Tests {
 				}
 
 			}
-			if (jogo.heroi.get_shielded())
+			if (jogo.getHeroi().get_shielded())
 				shieldCounter++;
 
 		}
@@ -616,16 +671,15 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 			
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.random_start();
-			jogo.dragoes = new Dragao [5];
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.random_hero_start();
+			jogo.setDragoes(new Dragao [5]);
 			
-			for (int a = 0; a < jogo.dragoes.length; a++)
-				jogo.dragoes[a] = new Dragao(1);
-			
+			for (int a = 0; a < jogo.getDragoes().length; a++)
+				jogo.setDragao(a, new Dragao(1));			
 			int choice = -1;
 			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
 				choice = 1 + (int)(Math.random()*4);
@@ -651,15 +705,15 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 			
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.random_start();
-			jogo.dardos = new Dardo [Lab.size / 4];
-			for (int i = 0; i < Lab.size / 4; i++) {
-				jogo.dardos[i] = new Dardo(1, 1);
-				jogo.dardos[i].random_dardo();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.random_hero_start();
+			jogo.setDardos(new Dardo [jogo.getLabirinto().getSize() / 4]);
+			for (int i = 0; i < jogo.getLabirinto().getSize() / 4; i++) {
+				jogo.setDard(i, new Dardo(1, 1));
+				jogo.random_dardo(i);
 			}
 			
 			int choice = -1;
@@ -670,8 +724,8 @@ public class Tests {
 				choice = jogo.interpreta_opcao(choice);
 				
 				if (choice == 5 || choice == 10 || j == 199) {
-					for (int b = 0; b < jogo.dardos.length; b++)
-						if (jogo.dardos[b].getCaught())
+					for (int b = 0; b < jogo.getDardos().length; b++)
+						if (jogo.getDardos()[b].isCaught())
 							dardCounter += 1;
 				}
 			}
@@ -688,17 +742,17 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 			
-			Jogo jogo = new Jogo(size);
-			jogo.inter = 1;
-			jogo.labirinto = new Random_generator(size);
-			jogo.heroi = new Heroi();
-			jogo.heroi.random_start();
-			jogo.heroi.setDards(1000);
-			jogo.heroi.set_armado(false);
-			jogo.dragoes = new Dragao [10];
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				jogo.dragoes[i] = new Dragao(0);
-				jogo.dragoes[i].random_dragao();
+			Jogo jogo = new Jogo();
+			jogo.setInter(1);
+			jogo.setLabirinto(new Random_generator(size));
+			jogo.setHeroi(new Heroi());
+			jogo.random_hero_start();
+			jogo.getHeroi().setDardos(1000);
+			jogo.getHeroi().setArmado(false);
+			jogo.setDragoes(new Dragao [10]);
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				jogo.setDragao(i, new Dragao(0));
+				jogo.random_dragao(i);
 			}
 			
 			int choice = -1;
@@ -711,8 +765,8 @@ public class Tests {
 				choice = jogo.endOfTurn(choice);
 			}
 			
-			for (int i = 0; i < jogo.dragoes.length; i++) {
-				if (!jogo.dragoes[i].get_alive())
+			for (int i = 0; i < jogo.getDragoes().length; i++) {
+				if (!jogo.getDragoes()[i].isAlive())
 					killCounter++;
 			}
 			

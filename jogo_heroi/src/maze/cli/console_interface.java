@@ -12,14 +12,15 @@ import maze.logic.Lab;
 import maze.logic.Jogo;
 import maze.logic.Random_generator;
 
+@SuppressWarnings("resource")
 public class console_interface {
-	public static Jogo jogo;
+	private static Jogo jogoC;
 	
-	public static void imprimir_lab() {
-		if (Jogo.inter == 0) {
-			for (int i = 0; i < Lab.size; i++) {
-				for (int j = 0; j < Lab.size; j++) {
-					System.out.print(Lab.lab[j][i]);
+	public static void imprimir_lab(Lab lab) {
+		if (Jogo.getInter() == 0) {
+			for (int i = 0; i < lab.getSize(); i++) {
+				for (int j = 0; j < lab.getSize(); j++) {
+					System.out.print(lab.getLab()[j][i]);
 					System.out.print(' ');
 				}
 				System.out.println();
@@ -50,10 +51,11 @@ public class console_interface {
 			choice = 104;
 		else if (choice_str.equals("j"))
 			choice = 103;
+		 
 		return choice;
 	}
 	public static void print_options() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println();
 			System.out.println("Play with the following controls:");
@@ -72,14 +74,14 @@ public class console_interface {
 		}
 	}
 	public static void way_out() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println();
 			System.out.println("Congratulations, you just found your way out!");
 		}
 	}
 	public static void dragon_still_alive() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println();
 			System.out.println("You cannot leave while dragon is alive!");
@@ -87,7 +89,7 @@ public class console_interface {
 		}
 	}
 	public static void wall() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println();
 			System.out.println("Sorry, you can't go through the wall.");
@@ -95,7 +97,7 @@ public class console_interface {
 		}
 	}
 	public static int choose_maze() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println("Do you want a random maze?");
 			System.out.println("Y/N");
@@ -111,37 +113,42 @@ public class console_interface {
 				int number = cin.nextInt();
 				if (number % 2 == 0)
 					number++;
+				 
 				return number;
 			}
-			else
+			else {
 				return -1;
+			}
 		}
+		
 		return 0;
 	}
 	public static void dragon_sleeping() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.printf("\n\nCannot go over sleeping dragon!\n\n");
 		}
 	}
 	public static int askHowManyDragons() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			int num = -1;
 
 			Scanner cin = null;
-
+			cin = new Scanner(System.in);
 			while (num > 10 || num < 0) {
 				System.out.printf("\n\nHow many Dragons do you wish to play with?\n\n");
-				cin = new Scanner(System.in);
+				
 				num = cin.nextInt();
+				
 			}
+			 
 			return num;
 		}
 		return 0;
 	}
 	public static int askTypeOfDragon() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			int num = -1;
 
@@ -155,13 +162,14 @@ public class console_interface {
 						+ "3 - non sleeper static\n\n");
 				cin = new Scanner(System.in);
 				num = cin.nextInt();
+				 
 			}
 			return num;
 		}
 		return 0;
 	}
 	public static void dragonKilled() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.println();
 			System.out.println("You just killed the dragon. You can now find your way out!");
@@ -169,7 +177,7 @@ public class console_interface {
 		}
 	}
 	public static void imprimir_heroi_status(Heroi heroi) {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 
 			if (heroi.get_shielded())
@@ -180,36 +188,36 @@ public class console_interface {
 		}
 	}
 	public static void no_dards() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 
 			System.out.printf("\n\nYou have no dards.\n\n");
 		}
 	}
 	public static void shotLeft() {
-		if (Jogo.inter == 0)
+		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot left.\n");
 	}
 	public static void shotRight() {
-		if (Jogo.inter == 0)
+		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot right.\n");
 	}
 	public static void shotUp() {
-		if (Jogo.inter == 0)
+		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot up.\n");
 	}
 	public static void shotDown() {
-		if (Jogo.inter == 0)
+		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot down.\n");
 	}
 	public static void killedByFire() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 			System.out.println();
 			System.out.println("You just died. Killed by fire. Game Over!");
 			System.out.println();
 		}
 	}
 	public static void youDied() {
-		if (Jogo.inter == 0) {
+		if (Jogo.getInter() == 0) {
 			System.out.println();
 			System.out.println("You just died. Game Over!");
 			System.out.println();
@@ -220,12 +228,12 @@ public class console_interface {
 		//----------pergunta-qual-o-labirinto.labirinto--------------
 		int choice = choose_maze();
 		if (choice == -1) {
-			jogo = new Jogo(10);
-			Default_maze maze = new Default_maze(10);
+			jogoC = new Jogo();
+			jogoC.setLabirinto(new Default_maze(10));
 		}
 		else {
-			jogo = new Jogo(choice);
-			Random_generator maze = new Random_generator(choice);
+			jogoC = new Jogo();
+			jogoC.setLabirinto(new Random_generator(choice));
 		}
 		jogar();
 	}
@@ -234,26 +242,26 @@ public class console_interface {
 		//--------------Inicio-do-jogo---------------------
 
 		int dragonNumber = askHowManyDragons();
-		Jogo.dragoes = new Dragao[dragonNumber];
+		jogoC.setDragoes(new Dragao[dragonNumber]);
 		int typeOfDragon = askTypeOfDragon();
 		for (int i = 0; i < dragonNumber; i++)
-			Jogo.dragoes[i] = new Dragao(typeOfDragon);
-		Jogo.heroi = new Heroi();
-		Jogo.espada = new Espada();
-		Jogo.escudo = new Escudo();
-		Jogo.dardos = new Dardo [Lab.size / 4];
+			jogoC.setDragao(i, new Dragao(typeOfDragon));
+		jogoC.setHeroi(new Heroi());
+		jogoC.setEspada(new Espada());
+		jogoC.setEscudo(new Escudo());
+		jogoC.setDardos(new Dardo [jogoC.getLabirinto().getSize() / 4]);
 
-		Jogo.espada.random_sword();
-		Jogo.heroi.random_start();
-		Jogo.escudo.random_start();
+		jogoC.random_sword();
+		jogoC.random_hero_start();
+		jogoC.shield_random_start();
 		
-		for (int i = 0; i < Lab.size / 4; i++) {
-			Jogo.dardos[i] = new Dardo(1, 1);
-			Jogo.dardos[i].random_dardo();
+		for (int i = 0; i < jogoC.getLabirinto().getSize() / 4; i++) {
+			jogoC.setDard(i, new Dardo(1, 1));
+			jogoC.random_dardo(i);
 		}
 		
 		for (int i = 0; i < dragonNumber; i++)
-			Jogo.dragoes[i].random_dragao();
+			jogoC.random_dragao(i);
 		
 		movimentar_heroi();
 	}
@@ -264,17 +272,23 @@ public class console_interface {
 		int choice = -1;
 
 		while ((choice != 5) && (choice != 0) && choice != 10) {
-			Jogo.displayDragoes();
-			imprimir_lab();
-			imprimir_heroi_status(Jogo.heroi);
+			jogoC.displayDragoes();
+			imprimir_lab(jogoC.getLabirinto());
+			imprimir_heroi_status(jogoC.getHeroi());
 			choice = get_movimento();
-			choice = Jogo.moveAndSpit_dragoes(choice);
+			choice = jogoC.moveAndSpit_dragoes(choice);
 			if (choice == 10)
 				return;
-			choice = Jogo.interpreta_opcao(choice);
-			Jogo.displayDardos();
-			choice = Jogo.endOfTurn(choice);
+			choice = jogoC.interpreta_opcao(choice);
+			jogoC.displayDardos();
+			choice = jogoC.endOfTurn(choice);
 		}
 	}
+	
+	public Jogo getJogo() {
+		return jogoC;
+	}
+	public void setJogo(Jogo jogo) {
+		console_interface.jogoC = jogo;
+	}
 }
-

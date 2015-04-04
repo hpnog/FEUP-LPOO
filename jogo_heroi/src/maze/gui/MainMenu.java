@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class MainMenu extends JFrame implements ComponentListener{
+	private static final long serialVersionUID = -9019263358824896833L;
 	private JPanel buttons;
 	private JPanel menuImage;
 	private JButton quit;
@@ -38,7 +39,6 @@ public class MainMenu extends JFrame implements ComponentListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Jogo jogo = new Jogo(Jogo.gamePreferences.mazeSize);
 					MainMenu frame = new MainMenu();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -70,9 +70,9 @@ public class MainMenu extends JFrame implements ComponentListener{
 		options = new JButton("Options");
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				MazeDisplay.jogo = null;
+				Jogo toLoad = null;
 				try {
-					SaveAndLoad.loadGame(MazeDisplay.jogo);
+					SaveAndLoad.loadGame(toLoad);
 				} catch (ClassNotFoundException e) {
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
@@ -81,8 +81,11 @@ public class MainMenu extends JFrame implements ComponentListener{
 					e.printStackTrace();
 				}
 				setVisible(false);
+				
+				
+				
 				try {
-					MazeDisplay frame = new MazeDisplay(true);
+					MazeDisplay frame = new MazeDisplay(toLoad);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

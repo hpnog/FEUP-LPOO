@@ -1,8 +1,6 @@
 package maze.gui;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -11,22 +9,18 @@ import java.awt.event.ComponentListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
+import maze.logic.Jogo.GamePreferences;
 
-import maze.logic.Jogo;
-
-import java.awt.Color;
 import java.awt.SystemColor;
-import java.awt.FlowLayout;
 
 public class OptionsPanel extends JDialog implements ComponentListener{
+	private static final long serialVersionUID = 6355967352362695786L;
 	private JPanel buttons;
 	private JButton back;
 	private JButton saveChanges;
@@ -100,18 +94,19 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 							keyExit.length() != 1)
 						JOptionPane.showMessageDialog(null, "One of the moves, shots or exit buttons was incorrectly written.");
 					else {
-						Jogo.gamePreferences.mazeSize = sizeOfMaze;
-						Jogo.gamePreferences.numberOfDragons = dragonNumber;
-						Jogo.gamePreferences.type = typeOfDragon;
-						Jogo.gamePreferences.up = up.toCharArray()[0];
-						Jogo.gamePreferences.down = down.toCharArray()[0];
-						Jogo.gamePreferences.left = left.toCharArray()[0];
-						Jogo.gamePreferences.right = right.toCharArray()[0];
-						Jogo.gamePreferences.sUp = upShoot.toCharArray()[0];
-						Jogo.gamePreferences.sDown = downShoot.toCharArray()[0];
-						Jogo.gamePreferences.sLeft = leftShoot.toCharArray()[0];
-						Jogo.gamePreferences.sRight = rightShoot.toCharArray()[0];
-						Jogo.gamePreferences.exitKey = keyExit.toCharArray()[0];
+						MazeDisplay.getJogoG().getPrefs();
+						GamePreferences.setMazeSize(sizeOfMaze);
+						GamePreferences.setNumberOfDragons(dragonNumber);
+						GamePreferences.setType(typeOfDragon);
+						GamePreferences.setUp(up.toCharArray()[0]);
+						GamePreferences.setDown(down.toCharArray()[0]);
+						GamePreferences.setLeft(left.toCharArray()[0]);
+						GamePreferences.setRight(right.toCharArray()[0]);
+						GamePreferences.setsUp(upShoot.toCharArray()[0]);
+						GamePreferences.setsDown(downShoot.toCharArray()[0]);
+						GamePreferences.setsLeft(leftShoot.toCharArray()[0]);
+						GamePreferences.setsRight(rightShoot.toCharArray()[0]);
+						GamePreferences.setExitKey(keyExit.toCharArray()[0]);
 						
 						//Go back
 						setVisible(false);

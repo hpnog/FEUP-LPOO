@@ -2,15 +2,14 @@ package maze.gui;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import maze.logic.Jogo;
-import maze.logic.Lab;
-
 public class MazeGrid extends JPanel {
+	private static final long serialVersionUID = -6007221560664604069L;
 	private ImageIcon dragon;
 	private ImageIcon sleepingDragon;
 	private ImageIcon hero;
@@ -22,6 +21,7 @@ public class MazeGrid extends JPanel {
 	private ImageIcon closedExit;
 	private ImageIcon dard;
 	private ImageIcon shield;
+	@SuppressWarnings("unused")
 	private ImageIcon fire;
 	private ImageIcon sword;
 	
@@ -31,7 +31,7 @@ public class MazeGrid extends JPanel {
 		
 		//Varible for Panes size
 		int paneSize = 1;
-		if (Lab.size > 0) paneSize = Lab.size;
+		if (MazeDisplay.getJogoG().getLabirinto().getSize() > 0) paneSize = MazeDisplay.getJogoG().getLabirinto().getSize();
 		//Divide a frame numa grelha com o tamanho correto (layout)
 		this.setLayout(new GridLayout(paneSize, paneSize));
 		loadImages();
@@ -39,7 +39,9 @@ public class MazeGrid extends JPanel {
 	
 	private ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
-		Image newimg = img.getScaledInstance(this.getWidth()/Lab.size, this.getHeight()/Lab.size,  java.awt.Image.SCALE_FAST);
+		Image newimg = img.getScaledInstance(this.getWidth()/MazeDisplay.getJogoG().getLabirinto().getSize(),
+				this.getHeight()/MazeDisplay.getJogoG().getLabirinto().getSize(),
+				java.awt.Image.SCALE_FAST);
 		return new ImageIcon(newimg);
 	}
 	
@@ -71,37 +73,37 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledClosedExit = scaleImage(closedExit);
 		ImageIcon scaledDard = scaleImage(dard);
 		ImageIcon scaledShield = scaleImage(shield);
-		ImageIcon scaledFire = scaleImage(fire);
+		//ImageIcon scaledFire = scaleImage(fire);---------------------------------AINDA PARA USAR
 		ImageIcon scaledSword = scaleImage(sword);
-		for (int i = 0; i < Lab.size; i++) {
-			for (int j = 0; j < Lab.size; j++) {
-				if (Lab.lab[j][i] == 'X')
+		for (int i = 0; i < MazeDisplay.getJogoG().getLabirinto().getSize(); i++) {
+			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) {
+				if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')
 					this.add(new JLabel(scaledWall));
-				else if (Lab.lab[j][i] == ' ')
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == ' ')
 					this.add(new JLabel(" "));
-				else if (Lab.lab[j][i] == 'A' && !Jogo.heroi.get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && !MazeDisplay.getJogoG().getHeroi().get_shielded())
 					this.add(new JLabel(scaledArmedHero));
-				else if (Lab.lab[j][i] == 'A' && Jogo.heroi.get_shielded()) 
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && MazeDisplay.getJogoG().getHeroi().get_shielded()) 
 					this.add(new JLabel(scaledArmedAndShieldedHero));
-				else if (Lab.lab[j][i] == 'H' && !Jogo.heroi.get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && !MazeDisplay.getJogoG().getHeroi().get_shielded())
 					this.add(new JLabel(scaledHero));
-				else if (Lab.lab[j][i] == 'H' && Jogo.heroi.get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && MazeDisplay.getJogoG().getHeroi().get_shielded())
 					this.add(new JLabel(scaledShieldedHero));
-				else if (Lab.lab[j][i] == 'D')
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'D')
 					this.add(new JLabel(scaledDragon));
-				else if (Lab.lab[j][i] == 'd') 
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'd') 
 					this.add(new JLabel(scaledSleepingDragon));
-				else if (Lab.lab[j][i] == '\\')
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == '\\')
 					this.add(new JLabel(scaledDard));
-				else if (Lab.lab[j][i] == 'E')
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'E')
 					this.add(new JLabel(scaledSword));
-				else if (Lab.lab[j][i] == 'S') {
-					if (Jogo.checkIfDragonsAreAlive())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'S') {
+					if (MazeDisplay.getJogoG().checkIfDragonsAreAlive())
 						this.add(new JLabel(scaledClosedExit));
 					else
 						this.add(new JLabel(scaledOpenedExit));
 				}
-				else if (Lab.lab[j][i] == 'O')
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'O')
 					this.add(new JLabel(scaledShield));
 				//--------------------------------FALTA-O-FOGO----------------------------------
 			}

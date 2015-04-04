@@ -1,7 +1,5 @@
 package maze.gui;
 
-import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
@@ -10,13 +8,12 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import maze.logic.Dardo;
-import maze.logic.Default_maze;
 import maze.logic.Dragao;
 import maze.logic.Escudo;
 import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
-import maze.logic.Lab;
+import maze.logic.Jogo.GamePreferences;
 import maze.logic.Random_generator;
 import maze.logic.SaveAndLoad;
 
@@ -26,87 +23,106 @@ import java.awt.BorderLayout;
 
 import javax.swing.JButton;
 
-import java.awt.FlowLayout;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.sql.Struct;
 
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
-	public static Jogo jogo;
+	private static final long serialVersionUID = -191089706890276055L;
+	private static Jogo jogoG;
 	private JPanel game;
 	private MazeGrid mazeGrid;
 	private JPanel buttons;
 	private JButton quit;
 	private JButton newGame;
 	private JButton saveGame;
+	private JButton loadGame;
 
 	/**
 	 * Inicia o jogo
 	 */
 	public void createGame() {
 
-		Jogo.labirinto = new Random_generator(Jogo.gamePreferences.mazeSize);
-		Jogo.dragoes = new Dragao[Jogo.gamePreferences.numberOfDragons];
-		Jogo.dardos = new Dardo [Lab.size / 4];
-		Jogo.inter = 3;
-		Jogo.heroi = new Heroi();
-		Jogo.espada = new Espada();
-		Jogo.escudo = new Escudo();
+		jogoG = new Jogo();
+		jogoG.getPrefs();
+		jogoG.setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
+		jogoG.setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
+		jogoG.setDardos(new Dardo [jogoG.getLabirinto().getSize() / 4]);
+		jogoG.setInter(3);
+		jogoG.setHeroi(new Heroi());
+		jogoG.setEspada(new Espada());
+		jogoG.setEscudo(new Escudo());
 
-		for (int i = 0; i < Jogo.dragoes.length; i++)
-			Jogo.dragoes[i] = new Dragao(Jogo.gamePreferences.type);
+		for (int i = 0; i < jogoG.getDragoes().length; i++)
+			jogoG.setDragao(i, new Dragao(GamePreferences.getType()));
 
-		Jogo.heroi.random_start();
-		Jogo.espada.random_sword();
-		Jogo.escudo.random_start();
+		jogoG.random_hero_start();
+		jogoG.random_sword();
+		jogoG.shield_random_start();
 
-		for (int i = 0; i < Lab.size / 4; i++) {
-			Jogo.dardos[i] = new Dardo(1, 1);
-			Jogo.dardos[i].random_dardo();
+		for (int i = 0; i < jogoG.getLabirinto().getSize() / 4; i++) {
+			jogoG.setDard(i, new Dardo(1, 1));
+			jogoG.random_dardo(i);
 		}
 
-		for (int i = 0; i < Jogo.dragoes.length; i++)
-			Jogo.dragoes[i].random_dragao();
-
-
+		for (int i = 0; i < jogoG.getDragoes().length; i++)
+			jogoG.random_dragao(i);
 	}
 
 	/**
 	 * Create the frame.
+	 * @param toLoad 
 	 */
 	public MazeDisplay(boolean load) {
 		setTitle("Defeat the dragons!");
 		addComponentListener(this);
 		addKeyListener(this);
 		setFocusable(true);
-		if (!load)
-		{
-			createGame();
-		}
+		createGame();
 		game = new JPanel();
 		mazeGrid = new MazeGrid();
 		buttons = new JPanel();
 		newGame = new JButton("New Game");
+		loadGame = new JButton("Load game");
 		saveGame = new JButton("Save game");
 		quit = new JButton("Quit to Main Menu");
 		saveGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
 				try {
-					SaveAndLoad.saveGame(MazeDisplay.jogo);
+					SaveAndLoad.saveGame(jogoG);
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
 				}
 				JOptionPane.showMessageDialog(null, "Game saved");
 				requestFocus();
+
+			}
+		});
+		
+		
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				jogoG = null;
+				try {
+					SaveAndLoad.loadGame(jogoG);
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				}
+				setVisible(false);
+				try {
+					MazeDisplay frame = new MazeDisplay(true);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Game loaded");
 
 			}
 		});
@@ -139,6 +155,99 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		});
 		buttons.add(newGame);
 		buttons.add(saveGame);
+		buttons.add(loadGame);
+		buttons.add(quit);
+		game.setLayout(new BorderLayout(0, 0));
+		game.add(mazeGrid);
+		this.getContentPane().add(buttons, BorderLayout.SOUTH);
+		this.getContentPane().add(game, BorderLayout.CENTER);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 800, 900);
+		mazeGrid.setSize(getWidth(), getHeight());
+		mazeGrid.game();
+	}
+	public MazeDisplay(Jogo toLoad) {
+		setTitle("Defeat the dragons!");
+		addComponentListener(this);
+		addKeyListener(this);
+		setFocusable(true);
+		jogoG = toLoad;
+		game = new JPanel();
+
+		mazeGrid = new MazeGrid();
+		buttons = new JPanel();
+		newGame = new JButton("New Game");
+		loadGame = new JButton("Load game");
+		saveGame = new JButton("Save game");
+		quit = new JButton("Quit to Main Menu");
+		saveGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				try {
+					SaveAndLoad.saveGame(jogoG);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Game saved");
+				requestFocus();
+
+			}
+		});
+		
+		
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				jogoG = null;
+				try {
+					SaveAndLoad.loadGame(jogoG);
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				}
+				setVisible(false);
+				try {
+					MazeDisplay frame = new MazeDisplay(true);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Game loaded");
+
+			}
+		});
+		newGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to start a New Game?");
+				if (answer == JOptionPane.YES_OPTION) {
+					createGame();
+					mazeGrid.game();
+					requestFocus();
+				}
+				else
+					requestFocus();
+			}
+		});
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish\nto quit to MainMenu?");
+				if (answer == JOptionPane.YES_OPTION) {
+					setVisible(false);
+					try {
+						MainMenu frame = new MainMenu();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				else {}
+			}
+		});
+		buttons.add(newGame);
+		buttons.add(saveGame);
+		buttons.add(loadGame);
 		buttons.add(quit);
 		game.setLayout(new BorderLayout(0, 0));
 		game.add(mazeGrid);
@@ -152,12 +261,13 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	
 	@Override
 	public void keyPressed(KeyEvent arg) {
-		if (arg.getKeyChar() == Jogo.gamePreferences.exitKey)
+		jogoG.getPrefs();
+		if (arg.getKeyChar() == GamePreferences.getExitKey())
 			returnFunc();
 
 		int choice = -1;
 
-		choice = Jogo.moveAndSpit_dragoes(choice);
+		choice = jogoG.moveAndSpit_dragoes(choice);
 		if (choice == 10 || choice == 5)
 			returnFunc();
 
@@ -166,9 +276,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			returnFunc();
 
 		if (choice != -1)
-			choice = Jogo.interpreta_opcao(choice);
+			choice = jogoG.interpreta_opcao(choice);
 
-		choice = Jogo.endOfTurn(choice);
+		choice = jogoG.endOfTurn(choice);
 		if (choice == 10 || choice == 5)
 			returnFunc();
 
@@ -197,21 +307,22 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	public int interpretaOpcao(KeyEvent arg) {
-		if (arg.getKeyChar() == Jogo.gamePreferences.up)
+		jogoG.getPrefs();
+		if (arg.getKeyChar() == GamePreferences.getUp())
 			return 1;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.left)
+		else if (arg.getKeyChar() == GamePreferences.getLeft())
 			return 3;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.right)
+		else if (arg.getKeyChar() == GamePreferences.getRight())
 			return 4;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.down)
+		else if (arg.getKeyChar() == GamePreferences.getDown())
 			return 2;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.sUp)
+		else if (arg.getKeyChar() == GamePreferences.getsUp())
 			return 101;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.sDown)
+		else if (arg.getKeyChar() == GamePreferences.getsDown())
 			return 102;
-		else if (arg.getKeyChar() == Jogo.gamePreferences.sLeft)
+		else if (arg.getKeyChar() == GamePreferences.getsLeft())
 			return 104;
-		else if (arg.getKeyCode() == Jogo.gamePreferences.sRight)
+		else if (arg.getKeyCode() == GamePreferences.getsRight())
 			return 103;
 		return -1;
 	}
@@ -267,6 +378,18 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 	public static void youDied() {
 		JOptionPane.showMessageDialog(null, "You just died!");
+	}
+
+	public static void setJogo(Jogo readObject) {
+		jogoG = readObject;
+	}
+
+	public static Jogo getJogoG() {
+		return jogoG;
+	}
+
+	public static void setJogoG(Jogo jogoG) {
+		MazeDisplay.jogoG = jogoG;
 	}
 
 }

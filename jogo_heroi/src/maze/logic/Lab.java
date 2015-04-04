@@ -3,8 +3,9 @@ package maze.logic;
 import java.io.Serializable;
 
 public class Lab implements Serializable {
-	public static char [][] lab ;
-	public static int size;
+	private static final long serialVersionUID = 1139625071182668982L;
+	protected char [][] lab ;
+	protected int size;
 	
 	Lab(int s) {
 		size = s;
@@ -23,18 +24,12 @@ public class Lab implements Serializable {
 	}
 	//-----------------------------------
 	
-	public int getSize() {
-		return size;
-	}
-	
 	public char getChar(int x, int y) {
 		return lab[x][y];
 	}
-
 	public char[][] getMatrix() {
 		return lab;
 	}
-
 	public Object getExitPosition() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -44,7 +39,6 @@ public class Lab implements Serializable {
 		}
 		return null;
 	}
-
 	public Object getHeroPosition() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -54,7 +48,6 @@ public class Lab implements Serializable {
 		}
 		return null;
 	}
-
 	public Object getSwordPosition() {
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -63,5 +56,21 @@ public class Lab implements Serializable {
 			}
 		}
 		return null;
+	}
+
+	public char[][] getLab() {
+		return lab;
+	}
+	public void setLab(char[][] lab) {
+		this.lab = lab;
+	}
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public void setLabCell(int x_coord, int y_coord, char c) {
+		lab[x_coord][y_coord] = c;		
 	}
 }
