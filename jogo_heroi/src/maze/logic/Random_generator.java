@@ -1,8 +1,9 @@
 package maze.logic;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class Random_generator extends Lab {
+public class Random_generator extends Lab implements Serializable {
 
 	private char [][] celulasVisitadas;
 	private int randomXcoord;

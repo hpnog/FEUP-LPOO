@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Lab {
+import java.io.Serializable;
+
+public class Lab implements Serializable {
 	public static char [][] lab ;
 	public static int size;
 	

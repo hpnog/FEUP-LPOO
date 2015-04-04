@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Default_maze extends Lab {
+import java.io.Serializable;
+
+public class Default_maze extends Lab implements Serializable {
 
 	public Default_maze(int s) {
 		super(s);

@@ -16,10 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import maze.logic.Jogo;
-import maze.logic.Lab;
+import maze.logic.SaveAndLoad;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class MainMenu extends JFrame implements ComponentListener{
 	private JPanel buttons;
@@ -27,6 +28,7 @@ public class MainMenu extends JFrame implements ComponentListener{
 	private JButton quit;
 	private JButton newGame;
 	private JButton options;
+	private JButton loadGame;
 	private ImageIcon background;
 
 	/**
@@ -63,8 +65,32 @@ public class MainMenu extends JFrame implements ComponentListener{
 		
 		buttons = new JPanel();
 		newGame = new JButton("New Game");
+		loadGame = new JButton("Load game");
 		quit = new JButton("Quit");
 		options = new JButton("Options");
+		loadGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				MazeDisplay.jogo = null;
+				try {
+					SaveAndLoad.loadGame(MazeDisplay.jogo);
+				} catch (ClassNotFoundException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				}
+				setVisible(false);
+				try {
+					MazeDisplay frame = new MazeDisplay(true);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Game loaded");
+
+			}
+		});
 		options.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
@@ -81,7 +107,7 @@ public class MainMenu extends JFrame implements ComponentListener{
 			public void actionPerformed(ActionEvent arg) {
 				setVisible(false);
 				try {
-					MazeDisplay frame = new MazeDisplay();
+					MazeDisplay frame = new MazeDisplay(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -100,6 +126,7 @@ public class MainMenu extends JFrame implements ComponentListener{
 			}
 		});
 		buttons.add(newGame);
+		buttons.add(loadGame);
 		buttons.add(options);
 		buttons.add(quit);
 		this.getContentPane().add(menuImage, BorderLayout.CENTER);

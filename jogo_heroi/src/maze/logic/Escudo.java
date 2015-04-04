@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Escudo extends Object {
+import java.io.Serializable;
+
+public class Escudo extends Object implements Serializable {
 	boolean caught;
 	
 	public Escudo() {

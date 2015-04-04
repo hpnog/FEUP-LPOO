@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Dardo extends Object{
+import java.io.Serializable;
+
+public class Dardo extends Object implements Serializable{
 	boolean caught = false;
 
 	public Dardo(int x, int y) {

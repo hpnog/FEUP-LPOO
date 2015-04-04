@@ -1,8 +1,10 @@
 package maze.logic;
 
+import java.io.Serializable;
+
 import maze.logic.Lab;
 
-public class Heroi extends Object {
+public class Heroi extends Object implements Serializable {
 	private boolean armado;
 	private int dardos = 0;
 	private boolean shielded = false;

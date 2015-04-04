@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Object {
+import java.io.Serializable;
+
+public class Object implements Serializable {
 	protected int x_coord;
 	protected int y_coord;
 

@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Espada extends Object {
+import java.io.Serializable;
+
+public class Espada extends Object implements Serializable {
 	
 	public Espada() {
 		super(1, 1);

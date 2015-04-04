@@ -18,6 +18,7 @@ import maze.logic.Heroi;
 import maze.logic.Jogo;
 import maze.logic.Lab;
 import maze.logic.Random_generator;
+import maze.logic.SaveAndLoad;
 
 import javax.swing.JPanel;
 
@@ -35,22 +36,23 @@ import javax.swing.JOptionPane;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.Struct;
 
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
-	private Jogo jogo;
+	public static Jogo jogo;
 	private JPanel game;
 	private MazeGrid mazeGrid;
 	private JPanel buttons;
 	private JButton quit;
 	private JButton newGame;
-	
-	
+	private JButton saveGame;
+
 	/**
 	 * Inicia o jogo
 	 */
 	public void createGame() {
-	
+
 		Jogo.labirinto = new Random_generator(Jogo.gamePreferences.mazeSize);
 		Jogo.dragoes = new Dragao[Jogo.gamePreferences.numberOfDragons];
 		Jogo.dardos = new Dardo [Lab.size / 4];
@@ -70,7 +72,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			Jogo.dardos[i] = new Dardo(1, 1);
 			Jogo.dardos[i].random_dardo();
 		}
-		
+
 		for (int i = 0; i < Jogo.dragoes.length; i++)
 			Jogo.dragoes[i].random_dragao();
 
@@ -80,17 +82,34 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	/**
 	 * Create the frame.
 	 */
-	public MazeDisplay() {
+	public MazeDisplay(boolean load) {
 		setTitle("Defeat the dragons!");
 		addComponentListener(this);
 		addKeyListener(this);
 		setFocusable(true);
-		createGame();
+		if (!load)
+		{
+			createGame();
+		}
 		game = new JPanel();
 		mazeGrid = new MazeGrid();
 		buttons = new JPanel();
 		newGame = new JButton("New Game");
+		saveGame = new JButton("Save game");
 		quit = new JButton("Quit to Main Menu");
+		saveGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				try {
+					SaveAndLoad.saveGame(MazeDisplay.jogo);
+				} catch (IOException e) {
+					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
+					e.printStackTrace();
+				}
+				JOptionPane.showMessageDialog(null, "Game saved");
+				requestFocus();
+
+			}
+		});
 		newGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
 				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to start a New Game?");
@@ -119,6 +138,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			}
 		});
 		buttons.add(newGame);
+		buttons.add(saveGame);
 		buttons.add(quit);
 		game.setLayout(new BorderLayout(0, 0));
 		game.add(mazeGrid);
@@ -129,25 +149,25 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent arg) {
 		if (arg.getKeyChar() == Jogo.gamePreferences.exitKey)
 			returnFunc();
 
 		int choice = -1;
-		
+
 		choice = Jogo.moveAndSpit_dragoes(choice);
 		if (choice == 10 || choice == 5)
 			returnFunc();
-		
+
 		choice = interpretaOpcao(arg);
 		if (choice == 10 || choice == 5)
 			returnFunc();
-		
+
 		if (choice != -1)
 			choice = Jogo.interpreta_opcao(choice);
-		
+
 		choice = Jogo.endOfTurn(choice);
 		if (choice == 10 || choice == 5)
 			returnFunc();
@@ -155,7 +175,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
-	
+
 	public void returnFunc() {
 		setVisible(false);
 		try {
@@ -165,7 +185,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		return;
@@ -175,7 +195,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	public void keyTyped(KeyEvent arg) {
 		return;
 	}
-	
+
 	public int interpretaOpcao(KeyEvent arg) {
 		if (arg.getKeyChar() == Jogo.gamePreferences.up)
 			return 1;
@@ -195,17 +215,17 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			return 103;
 		return -1;
 	}
-	
+
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -235,7 +255,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 	public static void dragon_sleeping() {
 		JOptionPane.showMessageDialog(null, "This dragon is asleep");
-		}
+	}
 	public static void wall() {
 		JOptionPane.showMessageDialog(null, "You cannot go through a wall");
 	}

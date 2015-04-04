@@ -1,10 +1,12 @@
 package maze.logic;
 
+import java.io.Serializable;
+
 import maze.cli.console_interface;
 import maze.gui.MazeDisplay;
 import maze.logic.Jogo;
 
-public class Dragao extends Object {
+public class Dragao extends Object implements Serializable {
 
 	private boolean alive;
 	private int status;

@@ -1,9 +1,11 @@
 package maze.logic;
+import java.io.Serializable;
+
 import maze.cli.console_interface;
 import maze.gui.MazeDisplay;
 
 
-public class Jogo {
+public class Jogo implements Serializable{
 	public static Dragao [] dragoes;
 	public static Heroi heroi;
 	public static Lab labirinto;
