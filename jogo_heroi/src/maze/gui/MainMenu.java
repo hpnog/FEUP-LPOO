@@ -72,7 +72,7 @@ public class MainMenu extends JFrame implements ComponentListener{
 			public void actionPerformed(ActionEvent arg) {
 				Jogo toLoad = null;
 				try {
-					SaveAndLoad.loadGame(toLoad);
+					MazeDisplay.setJogo(SaveAndLoad.loadGame(toLoad));
 				} catch (ClassNotFoundException e) {
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
@@ -85,7 +85,7 @@ public class MainMenu extends JFrame implements ComponentListener{
 				
 				
 				try {
-					MazeDisplay frame = new MazeDisplay(toLoad);
+					MazeDisplay frame = new MazeDisplay(true);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

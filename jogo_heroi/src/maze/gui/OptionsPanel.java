@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+
+import maze.logic.Jogo;
 import maze.logic.Jogo.GamePreferences;
 
 import java.awt.SystemColor;
@@ -94,6 +96,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 							keyExit.length() != 1)
 						JOptionPane.showMessageDialog(null, "One of the moves, shots or exit buttons was incorrectly written.");
 					else {
+						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
 						GamePreferences.setMazeSize(sizeOfMaze);
 						GamePreferences.setNumberOfDragons(dragonNumber);

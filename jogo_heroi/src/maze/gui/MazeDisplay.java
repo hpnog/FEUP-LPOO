@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
-
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
@@ -80,7 +79,8 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		addComponentListener(this);
 		addKeyListener(this);
 		setFocusable(true);
-		createGame();
+		if (!load)
+			createGame();
 		game = new JPanel();
 		mazeGrid = new MazeGrid();
 		buttons = new JPanel();
@@ -101,8 +101,8 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 			}
 		});
-		
-		
+
+
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
 				jogoG = null;
@@ -166,99 +166,8 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
 	}
-	public MazeDisplay(Jogo toLoad) {
-		setTitle("Defeat the dragons!");
-		addComponentListener(this);
-		addKeyListener(this);
-		setFocusable(true);
-		jogoG = toLoad;
-		game = new JPanel();
 
-		mazeGrid = new MazeGrid();
-		buttons = new JPanel();
-		newGame = new JButton("New Game");
-		loadGame = new JButton("Load game");
-		saveGame = new JButton("Save game");
-		quit = new JButton("Quit to Main Menu");
-		saveGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg) {
-				try {
-					SaveAndLoad.saveGame(jogoG);
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
-					e.printStackTrace();
-				}
-				JOptionPane.showMessageDialog(null, "Game saved");
-				requestFocus();
 
-			}
-		});
-		
-		
-		loadGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg) {
-				jogoG = null;
-				try {
-					SaveAndLoad.loadGame(jogoG);
-				} catch (ClassNotFoundException e) {
-					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
-					e.printStackTrace();
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
-					e.printStackTrace();
-				}
-				setVisible(false);
-				try {
-					MazeDisplay frame = new MazeDisplay(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				JOptionPane.showMessageDialog(null, "Game loaded");
-
-			}
-		});
-		newGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg) {
-				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to start a New Game?");
-				if (answer == JOptionPane.YES_OPTION) {
-					createGame();
-					mazeGrid.game();
-					requestFocus();
-				}
-				else
-					requestFocus();
-			}
-		});
-		quit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish\nto quit to MainMenu?");
-				if (answer == JOptionPane.YES_OPTION) {
-					setVisible(false);
-					try {
-						MainMenu frame = new MainMenu();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				else {}
-			}
-		});
-		buttons.add(newGame);
-		buttons.add(saveGame);
-		buttons.add(loadGame);
-		buttons.add(quit);
-		game.setLayout(new BorderLayout(0, 0));
-		game.add(mazeGrid);
-		this.getContentPane().add(buttons, BorderLayout.SOUTH);
-		this.getContentPane().add(game, BorderLayout.CENTER);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 900);
-		mazeGrid.setSize(getWidth(), getHeight());
-		mazeGrid.game();
-	}
-	
 	@Override
 	public void keyPressed(KeyEvent arg) {
 		jogoG.getPrefs();
