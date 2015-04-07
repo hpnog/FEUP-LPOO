@@ -530,7 +530,7 @@ public class Jogo implements Serializable {
 		}
 		return 0;
 	}
-	private void change_dragon_pos(int i) {
+	public void change_dragon_pos(int i) {
 		if (dragoes[i].isAlive()) {
 			if (labirinto.getLab()[dragoes[i].getX_coord()][dragoes[i].getY_coord()] == 'E') {
 				labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), 'F');

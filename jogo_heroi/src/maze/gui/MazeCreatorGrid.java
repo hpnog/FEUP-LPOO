@@ -11,6 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import maze.logic.Dardo;
+import maze.logic.Dragao;
+import maze.logic.Escudo;
+import maze.logic.Espada;
 import maze.logic.Heroi;
 import maze.logic.Jogo;
 import maze.logic.Lab;
@@ -35,11 +39,13 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		private boolean exitPlaced;
 		private boolean mazeDone;
 		private boolean heroPlaced;
+		private int numberOfDragonsPlaced;
 		
 		CreatorPhase() {
 			exitPlaced = false;
 			mazeDone = false;
 			heroPlaced = false;
+			numberOfDragonsPlaced = 0;
 		}
 				
 		public boolean isExitPlaced() { 
@@ -61,6 +67,12 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		public void setHeroPlaced (boolean a) {
 			heroPlaced = a;
 		}
+		public void setNumberOfDragonsPlaced(int a) {
+			numberOfDragonsPlaced = a;
+		}
+		public int getNumberOfDragonsPlaced() {
+			return numberOfDragonsPlaced;
+		}
 	}
 
 	MazeCreatorGrid(int width, int height) {
@@ -75,6 +87,12 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		MazeDisplay.setJogoG(new Jogo());
 		MazeDisplay.getJogoG().getPrefs();
 		MazeDisplay.getJogoG().setLabirinto(new Lab(GamePreferences.getMazeSize()));
+		MazeDisplay.getJogoG().setHeroi(new Heroi());
+		MazeDisplay.getJogoG().setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
+		MazeDisplay.getJogoG().setDardos(new Dardo[GamePreferences.getMazeSize()/4]);
+		MazeDisplay.getJogoG().setEscudo(new Escudo());
+		MazeDisplay.getJogoG().setEspada(new Espada());
+		MazeDisplay.getJogoG().setInter(3);
 		if (getLab().getSize() > 0) paneSize = getLab().getSize();
 		//Divide a frame numa grelha com o tamanho correto (layout)
 		this.setLayout(new GridLayout(paneSize, paneSize));
@@ -169,22 +187,40 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		MazeDisplay.getJogoG().getPrefs();
 		if (!getPhase().isExitPlaced())
 			putExit(arg0);
 		else if (!getPhase().isMazeDone())
 			makeMaze(arg0);
 		else if (!getPhase().isHeroPlaced())
 			placeHero(arg0);
+		else if (getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
+			placeDragon(arg0, getPhase().getNumberOfDragonsPlaced());
 		game();
 	}
 
+	private void placeDragon(MouseEvent arg0, int ind) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		
+		if (getLab().getChar(xCoord, yCoord) != ' ')
+			JOptionPane.showMessageDialog(null, "You can only place any dragon in an empty space");
+		else {
+			MazeDisplay.getJogoG().getPrefs();
+			MazeDisplay.getJogoG().setDragao(ind, new Dragao(GamePreferences.getType()));
+			MazeDisplay.getJogoG().getDragoes()[ind].setX_coord(xCoord);
+			MazeDisplay.getJogoG().getDragoes()[ind].setY_coord(yCoord);
+			MazeDisplay.getJogoG().change_dragon_pos(ind);
+			phase.setNumberOfDragonsPlaced(phase.getNumberOfDragonsPlaced()+1);
+		}
+	}
+	
 	private void placeHero(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		if (getLab().getChar(xCoord, yCoord) != ' ')
 			JOptionPane.showMessageDialog(null, "You can only place the hero in an empty space");
 		else {
-			MazeDisplay.getJogoG().setHeroi(new Heroi());
 			MazeDisplay.getJogoG().getHeroi().setX_coord(xCoord);
 			MazeDisplay.getJogoG().getHeroi().setY_coord(yCoord);
 			MazeDisplay.getJogoG().change_hero_pos();
