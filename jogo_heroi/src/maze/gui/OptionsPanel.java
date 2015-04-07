@@ -26,6 +26,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 	private JPanel buttons;
 	private JButton back;
 	private JButton saveChanges;
+	private JButton createMaze;
 	private JPanel optionsPanel;
 	
 	private JSpinner mazeSize;
@@ -133,6 +134,74 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 					return 3;
 			}
 		});
+		createMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int dragonNumber = numberOfDragons.getValue();
+				int sizeOfMaze = (int) mazeSize.getValue();
+				int typeOfDragon = dragonTypeInterpretation((String) dragonType.getSelectedItem());
+				String up = moveUp.getText();
+				String down = moveDown.getText();
+				String left = moveLeft.getText();
+				String right = moveRight.getText();
+				String upShoot = shootUp.getText();
+				String downShoot = shootDown.getText();
+				String leftShoot = shootLeft.getText();
+				String rightShoot = shootRight.getText();
+				String keyExit = exitKey.getText();
+				//Verificar se o tamanho do labirinto é Ímpar
+				if ((sizeOfMaze % 2) == 0)
+					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
+				else {
+					//Verifica tamanho das teclas
+					if (up.length() != 1 || 
+							down.length() != 1 ||
+							left.length() != 1 ||
+							right.length() != 1 ||
+							upShoot.length() != 1 ||
+							downShoot.length() != 1 ||
+							leftShoot.length() != 1 ||
+							rightShoot.length() != 1 ||
+							keyExit.length() != 1)
+						JOptionPane.showMessageDialog(null, "One of the moves, shots or exit buttons was incorrectly written.");
+					else {
+						MazeDisplay.setJogo(new Jogo());
+						MazeDisplay.getJogoG().getPrefs();
+						GamePreferences.setMazeSize(sizeOfMaze);
+						GamePreferences.setNumberOfDragons(dragonNumber);
+						GamePreferences.setType(typeOfDragon);
+						GamePreferences.setUp(up.toCharArray()[0]);
+						GamePreferences.setDown(down.toCharArray()[0]);
+						GamePreferences.setLeft(left.toCharArray()[0]);
+						GamePreferences.setRight(right.toCharArray()[0]);
+						GamePreferences.setsUp(upShoot.toCharArray()[0]);
+						GamePreferences.setsDown(downShoot.toCharArray()[0]);
+						GamePreferences.setsLeft(leftShoot.toCharArray()[0]);
+						GamePreferences.setsRight(rightShoot.toCharArray()[0]);
+						GamePreferences.setExitKey(keyExit.toCharArray()[0]);
+						
+						//Go back
+						setVisible(false);
+						try {
+							MazeCreator frame = new MazeCreator();
+							frame.setVisible(true);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						requestFocus();
+					}
+				}
+				
+			}
+
+			private int dragonTypeInterpretation(String a) {
+				if (a == "Sleeps and Moves")
+					return 0;
+				else if (a == "Moves but does not sleep")
+					return 2;
+				else
+					return 3;
+			}
+		});
 		
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(optionsPanel, BorderLayout.CENTER);
@@ -146,6 +215,9 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 
 		saveChanges = new JButton("Save Changes");
 		buttons.add(saveChanges);
+		
+		createMaze = new JButton("Create your own Maze");
+		buttons.add(createMaze);
 		
 		optionsPanel.setLayout(null);
 		
