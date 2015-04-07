@@ -16,6 +16,7 @@ public class Jogo implements Serializable {
 	private static int inter = 0;
 	private GamePreferences prefs;
 
+	
 	public static class GamePreferences {
 		private static int mazeSize = 11;
 		private static int numberOfDragons = 1;
@@ -29,80 +30,205 @@ public class Jogo implements Serializable {
 		private static char sLeft = 'g';
 		private static char sRight = 'j';
 		private static char exitKey = 'q';
+		
+		/**
+		 * 
+		 * @return size of maze
+		 */
 		public static int getMazeSize() {
 			return mazeSize;
 		}
+		
+		/**
+		 * Sets size of maze
+		 * @param mazeSize
+		 */
 		public static void setMazeSize(int mazeSize) {
 			GamePreferences.mazeSize = mazeSize;
 		}
+		
+		/**
+		 * 
+		 * @return number of dragons
+		 */
 		public static int getNumberOfDragons() {
 			return numberOfDragons;
 		}
+		
+		/**
+		 * Sets number of dragons
+		 * @param numberOfDragons
+		 */
 		public static void setNumberOfDragons(int numberOfDragons) {
 			GamePreferences.numberOfDragons = numberOfDragons;
 		}
+		
+		/**
+		 * 
+		 * @return type of dragon (awake, asleep, non sleeper moving or non sleeper static)
+		 */
 		public static int getType() {
 			return type;
 		}
+		
+		/**
+		 * Sets the type for the dragons (awake, asleep, non sleeper moving or non sleeper static)
+		 * @param type
+		 */
 		public static void setType(int type) {
 			GamePreferences.type = type;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to move the hero up
+		 */
 		public static char getUp() {
 			return up;
 		}
+		
+		/**
+		 * Sets the key that is used to move the hero up
+		 * @param up
+		 */
 		public static void setUp(char up) {
 			GamePreferences.up = up;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to move the hero down
+		 */
 		public static char getDown() {
 			return down;
 		}
+		
+		/**
+		 * Sets the key that is used to move the hero down
+		 * @param down
+		 */
 		public static void setDown(char down) {
 			GamePreferences.down = down;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to move the hero left
+		 */
 		public static char getLeft() {
 			return left;
 		}
+		
+		/**
+		 * Sets the key that is used to move the hero left
+		 * @param left
+		 */
 		public static void setLeft(char left) {
 			GamePreferences.left = left;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to move the hero right
+		 */
 		public static char getRight() {
 			return right;
 		}
+		
+		/**
+		 * Sets the key that is used to move the hero right
+		 * @param right
+		 */
 		public static void setRight(char right) {
 			GamePreferences.right = right;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to shoot the dart up
+		 */
 		public static char getsUp() {
 			return sUp;
 		}
+		
+		/**
+		 * Sets the key that is used to shoot the dart up
+		 * @param sUp
+		 */
 		public static void setsUp(char sUp) {
 			GamePreferences.sUp = sUp;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to shoot the dart down
+		 */
 		public static char getsDown() {
 			return sDown;
 		}
+		
+		/**
+		 * Sets the key that is used to shoot the dart down
+		 * @param sDown
+		 */
 		public static void setsDown(char sDown) {
 			GamePreferences.sDown = sDown;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to shoot the dart left
+		 */
 		public static char getsLeft() {
 			return sLeft;
 		}
+		
+		/**
+		 * Sets the key that is used to shoot the dart left
+		 * @param sLeft
+		 */
 		public static void setsLeft(char sLeft) {
 			GamePreferences.sLeft = sLeft;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to shoot the dart right
+		 */
 		public static char getsRight() {
 			return sRight;
 		}
+		
+		/**
+		 * Sets the key that is used to shoot the dart right
+		 * @param sRight
+		 */
 		public static void setsRight(char sRight) {
 			GamePreferences.sRight = sRight;
 		}
+		
+		/**
+		 * 
+		 * @return the key that is used to exit the game
+		 */
 		public static char getExitKey() {
 			return exitKey;
 		}
+		
+		/**
+		 * Sets the key that is used to exit the game
+		 * @param exitKey
+		 */
 		public static void setExitKey(char exitKey) {
 			GamePreferences.exitKey = exitKey;
 		}
 	}
 	
+	/**
+	 * 
+	 * @param i
+	 * @return the absolute value of i
+	 */
 	public int abs(int i) {
 		if (i < 0)
 			return -i;
@@ -110,6 +236,12 @@ public class Jogo implements Serializable {
 	}
 	
 	//Methods related with the gameplay itself
+	
+	/**
+	 * 
+	 * @param choice
+	 * @return
+	 */
 	public int endOfTurn(int choice) {
 		for (int i = 0; i < dragoes.length; i++) {
 			if (dragoes[i].isAlive() && choice != 0) {
@@ -179,7 +311,7 @@ public class Jogo implements Serializable {
 		if ((abs(dragoes[i].getX_coord() - heroi.getX_coord()) > 1) || (abs(dragoes[i].getY_coord() - heroi.getY_coord()) > 1) ||
 				((dragoes[i].getY_coord() != heroi.getY_coord()) && (dragoes[i].getX_coord() != heroi.getX_coord())))
 			ret = -1;
-		else if (heroi.get_armado()) {
+		else if (heroi.isArmado()) {
 			if (dragoes[i].isAlive()) {
 				if (inter == 0)
 					console_interface.dragonKilled();
@@ -423,7 +555,7 @@ public class Jogo implements Serializable {
 			if (heroi.getY_coord() == dragao.getY_coord()) {
 				while (count < 4) {
 					if (heroi.getX_coord() == (dragao.getX_coord()+count)) {
-						if (!heroi.get_shielded())
+						if (!heroi.isShielded())
 							return 10;
 						else if (labirinto.getLab()[dragao.getX_coord()+count][dragao.getY_coord()] == 'X')
 							return 0;
@@ -436,7 +568,7 @@ public class Jogo implements Serializable {
 			if (heroi.getY_coord() == dragao.getY_coord()) {
 				while (count < 4) {
 					if (heroi.getX_coord() == (dragao.getX_coord()-count)) {
-						if (!heroi.get_shielded())
+						if (!heroi.isShielded())
 							return 10;
 						else if (labirinto.getLab()[dragao.getX_coord()-count][dragao.getY_coord()] == 'X')
 							return 0;
@@ -449,7 +581,7 @@ public class Jogo implements Serializable {
 			if (heroi.getX_coord() == dragao.getX_coord()) {
 				while (count < 4) {
 					if ((heroi.getY_coord()+count) == dragao.getY_coord()) {
-						if (!heroi.get_shielded())
+						if (!heroi.isShielded())
 							return 10;
 						else if (labirinto.getLab()[dragao.getX_coord()][dragao.getY_coord()+count] == 'X')
 							return 0;
@@ -462,7 +594,7 @@ public class Jogo implements Serializable {
 			if (heroi.getX_coord() == dragao.getX_coord()) {
 				while (count < 4) {
 					if ((heroi.getY_coord()-count) == dragao.getY_coord()) {
-						if (!heroi.get_shielded())
+						if (!heroi.isShielded())
 							return 10;
 						else if (labirinto.getLab()[dragao.getX_coord()][dragao.getY_coord()-count] == 'X')
 							return 0;
@@ -574,7 +706,7 @@ public class Jogo implements Serializable {
 	
 	//Methods related with dards
 	private void shoot(int x, int y, int choice) {
-		if (heroi.get_dardos() > 0) {
+		if (heroi.getDardos() > 0) {
 			//left
 			if (x == 1) {
 				int i = heroi.getX_coord();

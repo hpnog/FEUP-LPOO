@@ -5,11 +5,18 @@ import java.io.Serializable;
 public class Default_maze extends Lab implements Serializable {
 	private static final long serialVersionUID = 6974825017109150949L;
 
+	/**
+	 * Constructor of the default maze
+	 * @param s size of maze
+	 */
 	public Default_maze(int s) {
 		super(s);
 		first_maze();
 	}
 	
+	/**
+	 * Fills the default maze
+	 */
 	public void first_maze() {
 		size = 10;
 		

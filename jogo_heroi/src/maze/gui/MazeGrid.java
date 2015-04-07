@@ -81,13 +81,13 @@ public class MazeGrid extends JPanel {
 					this.add(new JLabel(scaledWall));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == ' ')
 					this.add(new JLabel(" "));
-				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && !MazeDisplay.getJogoG().getHeroi().get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && !MazeDisplay.getJogoG().getHeroi().isShielded())
 					this.add(new JLabel(scaledArmedHero));
-				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && MazeDisplay.getJogoG().getHeroi().get_shielded()) 
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'A' && MazeDisplay.getJogoG().getHeroi().isShielded()) 
 					this.add(new JLabel(scaledArmedAndShieldedHero));
-				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && !MazeDisplay.getJogoG().getHeroi().get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && !MazeDisplay.getJogoG().getHeroi().isShielded())
 					this.add(new JLabel(scaledHero));
-				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && MazeDisplay.getJogoG().getHeroi().get_shielded())
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'H' && MazeDisplay.getJogoG().getHeroi().isShielded())
 					this.add(new JLabel(scaledShieldedHero));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'D')
 					this.add(new JLabel(scaledDragon));
