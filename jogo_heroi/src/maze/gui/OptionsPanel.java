@@ -82,12 +82,16 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 				String rightShoot = shootRight.getText();
 				String keyExit = exitKey.getText();
 				//Verificar se o tamanho do labirinto é Ímpar
-				if ((sizeOfMaze % 2) == 0)
+				if ((sizeOfMaze % 2) == 0 && sizeOfMaze != 0)
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
 					if (up.length() == 0) {
 						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
+						if (sizeOfMaze == 0) {
+							sizeOfMaze = 9;
+							JOptionPane.showMessageDialog(null, "You've written 0 on the size of the maze.\nIt will be set to 9.");
+						}
 						GamePreferences.setMazeSize(sizeOfMaze);
 						GamePreferences.setNumberOfDragons(dragonNumber);
 						GamePreferences.setType(typeOfDragon);
@@ -116,6 +120,10 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 					else {
 						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
+						if (sizeOfMaze == 0) {
+							sizeOfMaze = 9;
+							JOptionPane.showMessageDialog(null, "You've written 0 on the size of the maze.\nIt will be set to 9.");
+						}
 						GamePreferences.setMazeSize(sizeOfMaze);
 						GamePreferences.setNumberOfDragons(dragonNumber);
 						GamePreferences.setType(typeOfDragon);
@@ -166,13 +174,17 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 				String rightShoot = shootRight.getText();
 				String keyExit = exitKey.getText();
 				//Verificar se o tamanho do labirinto é Ímpar
-				if ((sizeOfMaze % 2) == 0)
+				if ((sizeOfMaze % 2) == 0 && sizeOfMaze != 0)
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
 					//Verifica tamanho das teclas
 					if (up.length() == 0) {
 						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
+						if (sizeOfMaze == 0) {
+							sizeOfMaze = 9;
+							JOptionPane.showMessageDialog(null, "You've written 0 on the size of the maze.\nIt will be set to 9.");
+						}
 						GamePreferences.setMazeSize(sizeOfMaze);
 						GamePreferences.setNumberOfDragons(dragonNumber);
 						GamePreferences.setType(typeOfDragon);
@@ -201,6 +213,10 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 					else {
 						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
+						if (sizeOfMaze == 0) {
+							sizeOfMaze = 9;
+							JOptionPane.showMessageDialog(null, "You've written 0 on the size of the maze.\nIt will be set to 9.");
+						}
 						GamePreferences.setMazeSize(sizeOfMaze);
 						GamePreferences.setNumberOfDragons(dragonNumber);
 						GamePreferences.setType(typeOfDragon);
@@ -260,6 +276,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		label.setBounds(75, 25, 150, 14);
 		optionsPanel.add(label);
 		mazeSize = new JSpinner();
+		mazeSize.setToolTipText("");
 		mazeSize.setBounds(250, 22, 60, 20);
 		mazeSize.setBackground(SystemColor.inactiveCaptionBorder);
 		optionsPanel.add(mazeSize);

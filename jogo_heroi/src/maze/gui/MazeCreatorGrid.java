@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import maze.logic.Heroi;
 import maze.logic.Jogo;
 import maze.logic.Lab;
 import maze.logic.Jogo.GamePreferences;
@@ -32,9 +33,13 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 
 	protected class CreatorPhase {
 		private boolean exitPlaced;
+		private boolean mazeDone;
+		private boolean heroPlaced;
 		
 		CreatorPhase() {
 			exitPlaced = false;
+			mazeDone = false;
+			heroPlaced = false;
 		}
 				
 		public boolean isExitPlaced() { 
@@ -43,11 +48,24 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		public void setExitPlaced(boolean a) {
 			exitPlaced = a;
 		}
+		public boolean isMazeDone() {
+			return mazeDone;
+		}
+		public void setMazeDone(boolean a) {
+			mazeDone = a;
+		}
+
+		public boolean isHeroPlaced() {
+			return heroPlaced;
+		}
+		public void setHeroPlaced (boolean a) {
+			heroPlaced = a;
+		}
 	}
 
 	MazeCreatorGrid(int width, int height) {
 		super();
-		phase = new CreatorPhase();
+		setPhase(new CreatorPhase());
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSize(width, height);
 		addMouseListener(this);
@@ -151,33 +169,68 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if (!phase.isExitPlaced()) {
-			int xCoord = getMouseXCoord(arg0);
-			int yCoord = getMouseYCoord(arg0);
-			System.out.printf("\nXCoord:%d\tyCoord:%d", xCoord, yCoord);
-			if (xCoord == 0 || xCoord == getLab().getSize()-1) {
-				if (yCoord != 0 && yCoord != getLab().getSize()-1) {
-					getLab().setLabCell(xCoord, yCoord, 'S');
-					phase.setExitPlaced(true);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "You can not place the exit there");
-				}
-			}
-			else if (yCoord == 0 || yCoord == getLab().getSize()-1) {
-				if (xCoord != 0 && xCoord != getLab().getSize()-1) {		
-					getLab().setLabCell(xCoord, yCoord, 'S');
-					phase.setExitPlaced(true);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "You can not place the exit there");
-				}
+		if (!getPhase().isExitPlaced())
+			putExit(arg0);
+		else if (!getPhase().isMazeDone())
+			makeMaze(arg0);
+		else if (!getPhase().isHeroPlaced())
+			placeHero(arg0);
+		game();
+	}
+
+	private void placeHero(MouseEvent arg0) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		if (getLab().getChar(xCoord, yCoord) != ' ')
+			JOptionPane.showMessageDialog(null, "You can only place the hero in an empty space");
+		else {
+			MazeDisplay.getJogoG().setHeroi(new Heroi());
+			MazeDisplay.getJogoG().getHeroi().setX_coord(xCoord);
+			MazeDisplay.getJogoG().getHeroi().setY_coord(yCoord);
+			MazeDisplay.getJogoG().change_hero_pos();
+			getPhase().setHeroPlaced(true);
+		}
+	}
+
+	private void makeMaze(MouseEvent arg0) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		if (xCoord == 0 || xCoord == (getLab().getSize()-1) || yCoord == 0 || yCoord == (getLab().getSize()-1))
+			JOptionPane.showMessageDialog(null, "You can not change the maze in these coordinates\n"
+					+ "Coord X: " + xCoord + "\nCoord Y: " + yCoord);
+		else {
+			if (getLab().getChar(xCoord, yCoord) == ' ')
+				getLab().setLabCell(xCoord, yCoord, 'X');
+			else
+				getLab().setLabCell(xCoord, yCoord, ' ');
+		}
+	}
+
+	private void putExit(MouseEvent arg0) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		System.out.printf("\nXCoord:%d\tyCoord:%d", xCoord, yCoord);
+		if (xCoord == 0 || xCoord == getLab().getSize()-1) {
+			if (yCoord != 0 && yCoord != getLab().getSize()-1) {
+				getLab().setLabCell(xCoord, yCoord, 'S');
+				getPhase().setExitPlaced(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "You can not place the exit there");
 			}
 		}
-		game();
+		else if (yCoord == 0 || yCoord == getLab().getSize()-1) {
+			if (xCoord != 0 && xCoord != getLab().getSize()-1) {		
+				getLab().setLabCell(xCoord, yCoord, 'S');
+				getPhase().setExitPlaced(true);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "You can not place the exit there");
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "You can not place the exit there");
+		}
 	}
 
 	private int getMouseYCoord(MouseEvent arg) {
@@ -231,5 +284,13 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public static CreatorPhase getPhase() {
+		return phase;
+	}
+
+	public static void setPhase(CreatorPhase phase) {
+		MazeCreatorGrid.phase = phase;
 	}
 }
