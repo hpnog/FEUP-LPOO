@@ -180,11 +180,11 @@ public class console_interface {
 		if (Jogo.getInter() == 0) {
 
 
-			if (heroi.get_shielded())
+			if (heroi.isShielded())
 				System.out.printf("\n\nHeroi - protegido");
 			else
 				System.out.print("\n\nHeroi - não protegido");
-			System.out.printf("\nNumero de dardos - %d\n\n", heroi.get_dardos());
+			System.out.printf("\nNumero de dardos - %d\n\n", heroi.getDardos());
 		}
 	}
 	public static void no_dards() {

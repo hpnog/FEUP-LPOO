@@ -361,7 +361,7 @@ public class Tests {
 			jogo.random_sword();
 			jogo.random_hero_start();
 
-			assertTrue(!jogo.getHeroi().get_armado());
+			assertTrue(!jogo.getHeroi().isArmado());
 			for (int j = 0; j < 20; j++) {
 				int choice = 1 + (int)(Math.random()*4);
 				int actual_x_pos = jogo.getHeroi().getX_coord();
@@ -369,7 +369,7 @@ public class Tests {
 				if (choice == 1) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -378,7 +378,7 @@ public class Tests {
 				else if (choice == 2) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -387,7 +387,7 @@ public class Tests {
 				else if (choice == 3) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -396,7 +396,7 @@ public class Tests {
 				else {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -612,7 +612,7 @@ public class Tests {
 			jogo.setEscudo(new Escudo());
 			jogo.shield_random_start();
 			jogo.random_hero_start();
-			assertTrue(!jogo.getHeroi().get_shielded());
+			assertTrue(!jogo.getHeroi().isShielded());
 			for (int j = 0; j < 200; j++) {
 				int choice = 1 + (int)(Math.random()*4);
 				int actual_x_pos = jogo.getHeroi().getX_coord();
@@ -620,7 +620,7 @@ public class Tests {
 				if (choice == 1) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -629,7 +629,7 @@ public class Tests {
 				else if (choice == 2) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -638,7 +638,7 @@ public class Tests {
 				else if (choice == 3) {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -647,7 +647,7 @@ public class Tests {
 				else {
 					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
 						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().get_armado());
+						assertTrue(jogo.getHeroi().isArmado());
 						break;
 					}
 					else
@@ -655,7 +655,7 @@ public class Tests {
 				}
 
 			}
-			if (jogo.getHeroi().get_shielded())
+			if (jogo.getHeroi().isShielded())
 				shieldCounter++;
 
 		}
