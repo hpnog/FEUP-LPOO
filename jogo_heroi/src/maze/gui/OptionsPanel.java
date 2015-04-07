@@ -85,8 +85,25 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 				if ((sizeOfMaze % 2) == 0)
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
+					if (up.length() == 0) {
+						MazeDisplay.setJogo(new Jogo());
+						MazeDisplay.getJogoG().getPrefs();
+						GamePreferences.setMazeSize(sizeOfMaze);
+						GamePreferences.setNumberOfDragons(dragonNumber);
+						GamePreferences.setType(typeOfDragon);
+						
+						//Go back
+						setVisible(false);
+						try {
+							MainMenu frame = new MainMenu();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						requestFocus();
+					}
 					//Verifica tamanho das teclas
-					if (up.length() != 1 || 
+					else if (up.length() != 1 || 
 							down.length() != 1 ||
 							left.length() != 1 ||
 							right.length() != 1 ||
@@ -153,7 +170,25 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
 					//Verifica tamanho das teclas
-					if (up.length() != 1 || 
+					if (up.length() == 0) {
+						MazeDisplay.setJogo(new Jogo());
+						MazeDisplay.getJogoG().getPrefs();
+						GamePreferences.setMazeSize(sizeOfMaze);
+						GamePreferences.setNumberOfDragons(dragonNumber);
+						GamePreferences.setType(typeOfDragon);
+						
+						//Go back
+						setVisible(false);
+						try {
+							MazeCreator frame = new MazeCreator();
+							frame.setVisible(true);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						requestFocus();
+					}
+					//Verifica tamanho das teclas
+					else if (up.length() != 1 || 
 							down.length() != 1 ||
 							left.length() != 1 ||
 							right.length() != 1 ||

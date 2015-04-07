@@ -7,7 +7,7 @@ public class Lab implements Serializable {
 	protected char [][] lab ;
 	protected int size;
 	
-	Lab(int s) {
+	public Lab(int s) {
 		size = s;
 		lab = new char [size][size];
 	}
