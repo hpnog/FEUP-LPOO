@@ -20,6 +20,7 @@ import maze.logic.Jogo;
 import maze.logic.Jogo.GamePreferences;
 
 import java.awt.SystemColor;
+import javax.swing.SpinnerNumberModel;
 
 public class OptionsPanel extends JDialog implements ComponentListener{
 	private static final long serialVersionUID = 6355967352362695786L;
@@ -276,6 +277,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		label.setBounds(75, 25, 150, 14);
 		optionsPanel.add(label);
 		mazeSize = new JSpinner();
+		mazeSize.setModel(new SpinnerNumberModel(15, 9, 51, 2));
 		mazeSize.setToolTipText("");
 		mazeSize.setBounds(250, 22, 60, 20);
 		mazeSize.setBackground(SystemColor.inactiveCaptionBorder);

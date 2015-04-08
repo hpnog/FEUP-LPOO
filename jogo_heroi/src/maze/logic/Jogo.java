@@ -921,7 +921,7 @@ public class Jogo implements Serializable {
 	 * @param inter the new interaction
 	 */
 	public void setInter(int inter) {
-		this.inter = inter;
+		Jogo.inter = inter;
 	}
 	
 	/**
@@ -1089,7 +1089,7 @@ public class Jogo implements Serializable {
 	 *
 	 * @param pos the position
 	 */
-	public void change_dardo_pos(int pos) {
+	public void change_dardo_pos(int pos) { 
 		if (!dardos[pos].isCaught()) {
 			if (labirinto.getLab()[dardos[pos].getX_coord()][dardos[pos].getY_coord()] == ' ' && !dardos[pos].isCaught())
 				labirinto.setLabCell(dardos[pos].getX_coord(), dardos[pos].getY_coord(), '\\');

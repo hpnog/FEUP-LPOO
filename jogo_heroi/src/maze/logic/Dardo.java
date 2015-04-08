@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Dardo extends Object implements Serializable{
 	private static final long serialVersionUID = -4254410647641732977L;
-	private boolean caught = false;
+	private boolean caught;
 	
 	/**
 	 * Constructor for the dart
@@ -13,6 +13,7 @@ public class Dardo extends Object implements Serializable{
 	 */
 	public Dardo(int x, int y) {
 		super (x, y);
+		caught = false;
 	}
 
 	/**

@@ -190,7 +190,7 @@ public class Tests {
 		int numMazes = 1000;
 		int maxSize = 101; // can change to any odd number >= 5
 
-		Random_generator builder = new Random_generator(5);
+		new Random_generator(5);
 		char[][] badWalls = {
 				{'X', 'X', 'X'},
 				{'X', 'X', 'X'},
@@ -280,163 +280,200 @@ public class Tests {
 		}
 		System.out.println("Ended test: Test if a Maze is properly created");
 	}
-	@Test(timeout=5000)
-	public void testHeroMovement() {
-		System.out.println("Starting test: Test if Hero moves properly");
-		for (int testNum = 0; testNum < 100; testNum++) {
-			int size = 5 + (int)(Math.random()*(100));
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.random_hero_start();
-			for (int j = 0; j < 20; j++) {
-				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.getHeroi().getX_coord();
-				int actual_y_pos = jogo.getHeroi().getY_coord();
-				if (choice == 1) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == ' ') {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord()+1);
-					}
-					else {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
-					}
-					assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
-				}
-				else if (choice == 2) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == ' ') {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord()-1);
-					}
-					else {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
-					}
-					assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
-				}
-				else if (choice == 3) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == ' ') {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord()+1);
-					}
-					else {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
-					}
-					assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
-				}
-				else {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == ' ') {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord()-1);
-					}
-					else {
-						jogo.interpreta_opcao(choice);
-						assertEquals(actual_x_pos, jogo.getHeroi().getX_coord());
-					}
-					assertEquals(actual_y_pos, jogo.getHeroi().getY_coord());
-				}
-
-			}
-
+	
+	@Test (timeout = 5000)
+	public void testHeroMovementLeft() {
+		System.out.println("Starting test: Test if Hero moves properly (left)");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(5);
+		jogo.getHeroi().setY_coord(1);
+		jogo.change_hero_pos();
+		int choice = 3; //Move left
+		if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == ' ') {
+			jogo.interpreta_opcao(choice);
+			assertEquals(4, jogo.getHeroi().getX_coord());
 		}
-		System.out.println("Ended test: Test if Hero moves properly");
-	}
-	@Test(timeout=5000)
-	public void testCatchesSword() {
-		System.out.println("Starting test: Test if Hero catches the Sword");
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 5 + (int)(Math.random()*15);
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.setEspada(new Espada());
-			jogo.random_sword();
-			jogo.random_hero_start();
-
-			assertTrue(!jogo.getHeroi().isArmado());
-			for (int j = 0; j < 20; j++) {
-				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.getHeroi().getX_coord();
-				int actual_y_pos = jogo.getHeroi().getY_coord();
-				if (choice == 1) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else if (choice == 2) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else if (choice == 3) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-
-			}
-
+		else {
+			jogo.interpreta_opcao(choice);
+			assertEquals(5, jogo.getHeroi().getX_coord());
 		}
-		System.out.println("Ended test: Test if Hero catches the Sword");
+		assertEquals(1, jogo.getHeroi().getY_coord());
+		
+		System.out.println("Ended test: Test if Hero moves properly (left)");
 	}
-	@Test(timeout=5000)
+	@Test (timeout = 5000)
+	public void testHeroMovementRight() {
+		System.out.println("Starting test: Test if Hero moves properly (right)");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(5);
+		jogo.getHeroi().setY_coord(1);
+		jogo.change_hero_pos();
+		int choice = 4; //Move right
+		if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == ' ') {
+			jogo.interpreta_opcao(choice);
+			assertEquals(6, jogo.getHeroi().getX_coord());
+		}
+		else {
+			jogo.interpreta_opcao(choice);
+			assertEquals(5, jogo.getHeroi().getX_coord());
+		}
+		assertEquals(1, jogo.getHeroi().getY_coord());
+		
+		System.out.println("Ended test: Test if Hero moves properly (right)");
+	}
+	@Test (timeout = 5000)
+	public void testHeroMovementDown() {
+		System.out.println("Starting test: Test if Hero moves properly (down)");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		int choice = 2; //Move down
+		if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == ' ') {
+			jogo.interpreta_opcao(choice);
+			assertEquals(5, jogo.getHeroi().getY_coord());
+		}
+		else {
+			jogo.interpreta_opcao(choice);
+			assertEquals(4, jogo.getHeroi().getY_coord());
+		}
+		assertEquals(1, jogo.getHeroi().getX_coord());
+		
+		System.out.println("Ended test: Test if Hero moves properly (down)");
+	}
+	@Test (timeout = 5000)
+	public void testHeroMovementUp() {
+		System.out.println("Starting test: Test if Hero moves properly (up)");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		int choice = 1; //Move up
+		if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == ' ') {
+			jogo.interpreta_opcao(choice);
+			assertEquals(3, jogo.getHeroi().getY_coord());
+		}
+		else {
+			jogo.interpreta_opcao(choice);
+			assertEquals(4, jogo.getHeroi().getY_coord());
+		}
+		assertEquals(1, jogo.getHeroi().getX_coord());
+		
+		System.out.println("Ended test: Test if Hero moves properly (up)");
+	}
+	@Test (timeout = 5000)
+	public void testIfCatchesSword() {
+		System.out.println("Starting test: Test if Hero catches Sword");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		jogo.setEspada(new Espada());
+		jogo.getEspada().setX_coord(1);
+		jogo.getEspada().setY_coord(3);
+		jogo.change_sword_pos();
+		int choice = 1; //Move up
+		jogo.interpreta_opcao(choice);
+		assertTrue(jogo.getHeroi().isArmado());
+		System.out.println("Finished test: Test if Hero catches Sword");
+	}
+	@Test (timeout = 5000)
+	public void testIfCatchesShield() {
+		System.out.println("Starting test: Test if Hero catches Shield");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		jogo.setEscudo(new Escudo());
+		jogo.getEscudo().setX_coord(1);
+		jogo.getEscudo().setY_coord(5);
+		jogo.change_escudo_pos();
+		int choice = 2; //Move down
+		jogo.interpreta_opcao(choice);
+		assertTrue(jogo.getHeroi().isShielded());
+		System.out.println("Finished test: Test if Hero catches Shield");
+	}
+	@Test //(timeout = 5000)
+	public void testIfCatchesDard() {
+		System.out.println("Starting test: Test if Hero catches Dards");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		jogo.setDardos(new Dardo[3]);
+		jogo.setDard(0, new Dardo(1,1));
+		jogo.setDard(1, new Dardo(1,2));
+		jogo.setDard(2, new Dardo(1,3));
+		jogo.change_dardo_pos(0);
+		jogo.change_dardo_pos(1);
+		jogo.change_dardo_pos(2);
+		int choice = 1; //Move up
+		assertEquals(0, jogo.getHeroi().getDardos());
+		jogo.interpreta_opcao(choice);
+		assertEquals(1, jogo.getHeroi().getDardos());
+		jogo.interpreta_opcao(choice);
+		assertEquals(2, jogo.getHeroi().getDardos());
+		jogo.interpreta_opcao(choice);
+		assertEquals(3, jogo.getHeroi().getDardos());
+		System.out.println("Finished test: Test if Hero catches Dards");
+	}
+	@Test (timeout = 5000)
 	public void testIfDragonKills() {
 		System.out.println("Starting test: Test if Dragon kills without fire");
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 21 + (int)(Math.random()*31);
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.random_hero_start();
-			jogo.setDragoes(new Dragao [10]);
-			for (int i = 0; i < jogo.getDragoes().length; i++) {
-				jogo.setDragao(i, new Dragao(2));
-				jogo.random_dragao(i);
-			}			
-			int choice = -1;
-			for (int j = 0; j < 20 && choice != 5; j++) {
-				choice = 1 + (int)(Math.random()*4);
-				jogo.displayDragoes();
-				jogo.moveDragoes();
-				jogo.interpreta_opcao(choice);
-				choice = jogo.endOfTurn(choice);
-			}
-			assertTrue(choice == 5 || choice == -1);
-		}
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		jogo.setDragoes(new Dragao[1]);
+		jogo.setDragao(0, new Dragao(2));
+		jogo.getDragoes()[0].setX_coord(1);
+		jogo.getDragoes()[0].setY_coord(3);
+		int choice = -1;
+		choice = jogo.endOfTurn(choice);
+		assertTrue(jogo.getDragoes()[0].isAlive());
+		assertEquals(choice, 5); 
 		System.out.println("Ended test: Test if Dragon kills without fire");
 	}
+	@Test(timeout = 5000)
+	public void testIfHeroKills() {
+		//a fazer
+	}
+	
+//-----------------------------OLD TESTS-----------------------------------------------
+
+
 	@Test(timeout=5000)
 	public void testIfHeroKills() {
 		System.out.println("Starting test: Test if Hero kills with Sword");
@@ -598,71 +635,6 @@ public class Tests {
 		System.out.println("Ended test: Test if Dragons sleep properly");
 	}
 	@Test(timeout=5000)
-	public void testCatchesShield() {
-		System.out.println("Starting test: Test if hero catches Shield");
-		int shieldCounter = 0;
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 5 + (int)(Math.random()*15);
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.setEscudo(new Escudo());
-			jogo.shield_random_start();
-			jogo.random_hero_start();
-			assertTrue(!jogo.getHeroi().isShielded());
-			for (int j = 0; j < 200; j++) {
-				int choice = 1 + (int)(Math.random()*4);
-				int actual_x_pos = jogo.getHeroi().getX_coord();
-				int actual_y_pos = jogo.getHeroi().getY_coord();
-				if (choice == 1) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()-1] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else if (choice == 2) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()][jogo.getHeroi().getY_coord()+1] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else if (choice == 3) {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()-1][jogo.getHeroi().getY_coord()] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-				else {
-					if (jogo.getLabirinto().getLab()[jogo.getHeroi().getX_coord()+1][jogo.getHeroi().getY_coord()] == 'E') {
-						jogo.interpreta_opcao(choice);
-						assertTrue(jogo.getHeroi().isArmado());
-						break;
-					}
-					else
-						jogo.interpreta_opcao(choice);
-				}
-
-			}
-			if (jogo.getHeroi().isShielded())
-				shieldCounter++;
-
-		}
-		assertTrue(shieldCounter > 0);
-		System.out.println("Ended test: Test if hero catches Shield");
-	}
-	@Test(timeout=5000)
 	public void testFireKill() {
 		System.out.println("Starting test: Test if Dragons kill with fire");
 		int fireCounter = 0;
@@ -695,43 +667,6 @@ public class Tests {
 		}
 		assertTrue(fireCounter > 0);
 		System.out.println("Ended test: Test if Dragons kill with fire");
-	}
-	@Test(timeout=5000)
-	public void testCatchesDards() {
-		System.out.println("Starting test: Test if catches Dards");
-		int dardCounter = 0;
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 21 + (int)(Math.random()*31);
-			if ((size % 2) == 0)
-				size++;
-			
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.random_hero_start();
-			jogo.setDardos(new Dardo [jogo.getLabirinto().getSize() / 4]);
-			for (int i = 0; i < jogo.getLabirinto().getSize() / 4; i++) {
-				jogo.setDard(i, new Dardo(1, 1));
-				jogo.random_dardo(i);
-			}
-			
-			int choice = -1;
-			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
-				jogo.displayDardos();
-				
-				choice = 1 + (int)(Math.random()*4);
-				choice = jogo.interpreta_opcao(choice);
-				
-				if (choice == 5 || choice == 10 || j == 199) {
-					for (int b = 0; b < jogo.getDardos().length; b++)
-						if (jogo.getDardos()[b].isCaught())
-							dardCounter += 1;
-				}
-			}
-		}
-		assertTrue(dardCounter > 0);
-		System.out.println("Ended test: Test if catches Dards");
 	}
 	@Test(timeout=50000)
 	public void testshootsDards() {
@@ -774,4 +709,5 @@ public class Tests {
 		assertTrue(killCounter > 0);
 		System.out.println("Ended test: Test if shoots Dards");
 	}
+
 }
