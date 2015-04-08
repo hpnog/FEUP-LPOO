@@ -167,7 +167,6 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.game();
 	}
 
-
 	@Override
 	public void keyPressed(KeyEvent arg) {
 		jogoG.getPrefs();

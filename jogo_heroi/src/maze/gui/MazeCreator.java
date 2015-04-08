@@ -31,15 +31,15 @@ public class MazeCreator extends JFrame implements ComponentListener{
 		setTitle("Create your Maze");
 		addComponentListener(this);
 		setFocusable(true);
-		
-		
+
+
 		mazeGenerator = new JPanel();
 		mazeGenerator.setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 800, 900);
 		mazeCreatorGrid = new MazeCreatorGrid(getWidth(), getHeight());
 		buttons = new JPanel();
 		back = new JButton("back");
-		
+
 		finish = new JButton("Finish");
 
 		back.addActionListener(new ActionListener() {
@@ -52,18 +52,34 @@ public class MazeCreator extends JFrame implements ComponentListener{
 		//FINISH
 		finish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				requestFocus();
+				if (MazeCreatorGrid.getPhase().isFinished()) {
+					int answer = JOptionPane.showConfirmDialog(null, "Are you sure you wish to Finish?");
+					if (answer == JOptionPane.YES_OPTION) {
+						try {
+							setVisible(false);
+							MazeDisplay frame = new MazeDisplay(true);
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You have not placed everything yet");
+				}
 			}
 		});
 
 		buttons.add(back);
-		
+
 		JButton validateMaze;
 		validateMaze = new JButton("Validate");
 		buttons.add(validateMaze);
 		validateMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				if (!MazeCreatorGrid.getPhase().isExitPlaced())
+				if (MazeCreatorGrid.getPhase().isMazeDone())
+					JOptionPane.showMessageDialog(null, "This maze has already been Validated.");
+				else if (!MazeCreatorGrid.getPhase().isExitPlaced())
 					JOptionPane.showMessageDialog(null, "The exit is not placed yet.");
 				else {
 					if (checkIfMazeIsValid()) {
@@ -78,9 +94,8 @@ public class MazeCreator extends JFrame implements ComponentListener{
 
 			private boolean checkIfMazeIsValid() {
 				char[][] badWalls = {
-						{'X', 'X', 'X'},
-						{'X', 'X', 'X'},
-						{'X', 'X', 'X'}};
+						{'X', 'X'},
+						{'X', 'X'}};
 				char[][] badSpaces = {
 						{' ', ' '},
 						{' ', ' '}};
@@ -95,11 +110,12 @@ public class MazeCreator extends JFrame implements ComponentListener{
 						if (!hasSquare(MazeDisplay.getJogoG().getLabirinto(), badSpaces))
 							if (!hasSquare(MazeDisplay.getJogoG().getLabirinto(), badDiag1))
 								if (!hasSquare(MazeDisplay.getJogoG().getLabirinto(), badDiag2))
-									return true;
-									
+									if (checkExitReachable(MazeDisplay.getJogoG().getLabirinto()))
+										return true;
+
 				return false;
 			}
-			
+
 			/* a) the maze boundaries must have exactly one exit and everything else walls
 			// b) the exist cannot be a corner*/
 			public boolean checkBoundaries(Lab m) {
@@ -179,7 +195,7 @@ public class MazeCreator extends JFrame implements ComponentListener{
 
 		});
 
-		
+
 		buttons.add(finish);
 		mazeGenerator.add(mazeCreatorGrid);
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
@@ -201,13 +217,13 @@ public class MazeCreator extends JFrame implements ComponentListener{
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -219,7 +235,7 @@ public class MazeCreator extends JFrame implements ComponentListener{
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

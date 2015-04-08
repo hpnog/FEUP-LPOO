@@ -39,15 +39,30 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		private boolean exitPlaced;
 		private boolean mazeDone;
 		private boolean heroPlaced;
+		private boolean shieldPlaced;
+		private boolean swordPlaced;
+		private int numberOfDardsPlaced;
 		private int numberOfDragonsPlaced;
 		
 		CreatorPhase() {
 			exitPlaced = false;
 			mazeDone = false;
 			heroPlaced = false;
+			swordPlaced = false;
+			shieldPlaced = false;
+			numberOfDardsPlaced = 0;
 			numberOfDragonsPlaced = 0;
 		}
-				
+
+		public int getNumberOfDardsPlaced() {
+			return numberOfDardsPlaced;
+		}
+		public boolean isShieldPlaced() {
+			return shieldPlaced;
+		}
+		public boolean isSwordPlaced() {
+			return swordPlaced;
+		}
 		public boolean isExitPlaced() { 
 			return exitPlaced; 
 		}
@@ -61,6 +76,15 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 			mazeDone = a;
 		}
 
+		public void setNumberOfDardsPlaced(int a) {
+			numberOfDardsPlaced = a;
+		}
+		public void setShieldPlaced(boolean a) {
+			shieldPlaced = a;
+		}
+		public void setSwordPlaced(boolean a) {
+			swordPlaced = a;
+		}
 		public boolean isHeroPlaced() {
 			return heroPlaced;
 		}
@@ -72,6 +96,20 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 		public int getNumberOfDragonsPlaced() {
 			return numberOfDragonsPlaced;
+		}
+
+		public boolean isFinished() {
+			if (exitPlaced)
+				if(mazeDone)
+					if(heroPlaced)
+						if(shieldPlaced)
+							if(swordPlaced) {
+								MazeDisplay.getJogoG().getPrefs();
+								if(numberOfDragonsPlaced == GamePreferences.getNumberOfDragons())
+									if (numberOfDardsPlaced == GamePreferences.getMazeSize()/4)
+										return true;
+							}
+			return false;
 		}
 	}
 
@@ -194,9 +232,55 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 			makeMaze(arg0);
 		else if (!getPhase().isHeroPlaced())
 			placeHero(arg0);
+		else if (!getPhase().isShieldPlaced())
+			placeShield(arg0);
+		else if (!getPhase().isSwordPlaced())
+			placeSword(arg0);
 		else if (getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
 			placeDragon(arg0, getPhase().getNumberOfDragonsPlaced());
+		else if (getPhase().getNumberOfDardsPlaced() < GamePreferences.getMazeSize()/4)
+			placeDards(arg0, getPhase().getNumberOfDardsPlaced());
 		game();
+	}
+
+	private void placeDards(MouseEvent arg0, int ind) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		
+		if (getLab().getChar(xCoord, yCoord) != ' ')
+			JOptionPane.showMessageDialog(null, "You can only place any dard in an empty space");
+		else {
+			MazeDisplay.getJogoG().getPrefs();
+			MazeDisplay.getJogoG().setDard(ind, new Dardo(xCoord, yCoord));
+			MazeDisplay.getJogoG().change_dardo_pos(ind);
+			phase.setNumberOfDardsPlaced(phase.getNumberOfDardsPlaced()+1);
+		}
+	}
+
+	private void placeSword(MouseEvent arg0) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		if (getLab().getChar(xCoord, yCoord) != ' ')
+			JOptionPane.showMessageDialog(null, "You can only place the Sword in an empty space");
+		else {
+			MazeDisplay.getJogoG().getEspada().setX_coord(xCoord);
+			MazeDisplay.getJogoG().getEspada().setY_coord(yCoord);
+			MazeDisplay.getJogoG().change_sword_pos();
+			getPhase().setSwordPlaced(true);
+		}
+	}
+
+	private void placeShield(MouseEvent arg0) {
+		int xCoord = getMouseXCoord(arg0);
+		int yCoord = getMouseYCoord(arg0);
+		if (getLab().getChar(xCoord, yCoord) != ' ')
+			JOptionPane.showMessageDialog(null, "You can only place the Shield in an empty space");
+		else {
+			MazeDisplay.getJogoG().getEscudo().setX_coord(xCoord);
+			MazeDisplay.getJogoG().getEscudo().setY_coord(yCoord);
+			MazeDisplay.getJogoG().change_escudo_pos();
+			getPhase().setShieldPlaced(true);
+		}
 	}
 
 	private void placeDragon(MouseEvent arg0, int ind) {
