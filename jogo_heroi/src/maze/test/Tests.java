@@ -394,6 +394,7 @@ public class Tests {
 		jogo.change_sword_pos();
 		int choice = 1; //Move up
 		jogo.interpreta_opcao(choice);
+		assertEquals(3, jogo.getHeroi().getY_coord());
 		assertTrue(jogo.getHeroi().isArmado());
 		System.out.println("Finished test: Test if Hero catches Sword");
 	}
@@ -460,128 +461,104 @@ public class Tests {
 		jogo.setDragao(0, new Dragao(2));
 		jogo.getDragoes()[0].setX_coord(1);
 		jogo.getDragoes()[0].setY_coord(3);
-		int choice = -1;
-		choice = jogo.endOfTurn(choice);
+		int choice = 1;
 		assertTrue(jogo.getDragoes()[0].isAlive());
-		assertEquals(choice, 5); 
+		choice = jogo.interpreta_opcao(choice);
+		choice = jogo.endOfTurn(choice);
+		assertTrue(choice == 5);
+		assertTrue(jogo.getDragoes()[0].isAlive());
 		System.out.println("Ended test: Test if Dragon kills without fire");
 	}
 	@Test(timeout = 5000)
 	public void testIfHeroKills() {
-		//a fazer
+		System.out.println("Starting test: Test if Hero kills without fire");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(1);
+		jogo.getHeroi().setY_coord(4);
+		jogo.change_hero_pos();
+		jogo.getHeroi().setArmado(true);
+		jogo.setDragoes(new Dragao[1]);
+		jogo.setDragao(0, new Dragao(3));
+		jogo.getDragoes()[0].setX_coord(1);
+		jogo.getDragoes()[0].setY_coord(3);
+		int choice = -1;
+		choice = jogo.endOfTurn(choice);
+		assertTrue(!jogo.getDragoes()[0].isAlive());
+		System.out.println("Ended test: Test if Hero kills without fire");
 	}
-	
-//-----------------------------OLD TESTS-----------------------------------------------
-
-
-	@Test(timeout=5000)
-	public void testIfHeroKills() {
-		System.out.println("Starting test: Test if Hero kills with Sword");
-		for (int testNum = 0; testNum < 1000; testNum++) {
-
-			int size = 21 + (int)(Math.random()*31);
-			if ((size % 2) == 0)
-				size++;
-
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.getHeroi().setArmado(true);
-			jogo.random_hero_start();
-			jogo.setDragoes(new Dragao [10]);
-			for (int i = 0; i < jogo.getDragoes().length; i++) {
-				jogo.setDragao(i, new Dragao(2));
-				jogo.random_dragao(i);
-			}
-						
-			int choice = -1;
-			for (int j = 0; j < 20 && choice != 5; j++) {
-				choice = 1 + (int)(Math.random()*4);
-				jogo.displayDragoes();
-				jogo.moveDragoes();
-				jogo.interpreta_opcao(choice);
-				choice = jogo.endOfTurn(choice);
-
-			}
-
-			assertTrue(choice == -1);
-		}
-		System.out.println("Ended test: Test if Hero kills with Sword");
-	}
-	@Test(timeout=5000)
+	@Test (timeout = 5000)
 	public void testIfKillsDragonAndFindsExit() {
-		System.out.println("Starting test: Test if Hero gets to the exit and game ends due to dragons killed");
-		int winCounter = 0; //Muit provavel que ganhe
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 5 + (int)(Math.random()*11);
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.getHeroi().setArmado(true);
-			jogo.random_hero_start();
-			jogo.setDragoes(new Dragao [1]);
-			for (int i = 0; i < jogo.getDragoes().length; i++) {
-				jogo.setDragao(i, new Dragao(2));
-				jogo.random_dragao(i);
-			}
-						
-			int choice = -1;
-			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
-				choice = 1 + (int)(Math.random()*4);
-				jogo.displayDragoes();
-				jogo.moveDragoes();
-				choice = jogo.interpreta_opcao(choice);
-				if (choice == 10)
-					break;
-				choice = jogo.endOfTurn(choice);
-			}			
-			assertTrue(choice == -1 || choice == 10 || choice == 9);
-			if (choice == 10)
-				winCounter++;
-		}
-		assertTrue(winCounter > 0);
-		System.out.println("Ended test: Test if Hero gets to the exit and game ends due to dragons killed");
+		System.out.println("Starting test: Test if Hero kills without fire and finds the Exit");
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(8);
+		jogo.getHeroi().setY_coord(3);
+		jogo.change_hero_pos();
+		jogo.getHeroi().setArmado(true);
+		jogo.setDragoes(new Dragao[1]);
+		jogo.setDragao(0, new Dragao(3));
+		jogo.getDragoes()[0].setX_coord(8);
+		jogo.getDragoes()[0].setY_coord(6);
+		int choice = 2;
+		assertTrue(jogo.getDragoes()[0].isAlive());
+		choice = jogo.interpreta_opcao(choice);
+		choice = jogo.endOfTurn(choice);
+		assertTrue(jogo.getDragoes()[0].isAlive());
+		assertTrue(choice != 5);
+		choice = 2;
+		choice = jogo.interpreta_opcao(choice);
+		choice = jogo.endOfTurn(choice);
+		assertTrue(!jogo.getDragoes()[0].isAlive());
+		assertTrue(choice != 5);
+		choice = 4;
+		choice = jogo.interpreta_opcao(choice);
+		assertTrue(choice == 10);
+		System.out.println("Ended test: Test if Hero kills without fire and finds the Exit");
 	}
-	@Test(timeout=5000)
+	@Test (timeout = 5000)
 	public void testIfFindsExitButDragonAlive() {
 		System.out.println("Starting test: Test if Hero gets to the exit but game does not end due to dragons alive");
-		int exitCounter = 0;
-		for (int testNum = 0; testNum < 1000; testNum++) {
-			int size = 5 + (int)(Math.random()*11);
-			if ((size % 2) == 0)
-				size++;
-			Jogo jogo = new Jogo();
-			jogo.setInter(1);
-			jogo.setLabirinto(new Random_generator(size));
-			jogo.setHeroi(new Heroi());
-			jogo.getHeroi().setArmado(true);
-			jogo.random_hero_start();
-			jogo.setDragoes(new Dragao [1]);
-			for (int i = 0; i < jogo.getDragoes().length; i++) {
-				jogo.setDragao(i, new Dragao(2));
-				jogo.random_dragao(i);
-			}
-						
-			int choice = -1;
-			for (int j = 0; j < 200 && choice != 5 && choice != 10; j++) {
-				choice = 1 + (int)(Math.random()*4);
-				jogo.displayDragoes();
-				jogo.moveDragoes();
-				choice = jogo.interpreta_opcao(choice);
-				if (choice == 9)
-					exitCounter++;
-				choice = jogo.endOfTurn(choice);
-			}
-						
-			assertTrue(choice == -1 || choice == 10 || choice == 9);
-		}
-		assertTrue(exitCounter > 0);
+		Jogo jogo = new Jogo();
+		jogo.setInter(1);
+		jogo.setLabirinto(new Random_generator(10));
+		jogo.setHeroi(new Heroi());
+		jogo.setLabirinto(new Default_maze(10));
+		jogo.getHeroi().setX_coord(8);
+		jogo.getHeroi().setY_coord(3);
+		jogo.change_hero_pos();
+		jogo.getHeroi().setArmado(true);
+		jogo.setDragoes(new Dragao[1]);
+		jogo.setDragao(0, new Dragao(3));
+		jogo.getDragoes()[0].setX_coord(1);
+		jogo.getDragoes()[0].setY_coord(1);
+		int choice = 2;
+		assertTrue(jogo.getDragoes()[0].isAlive());
+		choice = jogo.interpreta_opcao(choice);
+		choice = jogo.endOfTurn(choice);
+		assertTrue(jogo.getDragoes()[0].isAlive());
+		assertTrue(choice != 5);
+		choice = 2;
+		choice = jogo.interpreta_opcao(choice);
+		choice = jogo.endOfTurn(choice);
+		assertTrue(choice != 5);
+		choice = 4;
+		choice = jogo.interpreta_opcao(choice);
+		assertTrue(choice == 9);
 		System.out.println("Ended test: Test if Hero gets to the exit but game does not end due to dragons alive");
 	}
+	
+	
+	//-----------------------------OLD TESTS-----------------------------------------------
+
+/*
+
 	@Test(timeout=5000)
 	public void testIfDragonSleepsAndWakes() {
 		System.out.println("Starting test: Test if Dragons sleep properly");
@@ -709,5 +686,5 @@ public class Tests {
 		assertTrue(killCounter > 0);
 		System.out.println("Ended test: Test if shoots Dards");
 	}
-
+*/
 }

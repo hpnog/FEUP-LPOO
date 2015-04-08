@@ -423,7 +423,7 @@ public class Jogo implements Serializable {
 			change_hero_pos();
 		}
 		//if shield
-		if (labirinto.getLab()[heroi.getX_coord()+x][heroi.getY_coord()+y] == 'O') {
+		else if (labirinto.getLab()[heroi.getX_coord()+x][heroi.getY_coord()+y] == 'O') {
 			labirinto.setLabCell(heroi.getX_coord(), heroi.getY_coord(), ' ');
 			heroi.setShielded(true);
 			escudo.set_caught(true);
