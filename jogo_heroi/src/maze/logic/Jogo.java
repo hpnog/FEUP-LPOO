@@ -38,7 +38,6 @@ public class Jogo implements Serializable {
 	/** The prefs. */
 	private GamePreferences prefs;
 
-	
 	/**
 	 * The Class GamePreferences.
 	 */
