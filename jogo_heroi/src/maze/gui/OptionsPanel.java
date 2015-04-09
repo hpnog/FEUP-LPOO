@@ -12,7 +12,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
@@ -32,7 +31,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 	
 	private JSpinner mazeSize;
 	private JComboBox<String> dragonType;
-	private JSlider numberOfDragons;
+	private JSpinner numberOfDragons;
 	private JTextField moveUp;
 	private JTextField moveDown;
 	private JTextField moveLeft;
@@ -70,7 +69,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		});
 		saveChanges.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int dragonNumber = numberOfDragons.getValue();
+				int dragonNumber = (int) numberOfDragons.getValue();
 				int sizeOfMaze = (int) mazeSize.getValue();
 				int typeOfDragon = dragonTypeInterpretation((String) dragonType.getSelectedItem());
 				String up = moveUp.getText();
@@ -162,7 +161,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		});
 		createMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int dragonNumber = numberOfDragons.getValue();
+				int dragonNumber = (int) numberOfDragons.getValue();
 				int sizeOfMaze = (int) mazeSize.getValue();
 				int typeOfDragon = dragonTypeInterpretation((String) dragonType.getSelectedItem());
 				String up = moveUp.getText();
@@ -349,13 +348,12 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		JLabel label_10 = new JLabel("Shoot dard right:");
 		label_10.setBounds(250, 239, 150, 14);
 		optionsPanel.add(label_10);
-		numberOfDragons = new JSlider();
-		numberOfDragons.setBounds(250, 50, 200, 31);
-		numberOfDragons.setPaintTicks(true);
-		numberOfDragons.setMajorTickSpacing(5);
-		numberOfDragons.setMaximum(51);
-		numberOfDragons.setMinimum(0);
-		numberOfDragons.setValue(5);
+		numberOfDragons = new JSpinner();
+		
+		numberOfDragons.setModel(new SpinnerNumberModel(2, 0, 10, 1));
+		numberOfDragons.setToolTipText("");
+		numberOfDragons.setBackground(SystemColor.inactiveCaptionBorder);
+		numberOfDragons.setBounds(250, 55, 60, 20);
 		optionsPanel.add(numberOfDragons);
 		shootRight = new JTextField();
 		shootRight.setBounds(415, 236, 35, 20);
