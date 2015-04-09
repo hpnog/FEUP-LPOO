@@ -941,7 +941,7 @@ public class Jogo implements Serializable {
 		this.prefs = prefs;
 	}
 	
-	//Methods related with dards
+	//Methods related with darts
 	/**
 	 * Shoot the darts
 	 *
@@ -1046,8 +1046,8 @@ public class Jogo implements Serializable {
 		}
 		else
 			if (inter == 0)
-				console_interface.no_dards();
-			else if (inter == 3) MazeDisplay.noDards();
+				console_interface.no_darts();
+			else if (inter == 3) MazeDisplay.noDarts();
 			else {}
 
 	}
@@ -1058,7 +1058,7 @@ public class Jogo implements Serializable {
 	 * @param i the i
 	 * @param dardo the dart
 	 */
-	public void setDard(int i, Dart dardo) {
+	public void setDart(int i, Dart dardo) {
 		dardos[i] = dardo;
 	}
 	

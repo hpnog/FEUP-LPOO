@@ -429,9 +429,9 @@ public class Tests {
 		jogo.getHeroi().setY_coord(4);
 		jogo.change_hero_pos();
 		jogo.setDardos(new Dart[3]);
-		jogo.setDard(0, new Dart(1,1));
-		jogo.setDard(1, new Dart(1,2));
-		jogo.setDard(2, new Dart(1,3));
+		jogo.setDart(0, new Dart(1,1));
+		jogo.setDart(1, new Dart(1,2));
+		jogo.setDart(2, new Dart(1,3));
 		jogo.change_dardo_pos(0);
 		jogo.change_dardo_pos(1);
 		jogo.change_dardo_pos(2);

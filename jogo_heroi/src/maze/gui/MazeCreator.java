@@ -2,6 +2,8 @@ package maze.gui;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -9,6 +11,7 @@ import javax.swing.JOptionPane;
 import maze.gui.MazeCreatorGrid;
 import maze.logic.Lab;
 import maze.logic.Object;
+import maze.logic.Jogo.GamePreferences;
 
 import javax.swing.JPanel;
 
@@ -19,11 +22,12 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MazeCreator extends JFrame implements ComponentListener{
+public class MazeCreator extends JFrame implements ComponentListener, MouseListener{
 	private static final long serialVersionUID = 2204086892323041058L;
 	private JPanel mazeGenerator;
 	private MazeCreatorGrid mazeCreatorGrid;
 	private JPanel buttons;
+	private CreatorSideBar sideBar;
 	private JButton back;
 	private JButton finish;
 
@@ -31,12 +35,13 @@ public class MazeCreator extends JFrame implements ComponentListener{
 		setTitle("Create your Maze");
 		addComponentListener(this);
 		setFocusable(true);
+		addMouseListener(this);
 
 
 		mazeGenerator = new JPanel();
 		mazeGenerator.setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 800, 900);
-		mazeCreatorGrid = new MazeCreatorGrid(getWidth(), getHeight());
+		mazeCreatorGrid = new MazeCreatorGrid(getContentPane().getWidth()-100, getContentPane().getHeight()-50);
 		buttons = new JPanel();
 		back = new JButton("back");
 
@@ -48,8 +53,6 @@ public class MazeCreator extends JFrame implements ComponentListener{
 				requestFocus();
 			}
 		});
-
-		//FINISH
 		finish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
 				if (MazeCreatorGrid.getPhase().isFinished()) {
@@ -195,9 +198,12 @@ public class MazeCreator extends JFrame implements ComponentListener{
 
 		});
 
-
 		buttons.add(finish);
 		mazeGenerator.add(mazeCreatorGrid);
+		
+		sideBar = new CreatorSideBar();
+		
+		this.getContentPane().add(sideBar, BorderLayout.EAST);
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(mazeGenerator, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,7 +234,7 @@ public class MazeCreator extends JFrame implements ComponentListener{
 
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-		mazeCreatorGrid.setSize(getWidth(), getHeight());		
+		mazeCreatorGrid.setSize(getContentPane().getWidth()-100, getContentPane().getHeight()-50);		
 		mazeCreatorGrid.game();
 	}
 
@@ -238,4 +244,54 @@ public class MazeCreator extends JFrame implements ComponentListener{
 
 	}
 
+	
+	public CreatorSideBar getSideBar() {
+		return sideBar;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		MazeDisplay.getJogoG().getPrefs();
+		if (!MazeCreatorGrid.getPhase().isExitPlaced())
+			mazeCreatorGrid.putExit(arg0);
+		else if (!MazeCreatorGrid.getPhase().isMazeDone())
+			mazeCreatorGrid.makeMaze(arg0);
+		else if (!MazeCreatorGrid.getPhase().isHeroPlaced())
+			mazeCreatorGrid.placeHero(arg0);
+		else if (!MazeCreatorGrid.getPhase().isShieldPlaced())
+			mazeCreatorGrid.placeShield(arg0);
+		else if (!MazeCreatorGrid.getPhase().isSwordPlaced())
+			mazeCreatorGrid.placeSword(arg0);
+		else if (MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
+			mazeCreatorGrid.placeDragon(arg0, MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced());
+		else if (MazeCreatorGrid.getPhase().getNumberOfDardsPlaced() < GamePreferences.getMazeSize()/4)
+			mazeCreatorGrid.placeDards(arg0, MazeCreatorGrid.getPhase().getNumberOfDardsPlaced());
+		mazeCreatorGrid.game();
+		
+		sideBar.update();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

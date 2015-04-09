@@ -65,7 +65,7 @@ public class console_interface {
 			System.out.println("a - left");
 			System.out.println("d - right");
 			System.out.println();
-			System.out.println("Shoot dards:");
+			System.out.println("Shoot darts:");
 			System.out.println("y - up");
 			System.out.println("h - down");
 			System.out.println("g - left");
@@ -187,10 +187,10 @@ public class console_interface {
 			System.out.printf("\nNumero de dardos - %d\n\n", heroi.getDardos());
 		}
 	}
-	public static void no_dards() {
+	public static void no_darts() {
 		if (Jogo.getInter() == 0) {
 
-			System.out.printf("\n\nYou have no dards.\n\n");
+			System.out.printf("\n\nYou have no darts.\n\n");
 		}
 	}
 	public static void shotLeft() {
@@ -256,7 +256,7 @@ public class console_interface {
 		jogoC.shield_random_start();
 		
 		for (int i = 0; i < jogoC.getLabirinto().getSize() / 4; i++) {
-			jogoC.setDard(i, new Dart(1, 1));
+			jogoC.setDart(i, new Dart(1, 1));
 			jogoC.random_dardo(i);
 		}
 		

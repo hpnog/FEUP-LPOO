@@ -62,7 +62,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.shield_random_start();
 
 		for (int i = 0; i < jogoG.getLabirinto().getSize() / 4; i++) {
-			jogoG.setDard(i, new Dart(1, 1));
+			jogoG.setDart(i, new Dart(1, 1));
 			jogoG.random_dardo(i);
 		}
 
@@ -278,8 +278,8 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	public static void wall() {
 		JOptionPane.showMessageDialog(null, "You cannot go through a wall");
 	}
-	public static void noDards() {
-		JOptionPane.showMessageDialog(null, "You have no dards");
+	public static void noDarts() {
+		JOptionPane.showMessageDialog(null, "You have no darts");
 	}
 	public static void killedByFire() {
 		JOptionPane.showMessageDialog(null, "You just died by fire!");

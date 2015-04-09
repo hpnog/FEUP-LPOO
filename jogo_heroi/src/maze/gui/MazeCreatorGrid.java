@@ -3,8 +3,6 @@ package maze.gui;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,7 +18,7 @@ import maze.logic.Jogo;
 import maze.logic.Lab;
 import maze.logic.Jogo.GamePreferences;
 
-public class MazeCreatorGrid extends JPanel implements MouseListener{
+public class MazeCreatorGrid extends JPanel {
 	private static final long serialVersionUID = 4097316773731482125L;
 	private ImageIcon dragon;
 	private ImageIcon sleepingDragon;
@@ -118,7 +116,6 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		setPhase(new CreatorPhase());
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setSize(width, height);
-		addMouseListener(this);
 		
 		//Varible for Panes size
 		int paneSize = 1;
@@ -209,7 +206,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 
-	private void loadImages() {
+	void loadImages() {
 		dragon = new ImageIcon(this.getClass().getResource("res/dragon.png"));
 		sleepingDragon = new ImageIcon(this.getClass().getResource("res/sleepingDragon.png"));
 		hero = new ImageIcon(this.getClass().getResource("res/hero.png"));
@@ -222,7 +219,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
 		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 
 	}
-
+/*
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		MazeDisplay.getJogoG().getPrefs();
@@ -241,9 +238,9 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		else if (getPhase().getNumberOfDardsPlaced() < GamePreferences.getMazeSize()/4)
 			placeDards(arg0, getPhase().getNumberOfDardsPlaced());
 		game();
-	}
+	}*/
 
-	private void placeDards(MouseEvent arg0, int ind) {
+	void placeDards(MouseEvent arg0, int ind) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		
@@ -251,13 +248,13 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 			JOptionPane.showMessageDialog(null, "You can only place any dard in an empty space");
 		else {
 			MazeDisplay.getJogoG().getPrefs();
-			MazeDisplay.getJogoG().setDard(ind, new Dart(xCoord, yCoord));
+			MazeDisplay.getJogoG().setDart(ind, new Dart(xCoord, yCoord));
 			MazeDisplay.getJogoG().change_dardo_pos(ind);
 			phase.setNumberOfDardsPlaced(phase.getNumberOfDardsPlaced()+1);
 		}
 	}
 
-	private void placeSword(MouseEvent arg0) {
+	void placeSword(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		if (getLab().getChar(xCoord, yCoord) != ' ')
@@ -270,7 +267,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 
-	private void placeShield(MouseEvent arg0) {
+	void placeShield(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		if (getLab().getChar(xCoord, yCoord) != ' ')
@@ -283,7 +280,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 
-	private void placeDragon(MouseEvent arg0, int ind) {
+	void placeDragon(MouseEvent arg0, int ind) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		
@@ -299,7 +296,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 	
-	private void placeHero(MouseEvent arg0) {
+	void placeHero(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		if (getLab().getChar(xCoord, yCoord) != ' ')
@@ -312,7 +309,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 
-	private void makeMaze(MouseEvent arg0) {
+	void makeMaze(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		if (xCoord == 0 || xCoord == (getLab().getSize()-1) || yCoord == 0 || yCoord == (getLab().getSize()-1))
@@ -326,7 +323,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		}
 	}
 
-	private void putExit(MouseEvent arg0) {
+	void putExit(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
 		System.out.printf("\nXCoord:%d\tyCoord:%d", xCoord, yCoord);
@@ -354,7 +351,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 	}
 
 	private int getMouseYCoord(MouseEvent arg) {
-		int ycoord = arg.getY();
+		int ycoord = arg.getY()-30;
 		int fin = 0;
 		for (int i = 0; i < getLab().getSize(); i++) {
 			if (ycoord < (fin*((double) this.getHeight()/getLab().getSize())+
@@ -383,29 +380,6 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		return MazeDisplay.getJogoG().getLabirinto();
 	}
 	
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public static CreatorPhase getPhase() {
 		return phase;
 	}
@@ -413,4 +387,52 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 	public static void setPhase(CreatorPhase phase) {
 		MazeCreatorGrid.phase = phase;
 	}
+
+
+
+	public ImageIcon getDragon() {
+		return dragon;
+	}
+
+	public ImageIcon getSleepingDragon() {
+		return sleepingDragon;
+	}
+
+	public ImageIcon getHero() {
+		return hero;
+	}
+
+	public ImageIcon getArmedHero() {
+		return armedHero;
+	}
+
+	public ImageIcon getShieldedHero() {
+		return shieldedHero;
+	}
+
+	public ImageIcon getArmedAndShieldedHero() {
+		return armedAndShieldedHero;
+	}
+
+	public ImageIcon getWall() {
+		return wall;
+	}
+
+	public ImageIcon getClosedExit() {
+		return closedExit;
+	}
+
+	public ImageIcon getDard() {
+		return dard;
+	}
+
+	public ImageIcon getShield() {
+		return shield;
+	}
+
+	public ImageIcon getSword() {
+		return sword;
+	}
+
+	
 }

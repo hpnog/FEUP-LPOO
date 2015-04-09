@@ -276,7 +276,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		label.setBounds(75, 25, 150, 14);
 		optionsPanel.add(label);
 		mazeSize = new JSpinner();
-		mazeSize.setModel(new SpinnerNumberModel(15, 9, 51, 2));
+		mazeSize.setModel(new SpinnerNumberModel(15, 7, 51, 2));
 		mazeSize.setToolTipText("");
 		mazeSize.setBounds(250, 22, 60, 20);
 		mazeSize.setBackground(SystemColor.inactiveCaptionBorder);
