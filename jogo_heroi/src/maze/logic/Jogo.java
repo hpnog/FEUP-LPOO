@@ -306,6 +306,7 @@ public class Jogo implements Serializable {
 				break;
 			}
 		}
+		displayDardos();
 		return choice;
 	}
 	
