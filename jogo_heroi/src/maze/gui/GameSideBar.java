@@ -14,6 +14,7 @@ public class GameSideBar extends JPanel{
 	private ImageIcon shield;
 	private ImageIcon sword;
 	private ImageIcon check;
+	private ImageIcon error;
 
 	GameSideBar() {
 		super();
@@ -28,6 +29,7 @@ public class GameSideBar extends JPanel{
 		shield =  scaleImage(new ImageIcon(this.getClass().getResource("res/shield.png")));
 		sword =  scaleImage(new ImageIcon(this.getClass().getResource("res/sword.png")));
 		check =  scaleImage(new ImageIcon(this.getClass().getResource("res/check.png")));
+		error =  scaleImage(new ImageIcon(this.getClass().getResource("res/error.png")));
 
 	}
 
@@ -41,19 +43,19 @@ public class GameSideBar extends JPanel{
 		
 		this.add(new JLabel(shield));
 		if (!MazeDisplay.getJogoG().getHeroi().isShielded())
-			this.add(new JLabel(" "));
+			this.add(new JLabel(error));
 		else
 			this.add(new JLabel(check));
 
 		this.add(new JLabel(sword));
 		if (!MazeDisplay.getJogoG().getHeroi().isArmado())
-			this.add(new JLabel(" "));
+			this.add(new JLabel(error));
 		else
 			this.add(new JLabel(check));
 
 		this.add(new JLabel(dragon));
 		if (MazeDisplay.getJogoG().checkIfDragonsAreAlive())
-			this.add(new JLabel(" "));
+			this.add(new JLabel(error));
 		else
 			this.add(new JLabel(check));
 

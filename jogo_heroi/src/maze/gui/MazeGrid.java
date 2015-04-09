@@ -75,6 +75,7 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledShield = scaleImage(shield);
 		//ImageIcon scaledFire = scaleImage(fire);---------------------------------AINDA PARA USAR
 		ImageIcon scaledSword = scaleImage(sword);
+		
 		for (int i = 0; i < MazeDisplay.getJogoG().getLabirinto().getSize(); i++) {
 			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) {
 				if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')
@@ -105,6 +106,10 @@ public class MazeGrid extends JPanel {
 				}
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'O')
 					this.add(new JLabel(scaledShield));
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'F')
+					this.add(new JLabel("F - MUDAR"));
+				
+			
 				//--------------------------------FALTA-O-FOGO----------------------------------
 			}
 		}

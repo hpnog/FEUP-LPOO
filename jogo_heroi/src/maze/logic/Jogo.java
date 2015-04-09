@@ -302,8 +302,6 @@ public class Jogo implements Serializable {
 			if (choice == 5) {
 				if (inter == 0) 
 					console_interface.youDied();
-				else if(inter == 3) 
-					MazeDisplay.youDied();
 				else {}
 				break;
 			}
@@ -516,7 +514,7 @@ public class Jogo implements Serializable {
 	public int moveAndSpit_dragoes(int choice) {
 		moveDragoes();
 		for (int i = 0; i < dragoes.length; i++) {
-			if (dragoes[i].isAlive()) {
+			if (dragoes[i].isAlive() && dragoes[i].getStatus() != 1) {
 				int choice2 = random_dragao_fire(dragoes[i]);
 				if (choice2 == 10) {
 					if (inter == 0) 

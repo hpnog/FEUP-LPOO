@@ -4,9 +4,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JFrame;
 
 import maze.logic.Dart;
@@ -186,20 +183,29 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		if (choice == 10 || choice == 5)
 			returnFunc();
 
+		mazeGrid.game();
+		
 		choice = interpretaOpcao(arg);
 		if (choice == 10 || choice == 5)
 			returnFunc();
 
 		if (choice != -1)
 			choice = jogoG.interpreta_opcao(choice);
-
+		
+		mazeGrid.game();
+		
 		choice = jogoG.endOfTurn(choice);
-		if (choice == 10 || choice == 5)
+		if (choice == 10 || choice == 5) {
+			sideBar.update();
+			mazeGrid.game();
+			if (choice == 5)
+				youDied();
 			returnFunc();
+		}
 
 		mazeGrid.setSize(getWidth(), getHeight());
-		mazeGrid.game();
 		sideBar.update();
+		mazeGrid.game();
 	}
 
 	public void returnFunc() {
@@ -224,21 +230,22 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 	public int interpretaOpcao(KeyEvent arg) {
 		jogoG.getPrefs();
-		if (arg.getKeyChar() == GamePreferences.getUp())
+		
+		if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getUp())
 			return 1;
-		else if (arg.getKeyChar() == GamePreferences.getLeft())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getLeft())
 			return 3;
-		else if (arg.getKeyChar() == GamePreferences.getRight())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getRight())
 			return 4;
-		else if (arg.getKeyChar() == GamePreferences.getDown())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getDown())
 			return 2;
-		else if (arg.getKeyChar() == GamePreferences.getsUp())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getsUp())
 			return 101;
-		else if (arg.getKeyChar() == GamePreferences.getsDown())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getsDown())
 			return 102;
-		else if (arg.getKeyChar() == GamePreferences.getsLeft())
+		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getsLeft())
 			return 104;
-		else if (arg.getKeyCode() == GamePreferences.getsRight())
+		else if (Character.toLowerCase(arg.getKeyCode()) == GamePreferences.getsRight())
 			return 103;
 		return -1;
 	}
