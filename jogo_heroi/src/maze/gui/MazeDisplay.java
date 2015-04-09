@@ -4,6 +4,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
@@ -32,6 +34,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	private static final long serialVersionUID = -191089706890276055L;
 	private static Jogo jogoG;
 	private JPanel game;
+	private GameSideBar sideBar;
 	private MazeGrid mazeGrid;
 	private JPanel buttons;
 	private JButton quit;
@@ -157,8 +160,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		buttons.add(saveGame);
 		buttons.add(loadGame);
 		buttons.add(quit);
+		
+		sideBar = new GameSideBar();
+		
 		game.setLayout(new BorderLayout(0, 0));
 		game.add(mazeGrid);
+		this.getContentPane().add(sideBar, BorderLayout.EAST);
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(game, BorderLayout.CENTER);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -192,6 +199,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 		mazeGrid.setSize(getWidth(), getHeight());
 		mazeGrid.game();
+		sideBar.update();
 	}
 
 	public void returnFunc() {

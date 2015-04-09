@@ -219,26 +219,6 @@ public class MazeCreatorGrid extends JPanel {
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
 		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 
 	}
-/*
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		MazeDisplay.getJogoG().getPrefs();
-		if (!getPhase().isExitPlaced())
-			putExit(arg0);
-		else if (!getPhase().isMazeDone())
-			makeMaze(arg0);
-		else if (!getPhase().isHeroPlaced())
-			placeHero(arg0);
-		else if (!getPhase().isShieldPlaced())
-			placeShield(arg0);
-		else if (!getPhase().isSwordPlaced())
-			placeSword(arg0);
-		else if (getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
-			placeDragon(arg0, getPhase().getNumberOfDragonsPlaced());
-		else if (getPhase().getNumberOfDardsPlaced() < GamePreferences.getMazeSize()/4)
-			placeDards(arg0, getPhase().getNumberOfDardsPlaced());
-		game();
-	}*/
 
 	void placeDards(MouseEvent arg0, int ind) {
 		int xCoord = getMouseXCoord(arg0);
