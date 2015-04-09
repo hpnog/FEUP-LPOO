@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import maze.logic.Dardo;
+import maze.logic.Dart;
 import maze.logic.Dragao;
 import maze.logic.Escudo;
 import maze.logic.Espada;
@@ -127,7 +127,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 		MazeDisplay.getJogoG().setLabirinto(new Lab(GamePreferences.getMazeSize()));
 		MazeDisplay.getJogoG().setHeroi(new Heroi());
 		MazeDisplay.getJogoG().setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
-		MazeDisplay.getJogoG().setDardos(new Dardo[GamePreferences.getMazeSize()/4]);
+		MazeDisplay.getJogoG().setDardos(new Dart[GamePreferences.getMazeSize()/4]);
 		MazeDisplay.getJogoG().setEscudo(new Escudo());
 		MazeDisplay.getJogoG().setEspada(new Espada());
 		MazeDisplay.getJogoG().setInter(3);
@@ -251,7 +251,7 @@ public class MazeCreatorGrid extends JPanel implements MouseListener{
 			JOptionPane.showMessageDialog(null, "You can only place any dard in an empty space");
 		else {
 			MazeDisplay.getJogoG().getPrefs();
-			MazeDisplay.getJogoG().setDard(ind, new Dardo(xCoord, yCoord));
+			MazeDisplay.getJogoG().setDard(ind, new Dart(xCoord, yCoord));
 			MazeDisplay.getJogoG().change_dardo_pos(ind);
 			phase.setNumberOfDardsPlaced(phase.getNumberOfDardsPlaced()+1);
 		}

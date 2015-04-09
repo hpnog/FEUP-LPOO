@@ -2,7 +2,7 @@ package maze.cli;
 
 import java.util.Scanner;
 
-import maze.logic.Dardo;
+import maze.logic.Dart;
 import maze.logic.Default_maze;
 import maze.logic.Dragao;
 import maze.logic.Escudo;
@@ -249,14 +249,14 @@ public class console_interface {
 		jogoC.setHeroi(new Heroi());
 		jogoC.setEspada(new Espada());
 		jogoC.setEscudo(new Escudo());
-		jogoC.setDardos(new Dardo [jogoC.getLabirinto().getSize() / 4]);
+		jogoC.setDardos(new Dart [jogoC.getLabirinto().getSize() / 4]);
 
 		jogoC.random_sword();
 		jogoC.random_hero_start();
 		jogoC.shield_random_start();
 		
 		for (int i = 0; i < jogoC.getLabirinto().getSize() / 4; i++) {
-			jogoC.setDard(i, new Dardo(1, 1));
+			jogoC.setDard(i, new Dart(1, 1));
 			jogoC.random_dardo(i);
 		}
 		

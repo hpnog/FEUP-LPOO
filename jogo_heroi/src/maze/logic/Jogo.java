@@ -30,7 +30,7 @@ public class Jogo implements Serializable {
 	private Escudo escudo;
 	
 	/** The dardos. */
-	private Dardo [] dardos;
+	private Dart [] dardos;
 	
 	/** The inter. */
 	private static int inter = 0;
@@ -892,7 +892,7 @@ public class Jogo implements Serializable {
 	 *
 	 * @return the darts
 	 */
-	public Dardo[] getDardos() {
+	public Dart[] getDardos() {
 		return dardos;
 	}
 	
@@ -901,7 +901,7 @@ public class Jogo implements Serializable {
 	 *
 	 * @param dardos the new darts
 	 */
-	public void setDardos(Dardo[] dardos) {
+	public void setDardos(Dart[] dardos) {
 		this.dardos = dardos;
 	}
 	
@@ -1058,7 +1058,7 @@ public class Jogo implements Serializable {
 	 * @param i the i
 	 * @param dardo the dart
 	 */
-	public void setDard(int i, Dardo dardo) {
+	public void setDard(int i, Dart dardo) {
 		dardos[i] = dardo;
 	}
 	

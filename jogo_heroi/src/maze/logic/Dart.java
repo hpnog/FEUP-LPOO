@@ -2,7 +2,7 @@ package maze.logic;
 
 import java.io.Serializable;
 
-public class Dardo extends Object implements Serializable{
+public class Dart extends Object implements Serializable{
 	private static final long serialVersionUID = -4254410647641732977L;
 	private boolean caught;
 	
@@ -11,7 +11,7 @@ public class Dardo extends Object implements Serializable{
 	 * @param x position on X-axis
 	 * @param y position on Y-axis
 	 */
-	public Dardo(int x, int y) {
+	public Dart(int x, int y) {
 		super (x, y);
 		caught = false;
 	}

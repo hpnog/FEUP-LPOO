@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import maze.logic.Dardo;
+import maze.logic.Dart;
 import maze.logic.Dragao;
 import maze.logic.Escudo;
 import maze.logic.Espada;
@@ -428,10 +428,10 @@ public class Tests {
 		jogo.getHeroi().setX_coord(1);
 		jogo.getHeroi().setY_coord(4);
 		jogo.change_hero_pos();
-		jogo.setDardos(new Dardo[3]);
-		jogo.setDard(0, new Dardo(1,1));
-		jogo.setDard(1, new Dardo(1,2));
-		jogo.setDard(2, new Dardo(1,3));
+		jogo.setDardos(new Dart[3]);
+		jogo.setDard(0, new Dart(1,1));
+		jogo.setDard(1, new Dart(1,2));
+		jogo.setDard(2, new Dart(1,3));
 		jogo.change_dardo_pos(0);
 		jogo.change_dardo_pos(1);
 		jogo.change_dardo_pos(2);

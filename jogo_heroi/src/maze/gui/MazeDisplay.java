@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 
-import maze.logic.Dardo;
+import maze.logic.Dart;
 import maze.logic.Dragao;
 import maze.logic.Escudo;
 import maze.logic.Espada;
@@ -48,7 +48,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.getPrefs();
 		jogoG.setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
 		jogoG.setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
-		jogoG.setDardos(new Dardo [jogoG.getLabirinto().getSize() / 4]);
+		jogoG.setDardos(new Dart [jogoG.getLabirinto().getSize() / 4]);
 		jogoG.setInter(3);
 		jogoG.setHeroi(new Heroi());
 		jogoG.setEspada(new Espada());
@@ -62,7 +62,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.shield_random_start();
 
 		for (int i = 0; i < jogoG.getLabirinto().getSize() / 4; i++) {
-			jogoG.setDard(i, new Dardo(1, 1));
+			jogoG.setDard(i, new Dart(1, 1));
 			jogoG.random_dardo(i);
 		}
 
