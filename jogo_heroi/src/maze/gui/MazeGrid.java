@@ -62,6 +62,13 @@ public class MazeGrid extends JPanel {
 	}
 	
 	private void introduzConteudo() {
+		MazeDisplay.getJogoG().displayDardos();
+		MazeDisplay.getJogoG().displayDragoes();
+		MazeDisplay.getJogoG().change_escudo_pos();
+		MazeDisplay.getJogoG().change_sword_pos();
+		MazeDisplay.getJogoG().change_hero_pos();
+		
+		
 		ImageIcon scaledDragon = scaleImage(dragon);
 		ImageIcon scaledSleepingDragon = scaleImage(sleepingDragon);
 		ImageIcon scaledHero = scaleImage(hero);

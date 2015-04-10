@@ -382,11 +382,9 @@ public class Jogo implements Serializable {
 				else if (inter == 3) 
 					MazeDisplay.messageDragonKilled();
 				else {}
-				if (dragoes[i].getX_coord() != heroi.getX_coord())
-					if (dragoes[i].getY_coord() != heroi.getY_coord())
-						labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
-			}
+				}
 			dragoes[i].setAlive(false);
+			labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 			ret = -1;
 		}
 		else if (dragoes[i].getStatus() == 1)
@@ -520,8 +518,6 @@ public class Jogo implements Serializable {
 				if (choice2 == 10) {
 					if (inter == 0) 
 						console_interface.killedByFire();
-					else if (inter == 3)
-						MazeDisplay.killedByFire();
 					else {}
 					choice = 10;
 				}
@@ -648,11 +644,11 @@ public class Jogo implements Serializable {
 					labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), 'D');
 			}
 		}
-		else {
+		/*else {
 			if (labirinto.getLab()[dragoes[i].getX_coord()][dragoes[i].getY_coord()] == 'd' || 
 					labirinto.getLab()[dragoes[i].getX_coord()][dragoes[i].getY_coord()] == 'D')
 				labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
-		}
+		}*/
 	}
 	
 	/**
@@ -711,7 +707,8 @@ public class Jogo implements Serializable {
 					if ((heroi.getY_coord()-count) == dragao.getY_coord()) {
 						if (!heroi.isShielded())
 							return 10;
-						else if (labirinto.getLab()[dragao.getX_coord()][dragao.getY_coord()-count] == 'X')
+						else if (labirinto.getLab()[dragao.getX_coord()][dragao.getY_coord()-count] == 'X' ||
+								dragao.getY_coord()-count <= 0)
 							return 0;
 					}
 					count++;
@@ -777,10 +774,19 @@ public class Jogo implements Serializable {
 	 * Display the dragons
 	 */
 	public void displayDragoes() {
-		for (int i = 0; i < dragoes.length; i++)
+		for (int i = 0; i < dragoes.length; i++) {
+			empty_dragon(i);
 			change_dragon_pos(i);
+		}
 	}
 	
+	private void empty_dragon(int i) {
+		if (labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'D' ||
+				labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'd' ||
+				labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'F')
+			labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
+	}
+
 	/**
 	 * Check if dragons are alive.
 	 *
@@ -958,6 +964,7 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()-i))
 							if (dragoes[j].getY_coord() == (heroi.getY_coord())) {
 								dragoes[j].setAlive(false);
+								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
 								if (inter == 0)	
 									console_interface.dragonKilled();
 								else if (inter == 3) 
@@ -985,6 +992,7 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()+i))
 							if (dragoes[j].getY_coord() == (heroi.getY_coord())) {
 								dragoes[j].setAlive(false);
+								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 								if (inter == 0) 
 									console_interface.dragonKilled();
 								else if (inter == 3) 
@@ -1012,6 +1020,7 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()-i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
 								dragoes[j].setAlive(false);
+								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
@@ -1037,6 +1046,7 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()+i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
 								dragoes[j].setAlive(false);
+								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
@@ -1062,6 +1072,7 @@ public class Jogo implements Serializable {
 			else {}
 		
 		displayDragoes();
+		change_hero_pos();
 	}
 	
 	/**
@@ -1181,6 +1192,7 @@ public class Jogo implements Serializable {
 	 * Updates the position of the sword (if the hero catches it).
 	 */
 	public void change_sword_pos() {
+		if (!heroi.isArmado())
 		labirinto.setLabCell(espada.getX_coord(), espada.getY_coord(), 'E');
 	}
 

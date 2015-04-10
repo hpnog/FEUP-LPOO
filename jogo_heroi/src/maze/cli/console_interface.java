@@ -270,7 +270,7 @@ public class console_interface {
 		print_options();
 
 		int choice = -1;
-
+ 
 		while ((choice != 5) && (choice != 0) && choice != 10) {
 			jogoC.displayDragoes();
 			imprimir_lab(jogoC.getLabirinto());

@@ -157,9 +157,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		buttons.add(saveGame);
 		buttons.add(loadGame);
 		buttons.add(quit);
-		
+
 		sideBar = new GameSideBar();
-		
+
 		game.setLayout(new BorderLayout(0, 0));
 		game.add(mazeGrid);
 		this.getContentPane().add(sideBar, BorderLayout.EAST);
@@ -178,45 +178,56 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			returnFunc();
 
 		int choice = -1;
-
-		choice = jogoG.moveAndSpit_dragoes(choice);
-		if (choice == 10 || choice == 5)
+		choice = interpretaOpcao(arg);					//Vai buscar o valor de choice
+		if (choice != -1)								//Se choice for valido
+			choice = jogoG.interpreta_opcao(choice);	//Reage em funcao de choice
+		mazeGrid.game();								//Atualiza o labirinto
+		if (choice == 10) {
 			returnFunc();
-
-		mazeGrid.game();
-		
-		choice = jogoG.endOfTurn(choice);
-		if (choice == 10 || choice == 5) {
-			sideBar.update();
-			mazeGrid.game();
-			if (choice == 5)
-				youDied();
-			returnFunc();
+			return;
 		}
-		
-		mazeGrid.game();
-		
-		choice = interpretaOpcao(arg);
-		if (choice == 10 || choice == 5)
-			returnFunc();
-
-		if (choice != -1)
-			choice = jogoG.interpreta_opcao(choice);
-		
-		mazeGrid.game();
-		
-		choice = jogoG.endOfTurn(choice);
-		if (choice == 10 || choice == 5) {
-			sideBar.update();
+		if (choice != 5 && choice != 10) {
+			choice = jogoG.endOfTurn(choice);			//Verifica se o heroi morreu
 			mazeGrid.game();
-			if (choice == 5)
-				youDied();
+		}
+		if (choice == 5) {								//Se o heroi morreu
+			sideBar.update();							//atualiza a barra
+			youDied();									//Mostra mensage de morte
+			returnFunc();								//termina o jogo
+			return;
+		}
+		else if (choice == 10) {
+			sideBar.update();
 			returnFunc();
+			return;
+		}
+		else {
+			sideBar.update();							//atualiza a barra
+		}
+
+		choice = jogoG.moveAndSpit_dragoes(choice);		//Move dragoes
+		mazeGrid.game();
+		if (choice == 10) {								//Se o heroi morrer por fogo
+			sideBar.update();
+			killedByFire();
+			returnFunc();
+			return;
+		}
+		else {
+			sideBar.update();
+		}
+		choice = jogoG.endOfTurn(choice);				//Verifica se o heroi morreu
+		if (choice == 5) {								//Se o heroi morreu
+			sideBar.update();							//atualiza a barra
+			youDied();									//Mostra mensage de morte
+			returnFunc();								//termina o jogo
+			return;
+		}
+		else {
+			sideBar.update();							//atualiza a barra
 		}
 
 		mazeGrid.setSize(getWidth(), getHeight());
-		sideBar.update();
-		mazeGrid.game();
 	}
 
 	public void returnFunc() {
@@ -241,7 +252,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 	public int interpretaOpcao(KeyEvent arg) {
 		jogoG.getPrefs();
-		
+
 		if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getUp())
 			return 1;
 		else if (Character.toLowerCase(arg.getKeyChar()) == GamePreferences.getLeft())
