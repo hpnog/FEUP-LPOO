@@ -21,7 +21,10 @@ import maze.logic.Object;
 import maze.logic.Random_generator;
 
 
+
 public class Tests {
+	
+	
 	private Object tester_1 = new Object(3,3);
 	private Object tester_2 = new Object(3,2);
 	private Object tester_3 = new Object(2,3);
@@ -31,9 +34,6 @@ public class Tests {
 	 * gerada obedece a um dos predicados (funções de T em Boolean). No caso de não obedecer a nenhum, 
 	 * falha, mostrando a mensagem gerada pela função errorMessage (de T em String).
 	 * Repete até cada teste ter sucedido pelo menos uma vez, num mínimo de numIter iterações.
-	 * @param generator - gera uma instância (função de () em T);
-	 * @param errorMessage - gera uma mensagem em caso de erro (função de T em String);
-	 * @param predicates - lista de predicados de teste (funções de T em Boolean).
 	 */
 	@SafeVarargs
 	public final <T> void testAlt(int minIter, 
@@ -59,6 +59,7 @@ public class Tests {
  
 	/* a) the maze boundaries must have exactly one exit and everything else walls
 	// b) the exist cannot be a corner*/
+	
 	public boolean checkBoundaries(Lab m) {
 		int countExit = 0;
 		int n = m.getSize();
@@ -78,6 +79,7 @@ public class Tests {
 	/* d) there cannot exist 2x2 (or greater) squares with blanks only 
 	// e) there cannot exit 2x2 (or greater) squares with blanks in one diagonal and walls in the other
 	// d) there cannot exist 3x3 (or greater) squares with walls only*/
+
 	public boolean hasSquare(Lab maze, char[][] square) {
 		char [][] m = maze.getMatrix();
 		for (int i = 0; i < m.length - square.length; i++)
@@ -95,6 +97,7 @@ public class Tests {
 	}
 
 	// c) there must exist a path between any blank cell and the maze exit 
+
 	public boolean checkExitReachable(Lab maze) {
 		Object p = maze.getExitPosition();
 		char [][] m = deepClone(maze.getMatrix());
@@ -113,6 +116,7 @@ public class Tests {
 
 	/* auxiliary method used by checkExitReachable
 	// marks a cell as visited (V) and proceeds recursively to its neighbors*/
+
 	public void visit(char[][] m, int i, int j) {
 		if (i < 0 || i >= m.length || j < 0 || j >= m.length)
 			return;
@@ -127,6 +131,7 @@ public class Tests {
 
 	/* Auxiliary method used by checkExitReachable.
 	// Gets a deep clone of a char matrix.*/
+
 	public char[][] deepClone(char[][] m) {
 		char[][] c = m.clone();
 		for (int i = 0; i < m.length; i++)
@@ -135,6 +140,7 @@ public class Tests {
 	}
 
 	// Checks if all the arguments (in the variable arguments list) are not null and distinct
+
 	public <T> boolean notNullAndDistinct(@SuppressWarnings("unchecked") T ... args) {
 		for (int i = 0; i < args.length - 1; i++)
 			for (int j = i + 1; j < args.length ; j++)
@@ -144,6 +150,9 @@ public class Tests {
 	}
 
 	//----------------------------------------------------------TESTS----------------------------------------------------------
+	/**
+	 * Test random dragon.
+	 */
 	@Test(timeout=1000)
 	public void testRandomDragon() {
 		System.out.println("Starting test: Test if a Dragons position is randomly chosen correctly");
@@ -184,6 +193,12 @@ public class Tests {
 				(m) -> m.getDragonPosition().equals(tester_3)); 
 		System.out.println("Ended test: Test if a Dragons position is randomly chosen correctly");
 	}
+	
+	/**
+	 * Test random maze generator.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Test(timeout=5000)
 	public void testRandomMazeGenerator() throws Exception {
 		System.out.println("Starting test: Test if a Maze is properly created");
@@ -280,6 +295,10 @@ public class Tests {
 		}
 		System.out.println("Ended test: Test if a Maze is properly created");
 	}
+	
+	/**
+	 * Test hero movement left.
+	 */
 	@Test (timeout = 5000)
 	public void testHeroMovementLeft() {
 		System.out.println("Starting test: Test if Hero moves properly (left)");
@@ -304,6 +323,10 @@ public class Tests {
 		
 		System.out.println("Ended test: Test if Hero moves properly (left)");
 	}
+	
+	/**
+	 * Test hero movement right.
+	 */
 	@Test (timeout = 5000)
 	public void testHeroMovementRight() {
 		System.out.println("Starting test: Test if Hero moves properly (right)");
@@ -328,6 +351,10 @@ public class Tests {
 		
 		System.out.println("Ended test: Test if Hero moves properly (right)");
 	}
+	
+	/**
+	 * Test hero movement down.
+	 */
 	@Test (timeout = 5000)
 	public void testHeroMovementDown() {
 		System.out.println("Starting test: Test if Hero moves properly (down)");
@@ -352,6 +379,10 @@ public class Tests {
 		
 		System.out.println("Ended test: Test if Hero moves properly (down)");
 	}
+	
+	/**
+	 * Test hero movement up.
+	 */
 	@Test (timeout = 5000)
 	public void testHeroMovementUp() {
 		System.out.println("Starting test: Test if Hero moves properly (up)");
@@ -376,6 +407,10 @@ public class Tests {
 		
 		System.out.println("Ended test: Test if Hero moves properly (up)");
 	}
+	
+	/**
+	 * Test if catches sword.
+	 */
 	@Test (timeout = 5000)
 	public void testIfCatchesSword() {
 		System.out.println("Starting test: Test if Hero catches Sword");
@@ -397,6 +432,10 @@ public class Tests {
 		assertTrue(jogo.getHeroi().isArmado());
 		System.out.println("Finished test: Test if Hero catches Sword");
 	}
+	
+	/**
+	 * Test if catches shield.
+	 */
 	@Test (timeout = 5000)
 	public void testIfCatchesShield() {
 		System.out.println("Starting test: Test if Hero catches Shield");
@@ -417,8 +456,12 @@ public class Tests {
 		assertTrue(jogo.getHeroi().isShielded());
 		System.out.println("Finished test: Test if Hero catches Shield");
 	}
+	
+	/**
+	 * Test if catches dart.
+	 */
 	@Test (timeout = 5000)
-	public void testIfCatchesDard() {
+	public void testIfCatchesDart() {
 		System.out.println("Starting test: Test if Hero catches Dards");
 		Jogo jogo = new Jogo();
 		jogo.setInter(1);
@@ -445,6 +488,10 @@ public class Tests {
 		assertEquals(3, jogo.getHeroi().getDardos());
 		System.out.println("Finished test: Test if Hero catches Dards");
 	}
+	
+	/**
+	 * Test if dragon kills.
+	 */
 	@Test (timeout = 5000)
 	public void testIfDragonKills() {
 		System.out.println("Starting test: Test if Dragon kills without fire");
@@ -468,6 +515,10 @@ public class Tests {
 		assertTrue(jogo.getDragoes()[0].isAlive());
 		System.out.println("Ended test: Test if Dragon kills without fire");
 	}
+	
+	/**
+	 * Test if dragon kills in multiple games.
+	 */
 	@Test(timeout = 5000)
 	public void testIfDragonKills_multipleGames() {
 		System.out.println("Starting test: Test if Dragon kills without fire - multiple games");
@@ -498,6 +549,10 @@ public class Tests {
 		}
 		System.out.println("Ended test: Test if Dragon kills without fire - multiple games");
 	}
+	
+	/**
+	 * Test if hero kills.
+	 */
 	@Test(timeout=5000)
 	public void testIfHeroKills() {
 		System.out.println("Starting test: Test if Hero kills without fire");
@@ -519,6 +574,10 @@ public class Tests {
 		assertTrue(!jogo.getDragoes()[0].isAlive());
 		System.out.println("Ended test: Test if Hero kills without fire");
 	}
+	
+	/**
+	 * Test if hero kills dragon and finds exit.
+	 */
 	@Test (timeout = 5000)
 	public void testIfKillsDragonAndFindsExit() {
 		System.out.println("Starting test: Test if Hero kills without fire and finds the Exit");
@@ -552,6 +611,10 @@ public class Tests {
 		assertTrue(choice == 10);
 		System.out.println("Ended test: Test if Hero kills without fire and finds the Exit");
 	}
+	
+	/**
+	 * Test if hero finds exit but dragon alive.
+	 */
 	@Test (timeout = 5000)
 	public void testIfFindsExitButDragonAlive() {
 		System.out.println("Starting test: Test if Hero gets to the exit but game does not end due to dragons alive");
@@ -585,6 +648,10 @@ public class Tests {
 		assertTrue(choice == 9);
 		System.out.println("Ended test: Test if Hero gets to the exit but game does not end due to dragons alive");
 	}
+	
+	/**
+	 * Test if dragon sleeps and wakes.
+	 */
 	@Test(timeout=5000)
 	public void testIfDragonSleepsAndWakes() {
 		System.out.println("Starting test: Test if Dragons sleep properly");
@@ -639,6 +706,10 @@ public class Tests {
 		assertTrue(asleepCounter > 0);
 		System.out.println("Ended test: Test if Dragons sleep properly");
 	}
+	
+	/**
+	 * Test when dragon kills hero with fire.
+	 */
 	@Test(timeout=5000)
 	public void testFireKill() {
 		System.out.println("Starting test: Test if Dragons kill with fire");
@@ -674,9 +745,13 @@ public class Tests {
 		assertTrue(fireCounter > 0);
 		System.out.println("Ended test: Test if Dragons kill with fire");
 	}
+	
+	/**
+	 * Test the darts shooting
+	 */
 	@Test(timeout=50000)
-	public void testshootsDards() {
-		System.out.println("Starting test: Test if shoots Dards");
+	public void testshootsDarts() {
+		System.out.println("Starting test: Test if shoots Darts");
 		int killCounter = 0;
 		for (int testNum = 0; testNum < 1000; testNum++) {
 			int size = 15 + (int)(Math.random()*25);
@@ -716,12 +791,16 @@ public class Tests {
 			assertTrue((jogo.getEscudo().isCaught() && jogo.getHeroi().isArmado()) || (!jogo.getEscudo().isCaught() && !jogo.getHeroi().isArmado()));
 		}
 		assertTrue(killCounter > 0);
-		System.out.println("Ended test: Test if shoots Dards");
+		System.out.println("Ended test: Test if shoots Darts");
 	}
+	
+	/**
+	 * Test if kills dragon and finds exit in multiple games.
+	 */
 	@Test(timeout=5000)
 	public void testIfKillsDragonAndFindsExit_multipleGames() {
 		System.out.println("Starting test: Test if Hero gets to the exit and game ends due to dragons killed - multiple games");
-		int winCounter = 0; //Muit provavel que ganhe
+		int winCounter = 0; //Likely to win
 		for (int testNum = 0; testNum < 1000; testNum++) {
 			int size = 5 + (int)(Math.random()*11);
 			if ((size % 2) == 0)
@@ -756,6 +835,10 @@ public class Tests {
 		assertTrue(winCounter > 0);
 		System.out.println("Ended test: Test if Hero gets to the exit and game ends due to dragons killed - multiple games");
 	}
+	
+	/**
+	 * Test if hero kills dragon in multiple games.
+	 */
 	@Test(timeout=5000)
 	public void testIfHeroKills_multipleGames() {
 		System.out.println("Starting test: Test if Hero kills with Sword - multiple games");
@@ -792,6 +875,10 @@ public class Tests {
 		}
 		System.out.println("Ended test: Test if Hero kills with Sword - multiple games");
 	}
+	
+	/**
+	 * Test if hero finds exit but dragon alive in multiple games.
+	 */
 	@Test(timeout=5000)
 	public void testIfFindsExitButDragonAlive_multipleGames() {
 		System.out.println("Starting test: Test if Hero gets to the exit but game does not end due to dragons alive - multiple games");
