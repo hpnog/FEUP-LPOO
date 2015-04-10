@@ -24,6 +24,7 @@ public class MazeGrid extends JPanel {
 	@SuppressWarnings("unused")
 	private ImageIcon fire;
 	private ImageIcon sword;
+	private ImageIcon dragonWithSword;
 	
 	MazeGrid() {
 		super();
@@ -37,7 +38,7 @@ public class MazeGrid extends JPanel {
 		loadImages();
 	}
 	
-	private ImageIcon scaleImage(ImageIcon im) {
+	ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
 		Image newimg = img.getScaledInstance(this.getWidth()/MazeDisplay.getJogoG().getLabirinto().getSize(),
 				this.getHeight()/MazeDisplay.getJogoG().getLabirinto().getSize(),
@@ -59,14 +60,18 @@ public class MazeGrid extends JPanel {
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
 		openedExit = new ImageIcon(this.getClass().getResource("res/openedExit.png")); 
 		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 
+		dragonWithSword = new ImageIcon(this.getClass().getResource("res/dragonWithSword.png")); 
+		
 	}
 	
-	private void introduzConteudo() {
-		MazeDisplay.getJogoG().displayDardos();
-		MazeDisplay.getJogoG().displayDragoes();
-		MazeDisplay.getJogoG().change_escudo_pos();
-		MazeDisplay.getJogoG().change_sword_pos();
-		MazeDisplay.getJogoG().change_hero_pos();
+	private void introduzConteudo(boolean shot) {
+		if (!shot) {
+			MazeDisplay.getJogoG().displayDardos();
+			MazeDisplay.getJogoG().change_escudo_pos();
+			MazeDisplay.getJogoG().change_sword_pos();
+			MazeDisplay.getJogoG().displayDragoes();
+			MazeDisplay.getJogoG().change_hero_pos();
+		}
 		
 		
 		ImageIcon scaledDragon = scaleImage(dragon);
@@ -82,10 +87,18 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledShield = scaleImage(shield);
 		//ImageIcon scaledFire = scaleImage(fire);---------------------------------AINDA PARA USAR
 		ImageIcon scaledSword = scaleImage(sword);
+		ImageIcon scaledDragonWithSword = scaleImage(dragonWithSword);
+		ImageIcon scaledBall = scaleImage(new ImageIcon(this.getClass().getResource("res/ball.png")));
+		ImageIcon scaledKilledDragon = scaleImage(new ImageIcon(this.getClass().getResource("res/killedDragon.png")));
 				
 		for (int i = 0; i < MazeDisplay.getJogoG().getLabirinto().getSize(); i++) {
-			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) {
-				if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')
+			
+			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) { 
+				if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'W')
+					add(new JLabel(scaledBall));
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'Q')
+					add(new JLabel(scaledKilledDragon));
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')
 					this.add(new JLabel(scaledWall));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == ' ')
 					this.add(new JLabel(" "));
@@ -114,7 +127,7 @@ public class MazeGrid extends JPanel {
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'O')
 					this.add(new JLabel(scaledShield));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'F')
-					this.add(new JLabel("F - MUDAR"));
+					this.add(new JLabel(scaledDragonWithSword));
 				
 			
 				//--------------------------------FALTA-O-FOGO----------------------------------
@@ -128,7 +141,18 @@ public class MazeGrid extends JPanel {
 		//Repaints the content
 		repaint();
 		//Reintroduces the correct content
-		introduzConteudo();
+		introduzConteudo(false);
+		//Valida novamente o conteudo
+		revalidate();
+	}
+	
+	public void gameShot() {
+		//Remove all content
+		removeAll();
+		//Repaints the content
+		repaint();
+		//Reintroduces the correct content
+		introduzConteudo(true);
 		//Valida novamente o conteudo
 		revalidate();
 	}

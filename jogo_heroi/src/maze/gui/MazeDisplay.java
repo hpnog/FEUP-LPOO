@@ -4,6 +4,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JFrame;
 
 import maze.logic.Dart;
@@ -20,7 +21,9 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
@@ -179,6 +182,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.game();	
 		int choice = -1;
 		choice = interpretaOpcao(arg);					//Vai buscar o valor de choice
+		if (choice > 99) {
+			char tempo [][] = showShotOnScreen(choice);
+			mazeGrid.gameShot();
+			jogoG.getLabirinto().setLab(tempo);
+			JOptionPane.showMessageDialog(null, "You shot a dard");
+		}
 		if (choice != -1)								//Se choice for valido
 			choice = jogoG.interpreta_opcao(choice);	//Reage em funcao de choice
 		mazeGrid.game();								//Atualiza o labirinto
@@ -193,7 +202,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		if (choice == 5) {								//Se o heroi morreu
 			sideBar.update();							//atualiza a barra
 			youDied();									//Mostra mensage de morte
-			returnFunc();								//termina o jogo
+			returnFunc();								//termina o jogo 
 			return;
 		}
 		else if (choice == 10) {
@@ -228,6 +237,69 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		}
 
 		mazeGrid.setSize(getWidth(), getHeight());
+	}
+
+	public char[][] deepClone(char[][] m) {
+		char[][] c = m.clone();
+		for (int i = 0; i < m.length; i++)
+			c[i] = m[i].clone();
+		return c;
+	}
+
+	private char[][] showShotOnScreen(int choice) {
+		char [][] original = deepClone(jogoG.getLabirinto().getLab());
+
+		if (choice < 100)
+			return null;
+
+		int xDiff;
+		int yDiff;
+
+		if (choice == 101) {
+			xDiff = 0;
+			yDiff = -1;
+		}
+		else if (choice == 102) {
+			xDiff = 0;
+			yDiff = 1;
+		}
+		else if (choice == 103) {
+			xDiff = 1;
+			yDiff = 0;
+		}
+		else {
+			xDiff = -1;
+			yDiff = 0;
+		}
+		char[][] tempo = MazeDisplay.getJogoG().getLabirinto().getLab();
+		int x = MazeDisplay.getJogoG().getHeroi().getX_coord();
+		int y = MazeDisplay.getJogoG().getHeroi().getY_coord();
+		while (x+xDiff < MazeDisplay.getJogoG().getLabirinto().getSize() && x+xDiff > 0 && y+yDiff > 0 && y+yDiff < MazeDisplay.getJogoG().getLabirinto().getSize()) {
+			if (tempo[xDiff+x][yDiff+y] == 'X')
+				break;
+			else if (tempo[xDiff+x][y+yDiff] == 'd' || tempo[xDiff+x][y+yDiff] == 'D' || tempo[xDiff+x][y+yDiff] == 'F') {
+				tempo[x+xDiff][y+yDiff] = 'Q';
+				break;
+			}
+			else
+				tempo[x+xDiff][y+yDiff] = 'W';
+			
+			if (choice == 101)
+				yDiff--;
+			else if (choice == 102)
+				yDiff++;
+			else if (choice == 103) 
+				xDiff++;
+			else 
+				xDiff--;
+		}
+
+
+		//FAZER AQUI A DIFERENCIAÇAO DE DIREÇOES, NESTE MOMENTO SO PREVISTA PARA CIMA
+
+		//-------------------------------------------------------------------------------------------------------------------
+
+		return original;
 	}
 
 	public void returnFunc() {
