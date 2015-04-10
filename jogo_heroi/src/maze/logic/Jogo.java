@@ -970,9 +970,6 @@ public class Jogo implements Serializable {
 								else if (inter == 3) 
 									MazeDisplay.messageDragonKilled();
 								else {}
-								displayDragoes();
-								heroi.dec_dardos();
-								return;
 							}
 					}
 					//-----------------------------------------------------------------
@@ -992,15 +989,12 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()+i))
 							if (dragoes[j].getY_coord() == (heroi.getY_coord())) {
 								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
+								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
 								if (inter == 0) 
 									console_interface.dragonKilled();
 								else if (inter == 3) 
 									MazeDisplay.messageDragonKilled();
 								else {}
-								displayDragoes();
-								heroi.dec_dardos();
-								return;
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1020,13 +1014,10 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()-i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
 								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
+								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
-								displayDragoes();
-								heroi.dec_dardos();
-								return;
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1046,13 +1037,10 @@ public class Jogo implements Serializable {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()+i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
 								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
+								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
-								displayDragoes();
-								heroi.dec_dardos();
-								return;
 							}
 					}
 					//-----------------------------------------------------------------
