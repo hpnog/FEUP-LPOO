@@ -75,7 +75,7 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledShield = scaleImage(shield);
 		//ImageIcon scaledFire = scaleImage(fire);---------------------------------AINDA PARA USAR
 		ImageIcon scaledSword = scaleImage(sword);
-		
+				
 		for (int i = 0; i < MazeDisplay.getJogoG().getLabirinto().getSize(); i++) {
 			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) {
 				if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')

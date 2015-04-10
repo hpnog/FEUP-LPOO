@@ -264,7 +264,7 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 			mazeCreatorGrid.placeSword(arg0);
 		else if (MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
 			mazeCreatorGrid.placeDragon(arg0, MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced());
-		else if (MazeCreatorGrid.getPhase().getNumberOfDardsPlaced() < GamePreferences.getMazeSize()/4)
+		else if (MazeCreatorGrid.getPhase().getNumberOfDardsPlaced() < GamePreferences.getNumberOfDragons())
 			mazeCreatorGrid.placeDards(arg0, MazeCreatorGrid.getPhase().getNumberOfDardsPlaced());
 		mazeCreatorGrid.game();
 		

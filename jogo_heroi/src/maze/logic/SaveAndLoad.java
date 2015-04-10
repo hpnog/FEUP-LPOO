@@ -30,6 +30,7 @@ public interface SaveAndLoad {
 			MazeDisplay.setJogoG(arg);
 			objectIn.close();
 			tempo.close();
+			arg.setInter(3);
 		}
 		catch (IOException a) {	a.printStackTrace(); }
 		return arg;

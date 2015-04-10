@@ -25,7 +25,7 @@ public class console_interface {
 				}
 				System.out.println();
 			}
-		}
+		} 
 	}
 	public static int get_movimento() {
 		int choice = -1;
@@ -249,13 +249,13 @@ public class console_interface {
 		jogoC.setHeroi(new Heroi());
 		jogoC.setEspada(new Espada());
 		jogoC.setEscudo(new Escudo());
-		jogoC.setDardos(new Dart [jogoC.getLabirinto().getSize() / 4]);
+		jogoC.setDardos(new Dart [dragonNumber]);
 
 		jogoC.random_sword();
 		jogoC.random_hero_start();
 		jogoC.shield_random_start();
 		
-		for (int i = 0; i < jogoC.getLabirinto().getSize() / 4; i++) {
+		for (int i = 0; i < jogoC.getDardos().length; i++) {
 			jogoC.setDart(i, new Dart(1, 1));
 			jogoC.random_dardo(i);
 		}

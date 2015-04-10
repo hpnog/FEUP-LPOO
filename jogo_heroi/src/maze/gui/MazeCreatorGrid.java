@@ -104,7 +104,7 @@ public class MazeCreatorGrid extends JPanel {
 							if(swordPlaced) {
 								MazeDisplay.getJogoG().getPrefs();
 								if(numberOfDragonsPlaced == GamePreferences.getNumberOfDragons())
-									if (numberOfDardsPlaced == GamePreferences.getMazeSize()/4)
+									if (numberOfDardsPlaced == GamePreferences.getNumberOfDragons())
 										return true;
 							}
 			return false;
@@ -121,10 +121,11 @@ public class MazeCreatorGrid extends JPanel {
 		int paneSize = 1;
 		MazeDisplay.setJogoG(new Jogo());
 		MazeDisplay.getJogoG().getPrefs();
+		MazeDisplay.getJogoG().setInter(3);
 		MazeDisplay.getJogoG().setLabirinto(new Lab(GamePreferences.getMazeSize()));
 		MazeDisplay.getJogoG().setHeroi(new Heroi());
 		MazeDisplay.getJogoG().setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
-		MazeDisplay.getJogoG().setDardos(new Dart[GamePreferences.getMazeSize()/4]);
+		MazeDisplay.getJogoG().setDardos(new Dart[GamePreferences.getNumberOfDragons()]);
 		MazeDisplay.getJogoG().setEscudo(new Escudo());
 		MazeDisplay.getJogoG().setEspada(new Espada());
 		MazeDisplay.getJogoG().setInter(3);

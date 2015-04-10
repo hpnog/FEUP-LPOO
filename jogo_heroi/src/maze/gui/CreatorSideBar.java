@@ -77,7 +77,7 @@ public class CreatorSideBar extends JPanel{
 			this.add(new JLabel(check));
 
 		this.add(new JLabel(dard));	
-		int missingDarts = GamePreferences.getMazeSize()/4 - MazeCreatorGrid.getPhase().getNumberOfDardsPlaced();
+		int missingDarts = GamePreferences.getNumberOfDragons() - MazeCreatorGrid.getPhase().getNumberOfDardsPlaced();
 		MazeDisplay.getJogoG().getPrefs();
 		if (missingDarts > 0)
 			this.add(new JLabel("   " + missingDarts));

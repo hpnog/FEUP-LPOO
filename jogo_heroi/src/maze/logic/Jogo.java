@@ -952,7 +952,7 @@ public class Jogo implements Serializable {
 		if (heroi.getDardos() > 0) {
 			//left
 			if (x == 1) {
-				int i = heroi.getX_coord();
+				int i = 1;
 				while ((heroi.getX_coord()-i) > 0 && (labirinto.getLab()[heroi.getX_coord()-i][heroi.getY_coord()] != 'X')) {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()-i))
@@ -963,10 +963,13 @@ public class Jogo implements Serializable {
 								else if (inter == 3) 
 									MazeDisplay.messageDragonKilled();
 								else {}
+								displayDragoes();
+								heroi.dec_dardos();
+								return;
 							}
 					}
 					//-----------------------------------------------------------------
-					i--;
+					i++;
 				}
 				if (inter == 0)
 					console_interface.shotLeft();
@@ -976,7 +979,7 @@ public class Jogo implements Serializable {
 
 			//right
 			else if (x == -1) {
-				int i = heroi.getX_coord();
+				int i = 1;
 				while ((heroi.getX_coord()+i) < labirinto.getSize() && (labirinto.getLab()[heroi.getX_coord()+i][heroi.getY_coord()] != 'X')) {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()+i))
@@ -987,6 +990,9 @@ public class Jogo implements Serializable {
 								else if (inter == 3) 
 									MazeDisplay.messageDragonKilled();
 								else {}
+								displayDragoes();
+								heroi.dec_dardos();
+								return;
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1000,7 +1006,7 @@ public class Jogo implements Serializable {
 
 			//up
 			else if (y == 1) {
-				int i = heroi.getY_coord();
+				int i = 1;
 				while ((heroi.getY_coord()-i) > 0 && (labirinto.getLab()[heroi.getX_coord()][heroi.getY_coord()-i] != 'X')) {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()-i))
@@ -1009,10 +1015,13 @@ public class Jogo implements Serializable {
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
+								displayDragoes();
+								heroi.dec_dardos();
+								return;
 							}
 					}
 					//-----------------------------------------------------------------
-					i--;
+					i++;
 				}
 				if (inter == 0)
 					console_interface.shotUp();
@@ -1021,8 +1030,8 @@ public class Jogo implements Serializable {
 			}
 
 			//down
-			else {
-				int i = heroi.getY_coord();
+			else { 
+				int i = 1;
 				while ((i+heroi.getY_coord()) < labirinto.getSize() && (labirinto.getLab()[heroi.getX_coord()][heroi.getY_coord()+i] != 'X')) {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()+i))
@@ -1031,6 +1040,9 @@ public class Jogo implements Serializable {
 								if (inter == 0) console_interface.dragonKilled();
 								else if (inter == 3) MazeDisplay.messageDragonKilled();
 								else {}
+								displayDragoes();
+								heroi.dec_dardos();
+								return;
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1048,7 +1060,8 @@ public class Jogo implements Serializable {
 				console_interface.no_darts();
 			else if (inter == 3) MazeDisplay.noDarts();
 			else {}
-
+		
+		displayDragoes();
 	}
 	
 	/**
@@ -1098,7 +1111,7 @@ public class Jogo implements Serializable {
 	 * Display the darts.
 	 */
 	public void displayDardos() {
-		for (int i = 0; i < labirinto.getSize()/4; i++)
+		for (int i = 0; i < dragoes.length; i++)
 			change_dardo_pos(i);
 	}
 	
@@ -1109,7 +1122,7 @@ public class Jogo implements Serializable {
 	 * @param y the y
 	 */
 	private void catch_dardo(int x, int y) {
-		for (int i = 0; i < labirinto.getSize() / 4; i++) {
+		for (int i = 0; i < dragoes.length; i++) {
 			if (dardos[i].getX_coord() == x)
 				if (dardos[i].getY_coord() == y)
 					dardos[i].set_caught(true);

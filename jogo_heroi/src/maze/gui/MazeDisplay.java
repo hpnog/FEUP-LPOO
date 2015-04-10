@@ -48,7 +48,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.getPrefs();
 		jogoG.setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
 		jogoG.setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
-		jogoG.setDardos(new Dart [jogoG.getLabirinto().getSize() / 4]);
+		jogoG.setDardos(new Dart [jogoG.getDragoes().length]);
 		jogoG.setInter(3);
 		jogoG.setHeroi(new Heroi());
 		jogoG.setEspada(new Espada());
@@ -61,7 +61,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.random_sword();
 		jogoG.shield_random_start();
 
-		for (int i = 0; i < jogoG.getLabirinto().getSize() / 4; i++) {
+		for (int i = 0; i < jogoG.getDragoes().length; i++) {
 			jogoG.setDart(i, new Dart(1, 1));
 			jogoG.random_dardo(i);
 		}
@@ -183,6 +183,17 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		if (choice == 10 || choice == 5)
 			returnFunc();
 
+		mazeGrid.game();
+		
+		choice = jogoG.endOfTurn(choice);
+		if (choice == 10 || choice == 5) {
+			sideBar.update();
+			mazeGrid.game();
+			if (choice == 5)
+				youDied();
+			returnFunc();
+		}
+		
 		mazeGrid.game();
 		
 		choice = interpretaOpcao(arg);
