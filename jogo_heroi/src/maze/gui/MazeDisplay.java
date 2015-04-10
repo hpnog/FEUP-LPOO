@@ -176,7 +176,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.getPrefs();
 		if (arg.getKeyChar() == GamePreferences.getExitKey())
 			returnFunc();
-
+		mazeGrid.game();	
 		int choice = -1;
 		choice = interpretaOpcao(arg);					//Vai buscar o valor de choice
 		if (choice != -1)								//Se choice for valido
