@@ -70,9 +70,9 @@ public class MainMenu extends JFrame implements ComponentListener{
 		options = new JButton("Options");
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				Jogo toLoad = null;
+				Jogo tempo = null;
 				try {
-					MazeDisplay.setJogo(SaveAndLoad.loadGame(toLoad));
+					tempo = SaveAndLoad.loadGame(tempo);
 				} catch (ClassNotFoundException e) {
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
@@ -80,18 +80,18 @@ public class MainMenu extends JFrame implements ComponentListener{
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
 				}
-				setVisible(false);
-				
-				
-				
-				try {
-					MazeDisplay frame = new MazeDisplay(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (tempo != null) {
+					MazeDisplay.setJogoG(tempo);
+					setVisible(false);
+					try {
+						MazeDisplay frame = new MazeDisplay(true);
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "Game loaded");
 				}
-				JOptionPane.showMessageDialog(null, "Game loaded");
-
+				requestFocus();
 			}
 		});
 		options.addActionListener(new ActionListener() {

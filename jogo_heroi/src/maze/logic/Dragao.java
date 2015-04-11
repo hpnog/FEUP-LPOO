@@ -6,6 +6,7 @@ public class Dragao extends Object implements Serializable {
 	private static final long serialVersionUID = -3095911441768951534L;
 	private boolean alive;
 	private int status;
+	private String spit = "";
 	
 	/**
 	 * Constructor for the dragon
@@ -47,5 +48,13 @@ public class Dragao extends Object implements Serializable {
 	 */
 	public void setStatus(int s) {
 		status = s;
+	}
+
+	public String getSpit() {
+		return spit;
+	}
+
+	public void setSpit(String spit) {
+		this.spit = spit;
 	}
 }

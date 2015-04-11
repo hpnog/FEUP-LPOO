@@ -21,9 +21,7 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
@@ -50,6 +48,32 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG = new Jogo();
 		jogoG.getPrefs();
 		jogoG.setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
+		jogoG.setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
+		jogoG.setDardos(new Dart [jogoG.getDragoes().length]);
+		jogoG.setInter(3);
+		jogoG.setHeroi(new Heroi());
+		jogoG.setEspada(new Espada());
+		jogoG.setEscudo(new Escudo());
+
+		for (int i = 0; i < jogoG.getDragoes().length; i++)
+			jogoG.setDragao(i, new Dragao(GamePreferences.getType()));
+
+		jogoG.random_hero_start();
+		jogoG.random_sword();
+		jogoG.shield_random_start();
+
+		for (int i = 0; i < jogoG.getDragoes().length; i++) {
+			jogoG.setDart(i, new Dart(1, 1));
+			jogoG.random_dardo(i);
+		}
+
+		for (int i = 0; i < jogoG.getDragoes().length; i++)
+			jogoG.random_dragao(i);
+	}
+
+	public void fillGame() {
+		jogoG = new Jogo();
+		jogoG.getPrefs();
 		jogoG.setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
 		jogoG.setDardos(new Dart [jogoG.getDragoes().length]);
 		jogoG.setInter(3);
@@ -104,13 +128,11 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 			}
 		});
-
-
 		loadGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg) {
-				jogoG = null;
+				Jogo tempo = null;
 				try {
-					SaveAndLoad.loadGame(jogoG);
+					tempo = SaveAndLoad.loadGame(tempo);
 				} catch (ClassNotFoundException e) {
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
@@ -118,15 +140,18 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 					JOptionPane.showMessageDialog(null, "An error as occured loading your game");
 					e.printStackTrace();
 				}
-				setVisible(false);
-				try {
-					MazeDisplay frame = new MazeDisplay(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (tempo != null) {
+					jogoG = tempo;
+					setVisible(false);
+					try {
+						MazeDisplay frame = new MazeDisplay(true);
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					JOptionPane.showMessageDialog(null, "Game loaded");
 				}
-				JOptionPane.showMessageDialog(null, "Game loaded");
-
+				requestFocus();
 			}
 		});
 		newGame.addActionListener(new ActionListener() {
@@ -215,7 +240,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		}
 
 		choice = jogoG.moveAndSpit_dragoes(choice);		//Move dragoes
-		mazeGrid.game();
+		char [][] original = deepClone(jogoG.getLabirinto().getLab());
+		displaySpits();
+		jogoG.getLabirinto().setLab(original);
 		if (choice == 10) {								//Se o heroi morrer por fogo
 			sideBar.update();
 			killedByFire();
@@ -237,6 +264,64 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		}
 
 		mazeGrid.setSize(getWidth(), getHeight());
+	}
+
+	private void displaySpits() {
+		for (int i = 0; i < jogoG.getDragoes().length; i++) {
+			if (jogoG.getDragoes()[i].isAlive()) {
+				if (jogoG.getDragoes()[i].getSpit() == "left")
+					showSpit(jogoG.getDragoes()[i], -1, 0);
+				else if (jogoG.getDragoes()[i].getSpit() == "right") 
+					showSpit(jogoG.getDragoes()[i], 1, 0);
+				else if (jogoG.getDragoes()[i].getSpit() == "up") 
+					showSpit(jogoG.getDragoes()[i], 0, -1);
+				else if (jogoG.getDragoes()[i].getSpit() == "down") 
+					showSpit(jogoG.getDragoes()[i], 0, 1);
+				if (jogoG.getDragoes()[i].getSpit() != "")
+					jogoG.getDragoes()[i].setSpit("");
+			}
+		}
+	}
+
+	private void showSpit(Dragao dragao, int xDiff, int yDiff) {
+		char tempo [][] = jogoG.getLabirinto().getLab();
+
+		int choice;
+		if (yDiff == -1)
+			choice = 101;
+		else if (yDiff == 1)
+			choice = 102;
+		else if (xDiff == 1)
+			choice = 103;
+		else
+			choice = 104;
+		int counter = 0;
+		int x = dragao.getX_coord();
+		int y =dragao.getY_coord();
+		while (counter < 3 && x+xDiff < MazeDisplay.getJogoG().getLabirinto().getSize() && x+xDiff > 0 && y+yDiff > 0 && y+yDiff < MazeDisplay.getJogoG().getLabirinto().getSize()) {
+			if (tempo[xDiff+x][yDiff+y] == 'X')
+				break;
+			else if (tempo[xDiff+x][y+yDiff] == 'H' || tempo[xDiff+x][y+yDiff] == 'A') {
+				tempo[x+xDiff][y+yDiff] = 'P';
+				break;
+			}
+			else
+				tempo[x+xDiff][y+yDiff] = 'V';
+
+			if (choice == 101)
+				yDiff--;
+			else if (choice == 102)
+				yDiff++;
+			else if (choice == 103) 
+				xDiff++;
+			else 
+				xDiff--;
+			counter++;
+		}
+
+		jogoG.displayDragoes();
+		mazeGrid.gameShot();
+		jogoG.getLabirinto().setLab(tempo);
 	}
 
 	public char[][] deepClone(char[][] m) {
@@ -283,7 +368,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			}
 			else
 				tempo[x+xDiff][y+yDiff] = 'W';
-			
+
 			if (choice == 101)
 				yDiff--;
 			else if (choice == 102)
@@ -408,5 +493,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	public static void setJogoG(Jogo jogoG) {
 		MazeDisplay.jogoG = jogoG;
 	}
+
+
 
 }

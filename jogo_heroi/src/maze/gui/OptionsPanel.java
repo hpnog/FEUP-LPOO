@@ -15,10 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
+import maze.logic.Dart;
+import maze.logic.Default_maze;
+import maze.logic.Dragao;
+import maze.logic.Escudo;
+import maze.logic.Espada;
+import maze.logic.Heroi;
 import maze.logic.Jogo;
 import maze.logic.Jogo.GamePreferences;
 
 import java.awt.SystemColor;
+
 import javax.swing.SpinnerNumberModel;
 
 public class OptionsPanel extends JDialog implements ComponentListener{
@@ -27,6 +34,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 	private JButton back;
 	private JButton saveChanges;
 	private JButton createMaze;
+	private JButton btnDefaultMaze;
 	private JPanel optionsPanel;
 	
 	private JSpinner mazeSize;
@@ -253,9 +261,50 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 					return 3;
 			}
 		});
-		
+		btnDefaultMaze.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MazeDisplay.setJogoG(new Jogo());
+				MazeDisplay.getJogoG().setLabirinto(new Default_maze(10));
+				JOptionPane.showMessageDialog(null, "The Default maze is set. The game will start now!");
+				
+				setVisible(false);
+				try {
+					MazeDisplay.getJogoG().getPrefs();
+					MazeDisplay.getJogoG().setInter(3);
+					MazeDisplay.getJogoG().setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
+					for (int i = 0; i < GamePreferences.getNumberOfDragons(); i++)
+						MazeDisplay.getJogoG().setDragao(i, new Dragao(GamePreferences.getType()));
+					MazeDisplay.getJogoG().setHeroi(new Heroi());
+					MazeDisplay.getJogoG().setEspada(new Espada());
+					MazeDisplay.getJogoG().setEscudo(new Escudo());
+					MazeDisplay.getJogoG().setDardos(new Dart [GamePreferences.getNumberOfDragons()]);
+
+					MazeDisplay.getJogoG().random_sword();
+					MazeDisplay.getJogoG().random_hero_start();
+					MazeDisplay.getJogoG().shield_random_start();
+					
+					for (int i = 0; i < MazeDisplay.getJogoG().getDardos().length; i++) {
+						MazeDisplay.getJogoG().setDart(i, new Dart(1, 1));
+						MazeDisplay.getJogoG().random_dardo(i);
+					}
+					
+					for (int i = 0; i < GamePreferences.getNumberOfDragons(); i++)
+						MazeDisplay.getJogoG().random_dragao(i);
+					
+					MazeDisplay frame = new MazeDisplay(true);
+					frame.setVisible(true);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				requestFocus();
+			}
+		});
+
 		this.getContentPane().add(buttons, BorderLayout.SOUTH);
 		this.getContentPane().add(optionsPanel, BorderLayout.CENTER);
+		
+		
 		setBounds(100, 100, 500, 375);
 	}
 	
@@ -271,6 +320,10 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		buttons.add(createMaze);
 		
 		optionsPanel.setLayout(null);
+		
+		btnDefaultMaze = new JButton("Default maze");
+		btnDefaultMaze.setBounds(330, 21, 120, 23);
+		optionsPanel.add(btnDefaultMaze);
 		
 		JLabel label = new JLabel("Size of the Random Maze:");
 		label.setBounds(75, 25, 150, 14);
@@ -388,5 +441,4 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		// TODO Auto-generated method stub
 
 	}
-
 }

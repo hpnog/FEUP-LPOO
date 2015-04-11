@@ -273,6 +273,35 @@ public class Jogo implements Serializable {
 		}
 	}
 	
+	public Jogo() {}
+	
+	public Jogo(int a) {
+		getPrefs();
+		setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
+		setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
+		setDardos(new Dart [getDragoes().length]);
+		setInter(3);
+		setHeroi(new Heroi());
+		heroi.setShielded(false);
+		setEspada(new Espada());
+		setEscudo(new Escudo());
+
+		for (int i = 0; i < getDragoes().length; i++)
+			setDragao(i, new Dragao(GamePreferences.getType()));
+
+		random_hero_start();
+		random_sword();
+		shield_random_start();
+
+		for (int i = 0; i < getDardos().length; i++) {
+			setDart(i, new Dart(1, 1));
+			random_dardo(i);
+		}
+
+		for (int i = 0; i < getDragoes().length; i++)
+			random_dragao(i);
+	}
+	
 	/**
 	 * Abs.
 	 *
@@ -663,8 +692,9 @@ public class Jogo implements Serializable {
 
 		int count = 1;
 		if (y == 1) {
+			dragao.setSpit("right");
 			if (heroi.getY_coord() == dragao.getY_coord()) {
-				while (count < 4) {
+				while (count < 4 && getLabirinto().getLab()[dragao.getX_coord()+count][dragao.getY_coord()] != 'X') {
 					if (heroi.getX_coord() == (dragao.getX_coord()+count)) {
 						if (!heroi.isShielded())
 							return 10;
@@ -675,21 +705,9 @@ public class Jogo implements Serializable {
 				}
 			}
 		}
-		else if (y == -1) {
-			if (heroi.getY_coord() == dragao.getY_coord()) {
-				while (count < 4) {
-					if (heroi.getX_coord() == (dragao.getX_coord()-count)) {
-						if (!heroi.isShielded())
-							return 10;
-						else if (labirinto.getLab()[dragao.getX_coord()-count][dragao.getY_coord()] == 'X')
-							return 0;
-					}
-					count++;
-				}
-			}
-		}
 		else if (x == 1) {
-			if (heroi.getX_coord() == dragao.getX_coord()) {
+			dragao.setSpit("down");
+			if (heroi.getX_coord() == dragao.getX_coord()&& getLabirinto().getLab()[dragao.getX_coord()][dragao.getY_coord()+count] != 'X') {
 				while (count < 4) {
 					if ((heroi.getY_coord()+count) == dragao.getY_coord()) {
 						if (!heroi.isShielded())
@@ -701,8 +719,24 @@ public class Jogo implements Serializable {
 				}
 			}
 		}
+		else if (x == 0) {
+			dragao.setSpit("left");
+			if (heroi.getY_coord() == dragao.getY_coord()&& getLabirinto().getLab()[dragao.getX_coord()-count][dragao.getY_coord()] != 'X') {
+				while (count < 4) {
+					if (heroi.getX_coord() == (dragao.getX_coord()-count)) {
+						if (!heroi.isShielded())
+							return 10;
+						else if (labirinto.getLab()[dragao.getX_coord()-count][dragao.getY_coord()] == 'X')
+							return 0;
+					}
+					count++;
+				}
+			}
+		}
+		
 		else {
-			if (heroi.getX_coord() == dragao.getX_coord()) {
+			dragao.setSpit("up");
+			if (heroi.getX_coord() == dragao.getX_coord()&& getLabirinto().getLab()[dragao.getX_coord()][dragao.getY_coord()-count] != 'X') {
 				while (count < 4) {
 					if ((heroi.getY_coord()-count) == dragao.getY_coord()) {
 						if (!heroi.isShielded())

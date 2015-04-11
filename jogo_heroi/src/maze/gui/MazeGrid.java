@@ -21,7 +21,6 @@ public class MazeGrid extends JPanel {
 	private ImageIcon closedExit;
 	private ImageIcon dard;
 	private ImageIcon shield;
-	@SuppressWarnings("unused")
 	private ImageIcon fire;
 	private ImageIcon sword;
 	private ImageIcon dragonWithSword;
@@ -85,12 +84,13 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledClosedExit = scaleImage(closedExit);
 		ImageIcon scaledDard = scaleImage(dard);
 		ImageIcon scaledShield = scaleImage(shield);
-		//ImageIcon scaledFire = scaleImage(fire);---------------------------------AINDA PARA USAR
+		ImageIcon scaledFire = scaleImage(fire);
 		ImageIcon scaledSword = scaleImage(sword);
 		ImageIcon scaledDragonWithSword = scaleImage(dragonWithSword);
 		ImageIcon scaledBall = scaleImage(new ImageIcon(this.getClass().getResource("res/ball.png")));
 		ImageIcon scaledKilledDragon = scaleImage(new ImageIcon(this.getClass().getResource("res/killedDragon.png")));
-				
+		ImageIcon scaledBurnHero = scaleImage(new ImageIcon(this.getClass().getResource("res/burnHero.png")));
+		
 		for (int i = 0; i < MazeDisplay.getJogoG().getLabirinto().getSize(); i++) {
 			
 			for (int j = 0; j < MazeDisplay.getJogoG().getLabirinto().getSize(); j++) { 
@@ -98,6 +98,10 @@ public class MazeGrid extends JPanel {
 					add(new JLabel(scaledBall));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'Q')
 					add(new JLabel(scaledKilledDragon));
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'V')
+					add(new JLabel(scaledFire));
+				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'P') 
+					add (new JLabel(scaledBurnHero));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'X')
 					this.add(new JLabel(scaledWall));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == ' ')
