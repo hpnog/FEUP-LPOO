@@ -272,6 +272,8 @@ public class console_interface {
 		int choice = -1;
  
 		while ((choice != 5) && (choice != 0) && choice != 10) {
+			jogoC.change_sword_pos();
+			jogoC.change_escudo_pos();
 			jogoC.displayDragoes();
 			imprimir_lab(jogoC.getLabirinto());
 			imprimir_heroi_status(jogoC.getHeroi());
