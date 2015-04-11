@@ -499,6 +499,7 @@ public class Tests {
 		jogo.setInter(1);
 		jogo.setLabirinto(new Random_generator(10));
 		jogo.setHeroi(new Heroi());
+		jogo.setDardos(new Dart[0]);
 		jogo.setLabirinto(new Default_maze(10));
 		jogo.getHeroi().setX_coord(1);
 		jogo.getHeroi().setY_coord(4);
@@ -527,6 +528,7 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 			Jogo jogo = new Jogo();
+			jogo.setDardos(new Dart[0]);
 			jogo.setInter(1);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
@@ -558,6 +560,7 @@ public class Tests {
 		System.out.println("Starting test: Test if Hero kills without fire");
 		Jogo jogo = new Jogo();
 		jogo.setInter(1);
+		jogo.setDardos(new Dart[0]);
 		jogo.setLabirinto(new Random_generator(10));
 		jogo.setHeroi(new Heroi());
 		jogo.setLabirinto(new Default_maze(10));
@@ -583,6 +586,7 @@ public class Tests {
 		System.out.println("Starting test: Test if Hero kills without fire and finds the Exit");
 		Jogo jogo = new Jogo();
 		jogo.setInter(1);
+		jogo.setDardos(new Dart[0]);
 		jogo.setLabirinto(new Random_generator(10));
 		jogo.setHeroi(new Heroi());
 		jogo.setLabirinto(new Default_maze(10));
@@ -620,6 +624,7 @@ public class Tests {
 		System.out.println("Starting test: Test if Hero gets to the exit but game does not end due to dragons alive");
 		Jogo jogo = new Jogo();
 		jogo.setInter(1);
+		jogo.setDardos(new Dart[0]);
 		jogo.setLabirinto(new Random_generator(10));
 		jogo.setHeroi(new Heroi());
 		jogo.setLabirinto(new Default_maze(10));
@@ -665,6 +670,7 @@ public class Tests {
 
 			Jogo jogo = new Jogo();
 			jogo.setInter(1);
+			jogo.setDardos(new Dart[0]);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
 			jogo.getHeroi().setArmado(false);
@@ -721,6 +727,7 @@ public class Tests {
 			
 			Jogo jogo = new Jogo();
 			jogo.setInter(1);
+			jogo.setDardos(new Dart[0]);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
 			jogo.random_hero_start();
@@ -765,6 +772,7 @@ public class Tests {
 			jogo.setEscudo(new Escudo());
 			jogo.shield_random_start();
 			jogo.random_hero_start();
+			jogo.setDardos(new Dart[0]);
 			jogo.getHeroi().setDardos(1000);
 			jogo.getHeroi().setArmado(false);
 			jogo.setDragoes(new Dragao [10]);
@@ -806,6 +814,7 @@ public class Tests {
 			if ((size % 2) == 0)
 				size++;
 			Jogo jogo = new Jogo();
+			jogo.setDardos(new Dart[0]);
 			jogo.setInter(1);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
@@ -849,6 +858,7 @@ public class Tests {
 				size++;
 
 			Jogo jogo = new Jogo();
+			jogo.setDardos(new Dart[0]);
 			jogo.setInter(1);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
@@ -891,6 +901,7 @@ public class Tests {
 			jogo.setInter(1);
 			jogo.setLabirinto(new Random_generator(size));
 			jogo.setHeroi(new Heroi());
+			jogo.setDardos(new Dart[0]);
 			jogo.getHeroi().setArmado(true);
 			jogo.random_hero_start();
 			jogo.setDragoes(new Dragao [1]);

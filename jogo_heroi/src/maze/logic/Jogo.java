@@ -273,35 +273,6 @@ public class Jogo implements Serializable {
 		}
 	}
 
-	public Jogo() {}
-
-	public Jogo(int a) {
-		getPrefs();
-		setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
-		setDragoes(new Dragao[GamePreferences.getNumberOfDragons()]);
-		setDardos(new Dart [getDragoes().length]);
-		setInter(3);
-		setHeroi(new Heroi());
-		heroi.setShielded(false);
-		setEspada(new Espada());
-		setEscudo(new Escudo());
-
-		for (int i = 0; i < getDragoes().length; i++)
-			setDragao(i, new Dragao(GamePreferences.getType()));
-
-		random_hero_start();
-		random_sword();
-		shield_random_start();
-
-		for (int i = 0; i < getDardos().length; i++) {
-			setDart(i, new Dart(1, 1));
-			random_dardo(i);
-		}
-
-		for (int i = 0; i < getDragoes().length; i++)
-			random_dragao(i);
-	}
-
 	/**
 	 * Abs.
 	 *
@@ -1152,7 +1123,7 @@ public class Jogo implements Serializable {
 	 * Display the darts.
 	 */
 	public void displayDardos() {
-		for (int i = 0; i < dragoes.length; i++)
+		for (int i = 0; i < dardos.length; i++)
 			change_dardo_pos(i);
 	}
 
@@ -1163,7 +1134,7 @@ public class Jogo implements Serializable {
 	 * @param y the y
 	 */
 	private void catch_dardo(int x, int y) {
-		for (int i = 0; i < dragoes.length; i++) {
+		for (int i = 0; i < dardos.length; i++) {
 			if (dardos[i].getX_coord() == x)
 				if (dardos[i].getY_coord() == y)
 					dardos[i].set_caught(true);
