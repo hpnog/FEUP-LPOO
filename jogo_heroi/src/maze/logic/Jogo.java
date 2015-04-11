@@ -10,31 +10,31 @@ import maze.gui.MazeDisplay;
  * The Class Jogo.
  */
 public class Jogo implements Serializable {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1470544749104492349L;
-	
+
 	/** The dragoes. */
 	private Dragao [] dragoes;
-	
+
 	/** The heroi. */
 	private Heroi heroi;
-	
+
 	/** The labirinto. */
 	private Lab labirinto;
-	
+
 	/** The espada. */
 	private Espada espada;
-	
+
 	/** The escudo. */
 	private Escudo escudo;
-	
+
 	/** The dardos. */
 	private Dart [] dardos;
-	
+
 	/** The inter. */
 	private static int inter = 0;
-	
+
 	/** The prefs. */
 	private GamePreferences prefs;
 
@@ -42,7 +42,7 @@ public class Jogo implements Serializable {
 	 * The Class GamePreferences.
 	 */
 	public static class GamePreferences {
-				
+
 		private static int mazeSize = 11;
 		private static int numberOfDragons = 1;
 		private static int type = 0;
@@ -55,7 +55,7 @@ public class Jogo implements Serializable {
 		private static char sLeft = 'g';
 		private static char sRight = 'j';
 		private static char exitKey = 'q';
-		
+
 		/**
 		 * Gets the maze size.
 		 *
@@ -64,7 +64,7 @@ public class Jogo implements Serializable {
 		public static int getMazeSize() {
 			return mazeSize;
 		}
-		
+
 		/**
 		 * Sets size of maze.
 		 *
@@ -73,7 +73,7 @@ public class Jogo implements Serializable {
 		public static void setMazeSize(int mazeSize) {
 			GamePreferences.mazeSize = mazeSize;
 		}
-		
+
 		/**
 		 * Gets the number of dragons.
 		 *
@@ -82,7 +82,7 @@ public class Jogo implements Serializable {
 		public static int getNumberOfDragons() {
 			return numberOfDragons;
 		}
-		
+
 		/**
 		 * Sets number of dragons.
 		 *
@@ -91,7 +91,7 @@ public class Jogo implements Serializable {
 		public static void setNumberOfDragons(int numberOfDragons) {
 			GamePreferences.numberOfDragons = numberOfDragons;
 		}
-		
+
 		/**
 		 * Gets the type.
 		 *
@@ -100,7 +100,7 @@ public class Jogo implements Serializable {
 		public static int getType() {
 			return type;
 		}
-		
+
 		/**
 		 * Sets the type for the dragons (awake, asleep, non sleeper moving or non sleeper static).
 		 *
@@ -109,7 +109,7 @@ public class Jogo implements Serializable {
 		public static void setType(int type) {
 			GamePreferences.type = type;
 		}
-		
+
 		/**
 		 * Gets the up.
 		 *
@@ -118,7 +118,7 @@ public class Jogo implements Serializable {
 		public static char getUp() {
 			return up;
 		}
-		
+
 		/**
 		 * Sets the key that is used to move the hero up.
 		 *
@@ -127,7 +127,7 @@ public class Jogo implements Serializable {
 		public static void setUp(char up) {
 			GamePreferences.up = up;
 		}
-		
+
 		/**
 		 * Gets the down.
 		 *
@@ -136,7 +136,7 @@ public class Jogo implements Serializable {
 		public static char getDown() {
 			return down;
 		}
-		
+
 		/**
 		 * Sets the key that is used to move the hero down.
 		 *
@@ -145,7 +145,7 @@ public class Jogo implements Serializable {
 		public static void setDown(char down) {
 			GamePreferences.down = down;
 		}
-		
+
 		/**
 		 * Gets the left.
 		 *
@@ -154,7 +154,7 @@ public class Jogo implements Serializable {
 		public static char getLeft() {
 			return left;
 		}
-		
+
 		/**
 		 * Sets the key that is used to move the hero left.
 		 *
@@ -163,7 +163,7 @@ public class Jogo implements Serializable {
 		public static void setLeft(char left) {
 			GamePreferences.left = left;
 		}
-		
+
 		/**
 		 * Gets the right.
 		 *
@@ -172,7 +172,7 @@ public class Jogo implements Serializable {
 		public static char getRight() {
 			return right;
 		}
-		
+
 		/**
 		 * Sets the key that is used to move the hero right.
 		 *
@@ -181,7 +181,7 @@ public class Jogo implements Serializable {
 		public static void setRight(char right) {
 			GamePreferences.right = right;
 		}
-		
+
 		/**
 		 * Gets the s up.
 		 *
@@ -190,7 +190,7 @@ public class Jogo implements Serializable {
 		public static char getsUp() {
 			return sUp;
 		}
-		
+
 		/**
 		 * Sets the key that is used to shoot the dart up.
 		 *
@@ -199,7 +199,7 @@ public class Jogo implements Serializable {
 		public static void setsUp(char sUp) {
 			GamePreferences.sUp = sUp;
 		}
-		
+
 		/**
 		 * Gets the s down.
 		 *
@@ -208,7 +208,7 @@ public class Jogo implements Serializable {
 		public static char getsDown() {
 			return sDown;
 		}
-		
+
 		/**
 		 * Sets the key that is used to shoot the dart down.
 		 *
@@ -217,7 +217,7 @@ public class Jogo implements Serializable {
 		public static void setsDown(char sDown) {
 			GamePreferences.sDown = sDown;
 		}
-		
+
 		/**
 		 * Gets the s left.
 		 *
@@ -226,7 +226,7 @@ public class Jogo implements Serializable {
 		public static char getsLeft() {
 			return sLeft;
 		}
-		
+
 		/**
 		 * Sets the key that is used to shoot the dart left.
 		 *
@@ -235,7 +235,7 @@ public class Jogo implements Serializable {
 		public static void setsLeft(char sLeft) {
 			GamePreferences.sLeft = sLeft;
 		}
-		
+
 		/**
 		 * Gets the s right.
 		 *
@@ -244,7 +244,7 @@ public class Jogo implements Serializable {
 		public static char getsRight() {
 			return sRight;
 		}
-		
+
 		/**
 		 * Sets the key that is used to shoot the dart right.
 		 *
@@ -253,7 +253,7 @@ public class Jogo implements Serializable {
 		public static void setsRight(char sRight) {
 			GamePreferences.sRight = sRight;
 		}
-		
+
 		/**
 		 * Gets the exit key.
 		 *
@@ -262,7 +262,7 @@ public class Jogo implements Serializable {
 		public static char getExitKey() {
 			return exitKey;
 		}
-		
+
 		/**
 		 * Sets the key that is used to exit the game.
 		 *
@@ -272,9 +272,9 @@ public class Jogo implements Serializable {
 			GamePreferences.exitKey = exitKey;
 		}
 	}
-	
+
 	public Jogo() {}
-	
+
 	public Jogo(int a) {
 		getPrefs();
 		setLabirinto(new Random_generator(GamePreferences.getMazeSize()));
@@ -301,7 +301,7 @@ public class Jogo implements Serializable {
 		for (int i = 0; i < getDragoes().length; i++)
 			random_dragao(i);
 	}
-	
+
 	/**
 	 * Abs.
 	 *
@@ -313,9 +313,9 @@ public class Jogo implements Serializable {
 			return -i;
 		return i;
 	}
-	
+
 	//Methods related with the gameplay itself
-	
+
 	/**
 	 * Verifies if the dragon and the hero are alive or dead after the movement.
 	 *
@@ -338,7 +338,7 @@ public class Jogo implements Serializable {
 		displayDardos();
 		return choice;
 	}
-	
+
 	/**
 	 * Checks the option that the player selected (the key) 
 	 *
@@ -392,7 +392,7 @@ public class Jogo implements Serializable {
 			return choice;
 		return -1;
 	}
-	
+
 	/**
 	 * Verifies if the dragon dies after the hero moves
 	 *
@@ -411,7 +411,7 @@ public class Jogo implements Serializable {
 				else if (inter == 3) 
 					MazeDisplay.messageDragonKilled();
 				else {}
-				}
+			}
 			dragoes[i].setAlive(false);
 			labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 			ret = -1;
@@ -423,7 +423,7 @@ public class Jogo implements Serializable {
 		change_dragon_pos(i);
 		return ret;
 	}
-	
+
 	/**
 	 * Checks what to do depending on the objects around the hero
 	 *
@@ -530,9 +530,9 @@ public class Jogo implements Serializable {
 			else {}
 		return choice;
 	}
-	
+
 	//Methods related with dragons
-	
+
 	/**
 	 * Does the random movement of the dragons and if they spit fire or not
 	 *
@@ -554,7 +554,7 @@ public class Jogo implements Serializable {
 		}
 		return choice;
 	}
-	
+
 	/**
 	 * Moves the dragon 
 	 *
@@ -624,7 +624,7 @@ public class Jogo implements Serializable {
 			counter++;
 		}
 	}
-	
+
 	/**
 	 * Sets the dragon number i
 	 *
@@ -634,7 +634,7 @@ public class Jogo implements Serializable {
 	public void setDragao(int i, Dragao dragao) {
 		dragoes[i] = dragao;
 	}
-	
+
 	/**
 	 * Chooses randomly when the dragon spits fire
 	 *
@@ -655,7 +655,7 @@ public class Jogo implements Serializable {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Changes the position of the dragon number i
 	 *
@@ -679,7 +679,7 @@ public class Jogo implements Serializable {
 				labirinto.setLabCell(dragoes[i].getX_coord(), dragoes[i].getY_coord(), ' ');
 		}*/
 	}
-	
+
 	/**
 	 * Makes the dragon spit fire 
 	 *
@@ -733,7 +733,7 @@ public class Jogo implements Serializable {
 				}
 			}
 		}
-		
+
 		else {
 			dragao.setSpit("up");
 			if (heroi.getX_coord() == dragao.getX_coord()&& getLabirinto().getLab()[dragao.getX_coord()][dragao.getY_coord()-count] != 'X') {
@@ -751,7 +751,7 @@ public class Jogo implements Serializable {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Moves all the dragons
 	 */
@@ -761,7 +761,7 @@ public class Jogo implements Serializable {
 				movimentar_dragao(i);
 		}
 	}
-	
+
 	/**
 	 * Sets a random position for the dragons
 	 *
@@ -782,7 +782,7 @@ public class Jogo implements Serializable {
 		dragoes[pos].setY_coord(randomY);
 		change_dragon_pos(pos);
 	}
-	
+
 	/**
 	 * Change the status of the dragons
 	 *
@@ -803,7 +803,7 @@ public class Jogo implements Serializable {
 			}
 		}
 	}
-	
+
 	/**
 	 * Display the dragons
 	 */
@@ -813,7 +813,7 @@ public class Jogo implements Serializable {
 			change_dragon_pos(i);
 		}
 	}
-	
+
 	private void empty_dragon(int i) {
 		if (labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'D' ||
 				labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'd' ||
@@ -834,7 +834,7 @@ public class Jogo implements Serializable {
 		}
 		return fim;
 	}
-	
+
 	//Getters and Setters
 	/**
 	 * Gets the dragons
@@ -844,7 +844,7 @@ public class Jogo implements Serializable {
 	public Dragao[] getDragoes() {
 		return dragoes;
 	}
-	
+
 	/**
 	 * Sets the dragons
 	 *
@@ -853,7 +853,7 @@ public class Jogo implements Serializable {
 	public void setDragoes(Dragao[] dragoes) {
 		this.dragoes = dragoes;
 	}
-	
+
 	/**
 	 * Gets the hero
 	 *
@@ -862,7 +862,7 @@ public class Jogo implements Serializable {
 	public Heroi getHeroi() {
 		return heroi;
 	}
-	
+
 	/**
 	 * Sets the hero
 	 *
@@ -871,7 +871,7 @@ public class Jogo implements Serializable {
 	public void setHeroi(Heroi heroi) {
 		this.heroi = heroi;
 	}
-	
+
 	/**
 	 * Gets the maze.
 	 *
@@ -880,7 +880,7 @@ public class Jogo implements Serializable {
 	public Lab getLabirinto() {
 		return labirinto;
 	}
-	
+
 	/**
 	 * Sets the maze.
 	 *
@@ -889,7 +889,7 @@ public class Jogo implements Serializable {
 	public void setLabirinto(Lab labirinto) {
 		this.labirinto = labirinto;
 	}
-	
+
 	/**
 	 * Gets the sword.
 	 *
@@ -898,7 +898,7 @@ public class Jogo implements Serializable {
 	public Espada getEspada() {
 		return espada;
 	}
-	
+
 	/**
 	 * Sets the sword.
 	 *
@@ -907,7 +907,7 @@ public class Jogo implements Serializable {
 	public void setEspada(Espada espada) {
 		this.espada = espada;
 	}
-	
+
 	/**
 	 * Gets the shield.
 	 *
@@ -916,7 +916,7 @@ public class Jogo implements Serializable {
 	public Escudo getEscudo() {
 		return escudo;
 	}
-	
+
 	/**
 	 * Sets the shield.
 	 *
@@ -925,7 +925,7 @@ public class Jogo implements Serializable {
 	public void setEscudo(Escudo escudo) {
 		this.escudo = escudo;
 	}
-	
+
 	/**
 	 * Gets the darts.
 	 *
@@ -934,7 +934,7 @@ public class Jogo implements Serializable {
 	public Dart[] getDardos() {
 		return dardos;
 	}
-	
+
 	/**
 	 * Sets the darts.
 	 *
@@ -943,7 +943,7 @@ public class Jogo implements Serializable {
 	public void setDardos(Dart[] dardos) {
 		this.dardos = dardos;
 	}
-	
+
 	/**
 	 * Gets the interaction
 	 *
@@ -952,7 +952,7 @@ public class Jogo implements Serializable {
 	public static int getInter() {
 		return inter;
 	}
-	
+
 	/**
 	 * Sets the interaction
 	 *
@@ -961,7 +961,7 @@ public class Jogo implements Serializable {
 	public void setInter(int inter) {
 		Jogo.inter = inter;
 	}
-	
+
 	/**
 	 * Gets the game preferences
 	 *
@@ -970,7 +970,7 @@ public class Jogo implements Serializable {
 	public GamePreferences getPrefs() {
 		return prefs;
 	}
-	
+
 	/**
 	 * Sets the game preferences.
 	 *
@@ -979,7 +979,7 @@ public class Jogo implements Serializable {
 	public void setPrefs(GamePreferences prefs) {
 		this.prefs = prefs;
 	}
-	
+
 	//Methods related with darts
 	/**
 	 * Shoot the darts
@@ -997,13 +997,15 @@ public class Jogo implements Serializable {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()-i))
 							if (dragoes[j].getY_coord() == (heroi.getY_coord())) {
-								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
-								if (inter == 0)	
-									console_interface.dragonKilled();
-								else if (inter == 3) 
-									MazeDisplay.messageDragonKilled();
-								else {}
+								if (dragoes[j].isAlive()) {
+									dragoes[j].setAlive(false);
+									labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
+									if (inter == 0)	
+										console_interface.dragonKilled();
+									else if (inter == 3) 
+										MazeDisplay.messageDragonKilled();
+									else {}
+								}
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1022,13 +1024,15 @@ public class Jogo implements Serializable {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getX_coord() == (heroi.getX_coord()+i))
 							if (dragoes[j].getY_coord() == (heroi.getY_coord())) {
-								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
-								if (inter == 0) 
-									console_interface.dragonKilled();
-								else if (inter == 3) 
-									MazeDisplay.messageDragonKilled();
-								else {}
+								if (dragoes[j].isAlive()) {
+									dragoes[j].setAlive(false);
+									labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
+									if (inter == 0) 
+										console_interface.dragonKilled();
+									else if (inter == 3) 
+										MazeDisplay.messageDragonKilled();
+									else {}
+								}
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1047,11 +1051,13 @@ public class Jogo implements Serializable {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()-i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
-								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
-								if (inter == 0) console_interface.dragonKilled();
-								else if (inter == 3) MazeDisplay.messageDragonKilled();
-								else {}
+								if (dragoes[j].isAlive()) {
+									dragoes[j].setAlive(false);
+									labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
+									if (inter == 0) console_interface.dragonKilled();
+									else if (inter == 3) MazeDisplay.messageDragonKilled();
+									else {}
+								}
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1070,11 +1076,13 @@ public class Jogo implements Serializable {
 					for (int j = 0; j < dragoes.length; j++) {
 						if (dragoes[j].getY_coord() == (heroi.getY_coord()+i))
 							if (dragoes[j].getX_coord() == (heroi.getX_coord())) {
-								dragoes[j].setAlive(false);
-								labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
-								if (inter == 0) console_interface.dragonKilled();
-								else if (inter == 3) MazeDisplay.messageDragonKilled();
-								else {}
+								if (dragoes[j].isAlive()) {
+									dragoes[j].setAlive(false);
+									labirinto.setLabCell(dragoes[j].getX_coord(), dragoes[j].getY_coord(), ' ');
+									if (inter == 0) console_interface.dragonKilled();
+									else if (inter == 3) MazeDisplay.messageDragonKilled();
+									else {}
+								}
 							}
 					}
 					//-----------------------------------------------------------------
@@ -1092,11 +1100,11 @@ public class Jogo implements Serializable {
 				console_interface.no_darts();
 			else if (inter == 3) MazeDisplay.noDarts();
 			else {}
-		
+
 		displayDragoes();
 		change_hero_pos();
 	}
-	
+
 	/**
 	 * Sets the dart.
 	 *
@@ -1106,7 +1114,7 @@ public class Jogo implements Serializable {
 	public void setDart(int i, Dart dardo) {
 		dardos[i] = dardo;
 	}
-	
+
 	/**
 	 * Random position of the dart.
 	 *
@@ -1127,7 +1135,7 @@ public class Jogo implements Serializable {
 		dardos[pos].setY_coord(randomY);
 		change_dardo_pos(pos);
 	}
-	
+
 	/**
 	 * Changes dart position.
 	 *
@@ -1139,7 +1147,7 @@ public class Jogo implements Serializable {
 				labirinto.setLabCell(dardos[pos].getX_coord(), dardos[pos].getY_coord(), '\\');
 		}
 	}
-	
+
 	/**
 	 * Display the darts.
 	 */
@@ -1147,7 +1155,7 @@ public class Jogo implements Serializable {
 		for (int i = 0; i < dragoes.length; i++)
 			change_dardo_pos(i);
 	}
-	
+
 	/**
 	 * Catches the darts.
 	 *
@@ -1181,7 +1189,7 @@ public class Jogo implements Serializable {
 		escudo.setY_coord(randomY);
 		change_escudo_pos();
 	}
-	
+
 	/**
 	 * Updates the position of the shield (if the hero catches it).
 	 */
@@ -1209,13 +1217,13 @@ public class Jogo implements Serializable {
 		espada.setY_coord(randomY);
 		change_sword_pos();
 	}
-	
+
 	/**
 	 * Updates the position of the sword (if the hero catches it).
 	 */
 	public void change_sword_pos() {
 		if (!heroi.isArmado())
-		labirinto.setLabCell(espada.getX_coord(), espada.getY_coord(), 'E');
+			labirinto.setLabCell(espada.getX_coord(), espada.getY_coord(), 'E');
 	}
 
 	//Methods related with the Hero
@@ -1230,7 +1238,7 @@ public class Jogo implements Serializable {
 		else
 			labirinto.setLabCell(heroi.getX_coord(), heroi.getY_coord(), 'H');
 	}
-	
+
 	/**
 	 * Sets the random start of the hero.
 	 */

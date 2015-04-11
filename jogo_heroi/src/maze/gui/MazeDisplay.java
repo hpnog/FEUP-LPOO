@@ -207,7 +207,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.game();	
 		int choice = -1;
 		choice = interpretaOpcao(arg);					//Vai buscar o valor de choice
-		if (choice > 99) {
+		if (choice > 99 && getJogoG().getHeroi().getDardos() > 0) {
 			char tempo [][] = showShotOnScreen(choice);
 			mazeGrid.gameShot();
 			jogoG.getLabirinto().setLab(tempo);
@@ -288,9 +288,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 
 		int choice;
 		if (yDiff == -1)
-			choice = 101;
-		else if (yDiff == 1)
 			choice = 102;
+		else if (yDiff == 1)
+			choice = 101;
 		else if (xDiff == 1)
 			choice = 103;
 		else
@@ -308,9 +308,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			else
 				tempo[x+xDiff][y+yDiff] = 'V';
 
-			if (choice == 101)
+			if (choice == 102)
 				yDiff--;
-			else if (choice == 102)
+			else if (choice == 101)
 				yDiff++;
 			else if (choice == 103) 
 				xDiff++;
@@ -318,7 +318,6 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 				xDiff--;
 			counter++;
 		}
-
 		jogoG.displayDragoes();
 		mazeGrid.gameShot();
 		jogoG.getLabirinto().setLab(tempo);
