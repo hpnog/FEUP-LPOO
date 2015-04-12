@@ -29,13 +29,28 @@ import java.io.IOException;
 public class MainMenu extends JFrame implements ComponentListener{
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -9019263358824896833L;
+	
+	/** The buttons. */
 	private JPanel buttons;
+	
+	/** The menu image. */
 	private JPanel menuImage;
+	
+	/** The quit. */
 	private JButton quit;
+	
+	/** The new game. */
 	private JButton newGame;
+	
+	/** The options. */
 	private JButton options;
+	
+	/** The load game. */
 	private JButton loadGame;
+	
+	/** The background. */
 	private ImageIcon background;
 
 	/**

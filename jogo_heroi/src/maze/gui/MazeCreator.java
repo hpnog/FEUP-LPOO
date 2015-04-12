@@ -29,12 +29,25 @@ import java.awt.event.ActionEvent;
 public class MazeCreator extends JFrame implements ComponentListener, MouseListener{
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 2204086892323041058L;
+	
+	/** The maze generator. */
 	private JPanel mazeGenerator;
+	
+	/** The maze creator grid. */
 	private MazeCreatorGrid mazeCreatorGrid;
+	
+	/** The buttons. */
 	private JPanel buttons;
+	
+	/** The side bar. */
 	private CreatorSideBar sideBar;
+	
+	/** The back. */
 	private JButton back;
+	
+	/** The finish. */
 	private JButton finish;
 
 	/**
@@ -220,7 +233,7 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 	}
 
 	/**
-	 * Makes the game return to the main menu
+	 * Makes the game return to the main menu.
 	 */
 	public void returnFunc() {
 		setVisible(false);

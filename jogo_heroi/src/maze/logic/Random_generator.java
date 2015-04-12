@@ -10,10 +10,19 @@ import java.util.Stack;
 public class Random_generator extends Lab implements Serializable {
 	
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -3817543882507696922L;
+	
+	/** The celulas visitadas. */
 	private char [][] celulasVisitadas;
+	
+	/** The random xcoord. */
 	private int randomXcoord;
+	
+	/** The random ycoord. */
 	private int randomYcoord;
+	
+	/** The coord. */
 	private Stack <Coord> coord;
 	
 	/**
@@ -26,7 +35,7 @@ public class Random_generator extends Lab implements Serializable {
 		randomXcoord = 0;
 		randomYcoord = 0;
 		coord = new Stack <Coord> ();
-		//Inicializa o array auxiliar de celulas visitadas
+		//Initializes aux array with visited cells
 		celulasVisitadas = new char [(size - 1) / 2][(size - 1) / 2];
 			
 		random_maze();
@@ -44,7 +53,7 @@ public class Random_generator extends Lab implements Serializable {
 		public int y;
 		
 		/**
-		 * Instantiates a new coordinate 
+		 * Instantiates a new coordinate .
 		 *
 		 * @param a the a
 		 * @param b the b
@@ -150,7 +159,7 @@ public class Random_generator extends Lab implements Serializable {
 	}
 	
 	/**
-	 * First random cell
+	 * First random cell.
 	 */
 	private void primeira_celula_random() {
 		randomXcoord = 0 + (int)(Math.random()*(((size - 1) / 2)-1));
@@ -167,7 +176,7 @@ public class Random_generator extends Lab implements Serializable {
 	}
 	
 	/**
-	 * Fills aux
+	 * Fills aux.
 	 */
 	private void preenche_auxiliar() {
 		for (int i = 0; i < (size - 1) / 2; i++)
@@ -176,7 +185,7 @@ public class Random_generator extends Lab implements Serializable {
 	}
 	
 	/**
-	 * Fills borders
+	 * Fills borders.
 	 */
 	private void preenche_bordas() {
 		//Preenche as bordas do labirinto && preenche o numero impar das celulas
@@ -188,7 +197,7 @@ public class Random_generator extends Lab implements Serializable {
 	}
 	
 	/**
-	 * Creates the random maze
+	 * Creates the random maze.
 	 */
 	private void random_maze() {
 		

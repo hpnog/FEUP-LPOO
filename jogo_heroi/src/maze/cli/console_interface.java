@@ -12,10 +12,21 @@ import maze.logic.Lab;
 import maze.logic.Jogo;
 import maze.logic.Random_generator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class console_interface.
+ */
 @SuppressWarnings("resource")
 public class console_interface {
+	
+	/** The game c. */
 	private static Jogo jogoC;
 	
+	/**
+	 * Prints lab.
+	 *
+	 * @param lab the lab
+	 */
 	public static void imprimir_lab(Lab lab) {
 		if (Jogo.getInter() == 0) {
 			for (int i = 0; i < lab.getSize(); i++) {
@@ -27,6 +38,12 @@ public class console_interface {
 			}
 		} 
 	}
+	
+	/**
+	 * Gets the movement.
+	 *
+	 * @return the _movimento
+	 */
 	public static int get_movimento() {
 		int choice = -1;
 		Scanner cin = null;
@@ -54,6 +71,10 @@ public class console_interface {
 		 
 		return choice;
 	}
+	
+	/**
+	 * Print options.
+	 */
 	public static void print_options() {
 		if (Jogo.getInter() == 0) {
 
@@ -73,6 +94,10 @@ public class console_interface {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * When the hero finds the exit and everything is ok.
+	 */
 	public static void way_out() {
 		if (Jogo.getInter() == 0) {
 
@@ -80,6 +105,10 @@ public class console_interface {
 			System.out.println("Congratulations, you just found your way out!");
 		}
 	}
+	
+	/**
+	 * When the hero finds the exit but the dragon is alive.
+	 */
 	public static void dragon_still_alive() {
 		if (Jogo.getInter() == 0) {
 
@@ -88,6 +117,10 @@ public class console_interface {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * When the hero goes against a wall.
+	 */
 	public static void wall() {
 		if (Jogo.getInter() == 0) {
 
@@ -96,6 +129,12 @@ public class console_interface {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * Choose if wants a random maze or default.
+	 *
+	 * @return the int
+	 */
 	public static int choose_maze() {
 		if (Jogo.getInter() == 0) {
 
@@ -123,12 +162,22 @@ public class console_interface {
 		
 		return 0;
 	}
+	
+	/**
+	 * When the hero goes against a sleeping dragon.
+	 */
 	public static void dragon_sleeping() {
 		if (Jogo.getInter() == 0) {
 
 			System.out.printf("\n\nCannot go over sleeping dragon!\n\n");
 		}
 	}
+	
+	/**
+	 * Asks how many dragons.
+	 *
+	 * @return the int
+	 */
 	public static int askHowManyDragons() {
 		if (Jogo.getInter() == 0) {
 
@@ -147,6 +196,12 @@ public class console_interface {
 		}
 		return 0;
 	}
+	
+	/**
+	 * Asks type of dragon.
+	 *
+	 * @return the int
+	 */
 	public static int askTypeOfDragon() {
 		if (Jogo.getInter() == 0) {
 
@@ -168,6 +223,10 @@ public class console_interface {
 		}
 		return 0;
 	}
+	
+	/**
+	 * When the hero kills the dragon.
+	 */
 	public static void dragonKilled() {
 		if (Jogo.getInter() == 0) {
 
@@ -176,6 +235,12 @@ public class console_interface {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * Prints hero status
+	 *
+	 * @param heroi the hero
+	 */
 	public static void imprimir_heroi_status(Heroi heroi) {
 		if (Jogo.getInter() == 0) {
 
@@ -187,28 +252,52 @@ public class console_interface {
 			System.out.printf("\nNumero de dardos - %d\n\n", heroi.getDardos());
 		}
 	}
+	
+	/**
+	 * When the hero has no darts
+	 */
 	public static void no_darts() {
 		if (Jogo.getInter() == 0) {
 
 			System.out.printf("\n\nYou have no darts.\n\n");
 		}
 	}
+	
+	/**
+	 * Shot left.
+	 */
 	public static void shotLeft() {
 		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot left.\n");
 	}
+	
+	/**
+	 * Shot right.
+	 */
 	public static void shotRight() {
 		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot right.\n");
 	}
+	
+	/**
+	 * Shot up.
+	 */
 	public static void shotUp() {
 		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot up.\n");
 	}
+	
+	/**
+	 * Shot down.
+	 */
 	public static void shotDown() {
 		if (Jogo.getInter() == 0)
 			System.out.printf("\nYou shot down.\n");
 	}
+	
+	/**
+	 * Killed by fire.
+	 */
 	public static void killedByFire() {
 		if (Jogo.getInter() == 0) {
 			System.out.println();
@@ -216,6 +305,10 @@ public class console_interface {
 			System.out.println();
 		}
 	}
+	
+	/**
+	 * You died.
+	 */
 	public static void youDied() {
 		if (Jogo.getInter() == 0) {
 			System.out.println();
@@ -224,6 +317,11 @@ public class console_interface {
 		}
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		//----------pergunta-qual-o-labirinto.labirinto--------------
 		int choice = choose_maze();
@@ -237,9 +335,13 @@ public class console_interface {
 		}
 		jogar();
 	}
+	
+	/**
+	 * Main function that initializes the game
+	 */
 	public static void jogar() {
 		
-		//--------------Inicio-do-jogo---------------------
+		//--------------Beggining of the game--------------------
 
 		int dragonNumber = askHowManyDragons();
 		jogoC.setDragoes(new Dragao[dragonNumber]);
@@ -265,6 +367,10 @@ public class console_interface {
 		
 		movimentar_heroi();
 	}
+	
+	/**
+	 * Moves hero
+	 */
 	public static void movimentar_heroi() {
 
 		print_options();
@@ -287,9 +393,20 @@ public class console_interface {
 		}
 	}
 	
+	/**
+	 * Gets the game.
+	 *
+	 * @return the game
+	 */
 	public Jogo getJogo() {
 		return jogoC;
 	}
+	
+	/**
+	 * Sets the game.
+	 *
+	 * @param jogo the new game
+	 */
 	public void setJogo(Jogo jogo) {
 		console_interface.jogoC = jogo;
 	}

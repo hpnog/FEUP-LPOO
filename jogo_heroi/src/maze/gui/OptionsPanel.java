@@ -35,24 +35,61 @@ import javax.swing.SpinnerNumberModel;
 public class OptionsPanel extends JDialog implements ComponentListener{
 	
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6355967352362695786L;
+	
+	/** The buttons. */
 	private JPanel buttons;
+	
+	/** The back. */
 	private JButton back;
+	
+	/** The save changes. */
 	private JButton saveChanges;
+	
+	/** The create maze. */
 	private JButton createMaze;
+	
+	/** The btn default maze. */
 	private JButton btnDefaultMaze;
+	
+	/** The options panel. */
 	private JPanel optionsPanel;
+	
+	/** The maze size. */
 	private JSpinner mazeSize;
+	
+	/** The dragon type. */
 	private JComboBox<String> dragonType;
+	
+	/** The number of dragons. */
 	private JSpinner numberOfDragons;
+	
+	/** The move up. */
 	private JTextField moveUp;
+	
+	/** The move down. */
 	private JTextField moveDown;
+	
+	/** The move left. */
 	private JTextField moveLeft;
+	
+	/** The move right. */
 	private JTextField moveRight;
+	
+	/** The shoot up. */
 	private JTextField shootUp;
+	
+	/** The shoot down. */
 	private JTextField shootDown;
+	
+	/** The shoot left. */
 	private JTextField shootLeft;
+	
+	/** The shoot right. */
 	private JTextField shootRight;
+	
+	/** The exit key. */
 	private JTextField exitKey;
 	
 	/**

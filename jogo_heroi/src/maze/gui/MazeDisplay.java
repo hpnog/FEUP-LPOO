@@ -35,19 +35,38 @@ import java.io.IOException;
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
 	
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -191089706890276055L;
+	
+	/** The gameG. */
 	private static Jogo jogoG;
+	
+	/** The game. */
 	private JPanel game;
+	
+	/** The side bar. */
 	private GameSideBar sideBar;
+	
+	/** The maze grid. */
 	private MazeGrid mazeGrid;
+	
+	/** The buttons. */
 	private JPanel buttons;
+	
+	/** The quit. */
 	private JButton quit;
+	
+	/** The new game. */
 	private JButton newGame;
+	
+	/** The save game. */
 	private JButton saveGame;
+	
+	/** The load game. */
 	private JButton loadGame;
 
 	/**
-	 * Inicializes the game
+	 * Inicializes the game.
 	 */
 	public void createGame() {
 
@@ -249,14 +268,14 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			return;
 		}
 		else {
-			sideBar.update();							//atualiza a barra
+			sideBar.update();							//updates the sidebar
 		}
 
-		choice = jogoG.moveAndSpit_dragoes(choice);		//Move dragoes
+		choice = jogoG.moveAndSpit_dragoes(choice);		//move dragons
 		char [][] original = deepClone(jogoG.getLabirinto().getLab());
 		displaySpits();
 		jogoG.getLabirinto().setLab(original);
-		if (choice == 10) {								//Se o heroi morrer por fogo
+		if (choice == 10) {								//if hero dies by fire
 			sideBar.update();
 			killedByFire();
 			returnFunc();
@@ -265,15 +284,15 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		else {
 			sideBar.update();
 		}
-		choice = jogoG.endOfTurn(choice);				//Verifica se o heroi morreu
-		if (choice == 5) {								//Se o heroi morreu
-			sideBar.update();							//atualiza a barra
-			youDied();									//Mostra mensage de morte
-			returnFunc();								//termina o jogo
+		choice = jogoG.endOfTurn(choice);				//checks if hero died
+		if (choice == 5) {								//if hero died
+			sideBar.update();							//updates sidebar
+			youDied();									//shows death message
+			returnFunc();								//ends game
 			return;
 		}
 		else {
-			sideBar.update();							//atualiza a barra
+			sideBar.update();							//updates sidebar
 		}
 
 		mazeGrid.setSize(getWidth(), getHeight());
@@ -417,7 +436,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	/**
-	 * Returns to main menu
+	 * Returns to main menu.
 	 */
 	public void returnFunc() {
 		setVisible(false);
@@ -446,7 +465,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	/**
-	 * Interprets option
+	 * Interprets option.
 	 *
 	 * @param arg the arg
 	 * @return the int
@@ -568,7 +587,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	/**
-	 * Sets the game
+	 * Sets the game.
 	 *
 	 * @param readObject the new game
 	 */

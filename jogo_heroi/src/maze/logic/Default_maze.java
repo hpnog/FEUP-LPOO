@@ -2,11 +2,18 @@ package maze.logic;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Default_maze.
+ */
 public class Default_maze extends Lab implements Serializable {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6974825017109150949L;
 
 	/**
-	 * Constructor of the default maze
+	 * Constructor of the default maze.
+	 *
 	 * @param s size of maze
 	 */
 	public Default_maze(int s) {
@@ -15,7 +22,7 @@ public class Default_maze extends Lab implements Serializable {
 	}
 	
 	/**
-	 * Fills the default maze
+	 * Fills the default maze.
 	 */
 	public void first_maze() {
 		size = 10;

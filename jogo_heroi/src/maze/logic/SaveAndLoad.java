@@ -7,7 +7,18 @@ import javax.swing.JFileChooser;
 import maze.gui.MazeDisplay;
 import maze.logic.Jogo;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface SaveAndLoad.
+ */
 public interface SaveAndLoad {
+	
+	/**
+	 * Save game.
+	 *
+	 * @param jogo the game
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static void saveGame(Jogo jogo) throws IOException {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("src/maze/logic/saves/"));
@@ -29,6 +40,14 @@ public interface SaveAndLoad {
 
 	}
 
+	/**
+	 * Load game.
+	 *
+	 * @param arg the arg
+	 * @return the game
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	public static Jogo loadGame(Jogo arg) throws IOException, ClassNotFoundException {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("src/maze/logic/saves/"));

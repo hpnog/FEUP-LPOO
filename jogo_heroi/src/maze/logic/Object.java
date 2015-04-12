@@ -9,8 +9,13 @@ import java.io.Serializable;
 public class Object implements Serializable {
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4071368693971647608L;
+	
+	/** The x_coord. */
 	private int x_coord;
+	
+	/** The y_coord. */
 	private int y_coord;
 
 	/**

@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import maze.logic.Jogo.GamePreferences;
 
+// TODO: Auto-generated Javadoc
 //TODO: Auto-generated Javadoc
 /**
 * The Class CreatorSideBar.
@@ -16,13 +17,28 @@ import maze.logic.Jogo.GamePreferences;
 public class CreatorSideBar extends JPanel{
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -615709073421396065L;
+	
+	/** The dragon. */
 	private ImageIcon dragon;
+	
+	/** The hero. */
 	private ImageIcon hero;
+	
+	/** The closed exit. */
 	private ImageIcon closedExit;
+	
+	/** The dart. */
 	private ImageIcon dard;
+	
+	/** The shield. */
 	private ImageIcon shield;
+	
+	/** The sword. */
 	private ImageIcon sword;
+	
+	/** The check. */
 	private ImageIcon check;
 
 	/**

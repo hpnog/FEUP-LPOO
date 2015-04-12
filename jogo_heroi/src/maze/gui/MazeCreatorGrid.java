@@ -25,18 +25,43 @@ import maze.logic.Jogo.GamePreferences;
 public class MazeCreatorGrid extends JPanel {
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 4097316773731482125L;
+	
+	/** The dragon. */
 	private ImageIcon dragon;
+	
+	/** The sleeping dragon. */
 	private ImageIcon sleepingDragon;
+	
+	/** The hero. */
 	private ImageIcon hero;
+	
+	/** The armed hero. */
 	private ImageIcon armedHero;
+	
+	/** The shielded hero. */
 	private ImageIcon shieldedHero;
+	
+	/** The armed and shielded hero. */
 	private ImageIcon armedAndShieldedHero;
+	
+	/** The wall. */
 	private ImageIcon wall;
+	
+	/** The closed exit. */
 	private ImageIcon closedExit;
+	
+	/** The dart. */
 	private ImageIcon dard;
+	
+	/** The shield. */
 	private ImageIcon shield;
+	
+	/** The sword. */
 	private ImageIcon sword;
+	
+	/** The phase. */
 	private static CreatorPhase phase;
 
 	/**
@@ -45,12 +70,25 @@ public class MazeCreatorGrid extends JPanel {
 	protected class CreatorPhase {
 		
 		
+		/** The exit placed. */
 		private boolean exitPlaced;
+		
+		/** The maze done. */
 		private boolean mazeDone;
+		
+		/** The hero placed. */
 		private boolean heroPlaced;
+		
+		/** The shield placed. */
 		private boolean shieldPlaced;
+		
+		/** The sword placed. */
 		private boolean swordPlaced;
+		
+		/** The number of darts placed. */
 		private int numberOfDartsPlaced;
+		
+		/** The number of dragons placed. */
 		private int numberOfDragonsPlaced;
 		
 		/**

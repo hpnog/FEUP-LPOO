@@ -43,17 +43,40 @@ public class Jogo implements Serializable {
 	 */
 	public static class GamePreferences {
 
+		/** The maze size. */
 		private static int mazeSize = 11;
+		
+		/** The number of dragons. */
 		private static int numberOfDragons = 1;
+		
+		/** The type. */
 		private static int type = 0;
+		
+		/** The up. */
 		private static char up = 'w';
+		
+		/** The down. */
 		private static char down = 's';
+		
+		/** The left. */
 		private static char left = 'a';
+		
+		/** The right. */
 		private static char right = 'd';
+		
+		/** The s up. */
 		private static char sUp = 'y';
+		
+		/** The s down. */
 		private static char sDown = 'h';
+		
+		/** The s left. */
 		private static char sLeft = 'g';
+		
+		/** The s right. */
 		private static char sRight = 'j';
+		
+		/** The exit key. */
 		private static char exitKey = 'q';
 
 		/**
@@ -311,7 +334,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Checks the option that the player selected (the key) 
+	 * Checks the option that the player selected (the key) .
 	 *
 	 * @param choice the choice
 	 * @return what is going to happen after the choice that the player chose
@@ -365,7 +388,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Verifies if the dragon dies after the hero moves
+	 * Verifies if the dragon dies after the hero moves.
 	 *
 	 * @param i the i
 	 * @return the int
@@ -396,7 +419,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Checks what to do depending on the objects around the hero
+	 * Checks what to do depending on the objects around the hero.
 	 *
 	 * @param x the x
 	 * @param y the y
@@ -505,7 +528,7 @@ public class Jogo implements Serializable {
 	//Methods related with dragons
 
 	/**
-	 * Does the random movement of the dragons and if they spit fire or not
+	 * Does the random movement of the dragons and if they spit fire or not.
 	 *
 	 * @param choice the choice
 	 * @return the int
@@ -527,7 +550,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Moves the dragon 
+	 * Moves the dragon .
 	 *
 	 * @param pos the position
 	 */
@@ -597,7 +620,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Sets the dragon number i
+	 * Sets the dragon number i.
 	 *
 	 * @param i the i
 	 * @param dragao the dragon
@@ -607,7 +630,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Chooses randomly when the dragon spits fire
+	 * Chooses randomly when the dragon spits fire.
 	 *
 	 * @param dragao the dragon
 	 * @return the int
@@ -628,9 +651,9 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Changes the position of the dragon number i
+	 * Changes the position of the dragon number i.
 	 *
-	 * @param i the 
+	 * @param i the
 	 */
 	public void change_dragon_pos(int i) {
 		if (dragoes[i].isAlive()) {
@@ -652,7 +675,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Makes the dragon spit fire 
+	 * Makes the dragon spit fire .
 	 *
 	 * @param x the x
 	 * @param y the y
@@ -724,7 +747,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Moves all the dragons
+	 * Moves all the dragons.
 	 */
 	public void moveDragoes() {
 		for (int i = 0; i < dragoes.length; i++) {
@@ -734,7 +757,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Sets a random position for the dragons
+	 * Sets a random position for the dragons.
 	 *
 	 * @param pos the position
 	 */
@@ -755,7 +778,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Change the status of the dragons
+	 * Change the status of the dragons.
 	 *
 	 * @param pos the position
 	 */
@@ -776,7 +799,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Display the dragons
+	 * Display the dragons.
 	 */
 	public void displayDragoes() {
 		for (int i = 0; i < dragoes.length; i++) {
@@ -785,6 +808,11 @@ public class Jogo implements Serializable {
 		}
 	}
 
+	/**
+	 * Empty_dragon.
+	 *
+	 * @param i the i
+	 */
 	private void empty_dragon(int i) {
 		if (labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'D' ||
 				labirinto.getChar(dragoes[i].getX_coord(), dragoes[i].getY_coord()) == 'd' ||
@@ -808,7 +836,7 @@ public class Jogo implements Serializable {
 
 	//Getters and Setters
 	/**
-	 * Gets the dragons
+	 * Gets the dragons.
 	 *
 	 * @return the dragons
 	 */
@@ -817,7 +845,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Sets the dragons
+	 * Sets the dragons.
 	 *
 	 * @param dragoes the new dragons
 	 */
@@ -826,7 +854,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Gets the hero
+	 * Gets the hero.
 	 *
 	 * @return the hero
 	 */
@@ -835,7 +863,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Sets the hero
+	 * Sets the hero.
 	 *
 	 * @param heroi the new hero
 	 */
@@ -916,7 +944,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Gets the interaction
+	 * Gets the interaction.
 	 *
 	 * @return the interaction
 	 */
@@ -925,7 +953,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Sets the interaction
+	 * Sets the interaction.
 	 *
 	 * @param inter the new interaction
 	 */
@@ -934,7 +962,7 @@ public class Jogo implements Serializable {
 	}
 
 	/**
-	 * Gets the game preferences
+	 * Gets the game preferences.
 	 *
 	 * @return the game preferences
 	 */
@@ -953,7 +981,7 @@ public class Jogo implements Serializable {
 
 	//Methods related with darts
 	/**
-	 * Shoot the darts
+	 * Shoot the darts.
 	 *
 	 * @param x the x
 	 * @param y the y

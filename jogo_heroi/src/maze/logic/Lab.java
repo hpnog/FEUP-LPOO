@@ -8,8 +8,13 @@ import java.io.Serializable;
  */
 public class Lab implements Serializable {
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1139625071182668982L;
+	
+	/** The lab. */
 	protected char [][] lab ;
+	
+	/** The size. */
 	protected int size;
 	
 	/**
@@ -22,7 +27,6 @@ public class Lab implements Serializable {
 		lab = new char [size][size];
 	}
 
-	//Funcao apenas para efeito de testes
 	/**
 	 * Gets the dragon position.
 	 *

@@ -15,20 +15,49 @@ import javax.swing.border.EmptyBorder;
 public class MazeGrid extends JPanel {
 	
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6007221560664604069L;
+	
+	/** The dragon. */
 	private ImageIcon dragon;
+	
+	/** The sleeping dragon. */
 	private ImageIcon sleepingDragon;
+	
+	/** The hero. */
 	private ImageIcon hero;
+	
+	/** The armed hero. */
 	private ImageIcon armedHero;
+	
+	/** The shielded hero. */
 	private ImageIcon shieldedHero;
+	
+	/** The armed and shielded hero. */
 	private ImageIcon armedAndShieldedHero;
+	
+	/** The wall. */
 	private ImageIcon wall;
+	
+	/** The opened exit. */
 	private ImageIcon openedExit;
+	
+	/** The closed exit. */
 	private ImageIcon closedExit;
+	
+	/** The dart. */
 	private ImageIcon dart;
+	
+	/** The shield. */
 	private ImageIcon shield;
+	
+	/** The fire. */
 	private ImageIcon fire;
+	
+	/** The sword. */
 	private ImageIcon sword;
+	
+	/** The dragon with sword. */
 	private ImageIcon dragonWithSword;
 	
 	/**
@@ -38,10 +67,10 @@ public class MazeGrid extends JPanel {
 		super();
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
-		//Varible for Panes size
+		//Variable for Panes size
 		int paneSize = 1;
 		if (MazeDisplay.getJogoG().getLabirinto().getSize() > 0) paneSize = MazeDisplay.getJogoG().getLabirinto().getSize();
-		//Divide a frame numa grelha com o tamanho correto (layout)
+		//splits frame in a grid with the right size (layout)
 		this.setLayout(new GridLayout(paneSize, paneSize));
 		loadImages();
 	}
@@ -82,7 +111,7 @@ public class MazeGrid extends JPanel {
 	}
 	
 	/**
-	 * Introduces content
+	 * Introduces content.
 	 *
 	 * @param shot the shot
 	 */
