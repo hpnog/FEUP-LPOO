@@ -18,7 +18,13 @@ import maze.logic.Jogo;
 import maze.logic.Lab;
 import maze.logic.Jogo.GamePreferences;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeCreatorGrid.
+ */
 public class MazeCreatorGrid extends JPanel {
+	
+	
 	private static final long serialVersionUID = 4097316773731482125L;
 	private ImageIcon dragon;
 	private ImageIcon sleepingDragon;
@@ -33,69 +39,164 @@ public class MazeCreatorGrid extends JPanel {
 	private ImageIcon sword;
 	private static CreatorPhase phase;
 
+	/**
+	 * The Class CreatorPhase.
+	 */
 	protected class CreatorPhase {
+		
+		
 		private boolean exitPlaced;
 		private boolean mazeDone;
 		private boolean heroPlaced;
 		private boolean shieldPlaced;
 		private boolean swordPlaced;
-		private int numberOfDardsPlaced;
+		private int numberOfDartsPlaced;
 		private int numberOfDragonsPlaced;
 		
+		/**
+		 * Instantiates a new creator phase.
+		 */
 		CreatorPhase() {
 			exitPlaced = false;
 			mazeDone = false;
 			heroPlaced = false;
 			swordPlaced = false;
 			shieldPlaced = false;
-			numberOfDardsPlaced = 0;
+			numberOfDartsPlaced = 0;
 			numberOfDragonsPlaced = 0;
 		}
 
-		public int getNumberOfDardsPlaced() {
-			return numberOfDardsPlaced;
+		/**
+		 * Gets the number of darts placed.
+		 *
+		 * @return the number of darts placed
+		 */
+		public int getNumberOfDartsPlaced() {
+			return numberOfDartsPlaced;
 		}
+		
+		/**
+		 * Checks if the is shield placed.
+		 *
+		 * @return true, if the shield is placed
+		 */
 		public boolean isShieldPlaced() {
 			return shieldPlaced;
 		}
+		
+		/**
+		 * Checks if the sword is placed.
+		 *
+		 * @return true, if the sword is placed
+		 */
 		public boolean isSwordPlaced() {
 			return swordPlaced;
 		}
+		
+		/**
+		 * Checks if the exit is placed.
+		 *
+		 * @return true, if the exit is placed
+		 */
 		public boolean isExitPlaced() { 
 			return exitPlaced; 
 		}
+		
+		/**
+		 * Sets the placed exit.
+		 *
+		 * @param a the new placed exit 
+		 */
 		public void setExitPlaced(boolean a) {
 			exitPlaced = a;
 		}
+		
+		/**
+		 * Checks if the maze is done.
+		 *
+		 * @return true, if the maze is done
+		 */
 		public boolean isMazeDone() {
 			return mazeDone;
 		}
+		
+		/**
+		 * Sets the maze done.
+		 *
+		 * @param a the new maze done
+		 */
 		public void setMazeDone(boolean a) {
 			mazeDone = a;
 		}
 
-		public void setNumberOfDardsPlaced(int a) {
-			numberOfDardsPlaced = a;
+		/**
+		 * Sets the number of darts placed.
+		 *
+		 * @param a the new number of darts placed
+		 */
+		public void setNumberOfDartsPlaced(int a) {
+			numberOfDartsPlaced = a;
 		}
+		
+		/**
+		 * Sets the placed shield.
+		 *
+		 * @param a the new shield placed
+		 */
 		public void setShieldPlaced(boolean a) {
 			shieldPlaced = a;
 		}
+		
+		/**
+		 * Sets the placed sword.
+		 *
+		 * @param a the new sword placed
+		 */
 		public void setSwordPlaced(boolean a) {
 			swordPlaced = a;
 		}
+		
+		/**
+		 * Checks if the hero is placed.
+		 *
+		 * @return true, if is hero placed
+		 */
 		public boolean isHeroPlaced() {
 			return heroPlaced;
 		}
+		
+		/**
+		 * Sets the placed hero.
+		 *
+		 * @param a the new hero placed
+		 */
 		public void setHeroPlaced (boolean a) {
 			heroPlaced = a;
 		}
+		
+		/**
+		 * Sets the number of dragons placed.
+		 *
+		 * @param a the new number of dragons placed
+		 */
 		public void setNumberOfDragonsPlaced(int a) {
 			numberOfDragonsPlaced = a;
 		}
+		
+		/**
+		 * Gets the number of dragons placed.
+		 *
+		 * @return the number of dragons placed
+		 */
 		public int getNumberOfDragonsPlaced() {
 			return numberOfDragonsPlaced;
 		}
 
+		/**
+		 * Checks if the maze is finished.
+		 *
+		 * @return true, if is finished
+		 */
 		public boolean isFinished() {
 			if (exitPlaced)
 				if(mazeDone)
@@ -104,13 +205,19 @@ public class MazeCreatorGrid extends JPanel {
 							if(swordPlaced) {
 								MazeDisplay.getJogoG().getPrefs();
 								if(numberOfDragonsPlaced == GamePreferences.getNumberOfDragons())
-									if (numberOfDardsPlaced == GamePreferences.getNumberOfDragons())
+									if (numberOfDartsPlaced == GamePreferences.getNumberOfDragons())
 										return true;
 							}
 			return false;
 		}
 	}
 
+	/**
+	 * Instantiates a new maze creator grid.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 */
 	MazeCreatorGrid(int width, int height) {
 		super();
 		setPhase(new CreatorPhase());
@@ -137,12 +244,18 @@ public class MazeCreatorGrid extends JPanel {
 		game();
 	}
 
+	/**
+	 * Fill grid with walls.
+	 */
 	private void fillGridWithWalls() {
 		for (int i = 0; i < getLab().getSize(); i++)
 			for (int j = 0; j < getLab().getSize(); j++)
 				getLab().setLabCell(i, j, 'X');
 	}
 
+	/**
+	 * Game.
+	 */
 	public void game() {
 		//Remove all content
 		removeAll();
@@ -154,6 +267,12 @@ public class MazeCreatorGrid extends JPanel {
 		revalidate();
 	}
 
+	/**
+	 * Scale image.
+	 *
+	 * @param im the im
+	 * @return the image icon
+	 */
 	private ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
 		Image newimg = img.getScaledInstance(this.getWidth()/getLab().getSize(),
@@ -162,6 +281,9 @@ public class MazeCreatorGrid extends JPanel {
 		return new ImageIcon(newimg);
 	}
 
+	/**
+	 * Introduces content.
+	 */
 	private void introduzConteudo() {
 		ImageIcon scaledDragon = scaleImage(dragon);
 		ImageIcon scaledSleepingDragon = scaleImage(sleepingDragon);
@@ -207,6 +329,9 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Load images.
+	 */
 	void loadImages() {
 		dragon = new ImageIcon(this.getClass().getResource("res/dragon.png"));
 		sleepingDragon = new ImageIcon(this.getClass().getResource("res/sleepingDragon.png"));
@@ -221,6 +346,12 @@ public class MazeCreatorGrid extends JPanel {
 		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 
 	}
 
+	/**
+	 * Place darts.
+	 *
+	 * @param arg0 the arg0
+	 * @param ind the ind
+	 */
 	void placeDards(MouseEvent arg0, int ind) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -231,10 +362,15 @@ public class MazeCreatorGrid extends JPanel {
 			MazeDisplay.getJogoG().getPrefs();
 			MazeDisplay.getJogoG().setDart(ind, new Dart(xCoord, yCoord));
 			MazeDisplay.getJogoG().change_dardo_pos(ind);
-			phase.setNumberOfDardsPlaced(phase.getNumberOfDardsPlaced()+1);
+			phase.setNumberOfDartsPlaced(phase.getNumberOfDartsPlaced()+1);
 		}
 	}
 
+	/**
+	 * Place sword.
+	 *
+	 * @param arg0 the arg0
+	 */
 	void placeSword(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -248,6 +384,11 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Place shield.
+	 *
+	 * @param arg0 the arg0
+	 */
 	void placeShield(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -261,6 +402,12 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Place dragon.
+	 *
+	 * @param arg0 the arg0
+	 * @param ind the ind
+	 */
 	void placeDragon(MouseEvent arg0, int ind) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -277,6 +424,11 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 	
+	/**
+	 * Place hero.
+	 *
+	 * @param arg0 the arg0
+	 */
 	void placeHero(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -290,6 +442,11 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Make maze.
+	 *
+	 * @param arg0 the arg0
+	 */
 	void makeMaze(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -304,6 +461,11 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Put exit.
+	 *
+	 * @param arg0 the arg0
+	 */
 	void putExit(MouseEvent arg0) {
 		int xCoord = getMouseXCoord(arg0);
 		int yCoord = getMouseYCoord(arg0);
@@ -331,6 +493,12 @@ public class MazeCreatorGrid extends JPanel {
 		}
 	}
 
+	/**
+	 * Gets the mouse y coord.
+	 *
+	 * @param arg the arg
+	 * @return the mouse y coord
+	 */
 	private int getMouseYCoord(MouseEvent arg) {
 		int ycoord = arg.getY()-30;
 		int fin = 0;
@@ -344,6 +512,12 @@ public class MazeCreatorGrid extends JPanel {
 		return 0;
 	}
 
+	/**
+	 * Gets the mouse x coord.
+	 *
+	 * @param arg the arg
+	 * @return the mouse x coord
+	 */
 	private int getMouseXCoord(MouseEvent arg) {
 		int xcoord = arg.getX();
 		int fin = 0;
@@ -357,60 +531,130 @@ public class MazeCreatorGrid extends JPanel {
 		return 0;
 	}
 
+	/**
+	 * Gets the lab.
+	 *
+	 * @return the lab
+	 */
 	public Lab getLab() {
 		return MazeDisplay.getJogoG().getLabirinto();
 	}
 	
+	/**
+	 * Gets the phase.
+	 *
+	 * @return the phase
+	 */
 	public static CreatorPhase getPhase() {
 		return phase;
 	}
 
+	/**
+	 * Sets the phase.
+	 *
+	 * @param phase the new phase
+	 */
 	public static void setPhase(CreatorPhase phase) {
 		MazeCreatorGrid.phase = phase;
 	}
 
 
 
+	/**
+	 * Gets the dragon.
+	 *
+	 * @return the dragon
+	 */
 	public ImageIcon getDragon() {
 		return dragon;
 	}
 
+	/**
+	 * Gets the sleeping dragon.
+	 *
+	 * @return the sleeping dragon
+	 */
 	public ImageIcon getSleepingDragon() {
 		return sleepingDragon;
 	}
 
+	/**
+	 * Gets the hero.
+	 *
+	 * @return the hero
+	 */
 	public ImageIcon getHero() {
 		return hero;
 	}
 
+	/**
+	 * Gets the armed hero.
+	 *
+	 * @return the armed hero
+	 */
 	public ImageIcon getArmedHero() {
 		return armedHero;
 	}
 
+	/**
+	 * Gets the shielded hero.
+	 *
+	 * @return the shielded hero
+	 */
 	public ImageIcon getShieldedHero() {
 		return shieldedHero;
 	}
 
+	/**
+	 * Gets the armed and shielded hero.
+	 *
+	 * @return the armed and shielded hero
+	 */
 	public ImageIcon getArmedAndShieldedHero() {
 		return armedAndShieldedHero;
 	}
 
+	/**
+	 * Gets the wall.
+	 *
+	 * @return the wall
+	 */
 	public ImageIcon getWall() {
 		return wall;
 	}
 
+	/**
+	 * Gets the closed exit.
+	 *
+	 * @return the closed exit
+	 */
 	public ImageIcon getClosedExit() {
 		return closedExit;
 	}
 
+	/**
+	 * Gets the dart.
+	 *
+	 * @return the dart
+	 */
 	public ImageIcon getDard() {
 		return dard;
 	}
 
+	/**
+	 * Gets the shield.
+	 *
+	 * @return the shield
+	 */
 	public ImageIcon getShield() {
 		return shield;
 	}
 
+	/**
+	 * Gets the sword.
+	 *
+	 * @return the sword
+	 */
 	public ImageIcon getSword() {
 		return sword;
 	}

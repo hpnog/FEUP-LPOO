@@ -28,7 +28,13 @@ import java.awt.SystemColor;
 
 import javax.swing.SpinnerNumberModel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OptionsPanel.
+ */
 public class OptionsPanel extends JDialog implements ComponentListener{
+	
+
 	private static final long serialVersionUID = 6355967352362695786L;
 	private JPanel buttons;
 	private JButton back;
@@ -36,7 +42,6 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 	private JButton createMaze;
 	private JButton btnDefaultMaze;
 	private JPanel optionsPanel;
-	
 	private JSpinner mazeSize;
 	private JComboBox<String> dragonType;
 	private JSpinner numberOfDragons;
@@ -51,7 +56,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 	private JTextField exitKey;
 	
 	/**
-	 * Create the frame.
+	 * Creates the frame.
 	 */
 	public OptionsPanel() {
 		setResizable(false);
@@ -89,7 +94,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 				String leftShoot = shootLeft.getText();
 				String rightShoot = shootRight.getText();
 				String keyExit = exitKey.getText();
-				//Verificar se o tamanho do labirinto é Ímpar
+				//Checks if the lab size is odd
 				if ((sizeOfMaze % 2) == 0 && sizeOfMaze != 0)
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
@@ -114,7 +119,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 						}
 						requestFocus();
 					}
-					//Verifica tamanho das teclas
+					//Checks letter size
 					else if (up.length() != 1 || 
 							down.length() != 1 ||
 							left.length() != 1 ||
@@ -181,11 +186,11 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 				String leftShoot = shootLeft.getText();
 				String rightShoot = shootRight.getText();
 				String keyExit = exitKey.getText();
-				//Verificar se o tamanho do labirinto é Ímpar
+				//Checks if lab size is odd
 				if ((sizeOfMaze % 2) == 0 && sizeOfMaze != 0)
 					JOptionPane.showMessageDialog(null, "The size of the Maze must be as Odd number, wich it is not");
 				else {
-					//Verifica tamanho das teclas
+					//Checks letter size
 					if (up.length() == 0) {
 						MazeDisplay.setJogo(new Jogo());
 						MazeDisplay.getJogoG().getPrefs();
@@ -207,7 +212,7 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 						}
 						requestFocus();
 					}
-					//Verifica tamanho das teclas
+					//Checks letter size
 					else if (up.length() != 1 || 
 							down.length() != 1 ||
 							left.length() != 1 ||
@@ -308,6 +313,9 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		setBounds(100, 100, 500, 375);
 	}
 	
+	/**
+	 * Adds the all panels and buttons.
+	 */
 	private void addAllPanelsAndButtons() {
 		
 		back = new JButton("back");
@@ -420,22 +428,34 @@ public class OptionsPanel extends JDialog implements ComponentListener{
 		optionsPanel.add(exitKey);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentResized(ComponentEvent arg0) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub

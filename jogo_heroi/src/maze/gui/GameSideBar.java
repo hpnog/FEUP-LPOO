@@ -7,7 +7,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//TODO: Auto-generated Javadoc
+/**
+* The Class GameSideBar
+*/
 public class GameSideBar extends JPanel{
+	
+	
 	private static final long serialVersionUID = -615709073421396065L;
 	private ImageIcon dragon;
 	private ImageIcon dard;
@@ -16,6 +22,9 @@ public class GameSideBar extends JPanel{
 	private ImageIcon check;
 	private ImageIcon error;
 
+	/**
+	 * Instantiates a new game side bar.
+	 */
 	GameSideBar() {
 		super();
 		loadImages();
@@ -23,6 +32,9 @@ public class GameSideBar extends JPanel{
 		addDataToSideBar();
 	}
 
+	/**
+	 * Load images.
+	 */
 	private void loadImages() {
 		dragon =  scaleImage(new ImageIcon(this.getClass().getResource("res/dragon.png")));
 		dard =  scaleImage(new ImageIcon(this.getClass().getResource("res/dard.png")));
@@ -33,12 +45,21 @@ public class GameSideBar extends JPanel{
 
 	}
 
+	/**
+	 * Scale image.
+	 *
+	 * @param im the image icon
+	 * @return the image icon
+	 */
 	private ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
 		Image newimg = img.getScaledInstance(50, 50,java.awt.Image.SCALE_FAST);
 		return new ImageIcon(newimg);
 	}
 
+	/**
+	 * Adds the data to side bar.
+	 */
 	private void addDataToSideBar() {
 		
 		this.add(new JLabel(shield));
@@ -63,13 +84,16 @@ public class GameSideBar extends JPanel{
 			this.add(new JLabel("   " + MazeDisplay.getJogoG().getHeroi().getDardos()));
 	}
 
+	/**
+	 * Update.
+	 */
 	public void update() {
 		removeAll();
 		//Repaints the content
 		repaint();
 		//Reintroduces the correct content
 		addDataToSideBar();
-		//Valida novamente o conteudo
+		//Revalidates the content
 		revalidate();
 	}
 }

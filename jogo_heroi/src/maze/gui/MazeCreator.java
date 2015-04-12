@@ -22,7 +22,13 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeCreator.
+ */
 public class MazeCreator extends JFrame implements ComponentListener, MouseListener{
+	
+	
 	private static final long serialVersionUID = 2204086892323041058L;
 	private JPanel mazeGenerator;
 	private MazeCreatorGrid mazeCreatorGrid;
@@ -31,6 +37,9 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 	private JButton back;
 	private JButton finish;
 
+	/**
+	 * Instantiates a new maze creator.
+	 */
 	public MazeCreator() {
 		setTitle("Create your Maze");
 		addComponentListener(this);
@@ -210,6 +219,9 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 		mazeCreatorGrid.game();
 	}
 
+	/**
+	 * Makes the game return to the main menu
+	 */
 	public void returnFunc() {
 		setVisible(false);
 		try {
@@ -220,24 +232,36 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentResized(ComponentEvent arg0) {
 		mazeCreatorGrid.setSize(getContentPane().getWidth()-100, getContentPane().getHeight()-50);		
 		mazeCreatorGrid.game();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
@@ -245,10 +269,18 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 	}
 
 	
+	/**
+	 * Gets the side bar.
+	 *
+	 * @return the side bar
+	 */
 	public CreatorSideBar getSideBar() {
 		return sideBar;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		MazeDisplay.getJogoG().getPrefs();
@@ -264,31 +296,43 @@ public class MazeCreator extends JFrame implements ComponentListener, MouseListe
 			mazeCreatorGrid.placeSword(arg0);
 		else if (MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced() < GamePreferences.getNumberOfDragons())
 			mazeCreatorGrid.placeDragon(arg0, MazeCreatorGrid.getPhase().getNumberOfDragonsPlaced());
-		else if (MazeCreatorGrid.getPhase().getNumberOfDardsPlaced() < GamePreferences.getNumberOfDragons())
-			mazeCreatorGrid.placeDards(arg0, MazeCreatorGrid.getPhase().getNumberOfDardsPlaced());
+		else if (MazeCreatorGrid.getPhase().getNumberOfDartsPlaced() < GamePreferences.getNumberOfDragons())
+			mazeCreatorGrid.placeDards(arg0, MazeCreatorGrid.getPhase().getNumberOfDartsPlaced());
 		mazeCreatorGrid.game();
 		
 		sideBar.update();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub

@@ -9,7 +9,13 @@ import javax.swing.JPanel;
 
 import maze.logic.Jogo.GamePreferences;
 
+//TODO: Auto-generated Javadoc
+/**
+* The Class CreatorSideBar.
+*/
 public class CreatorSideBar extends JPanel{
+	
+	
 	private static final long serialVersionUID = -615709073421396065L;
 	private ImageIcon dragon;
 	private ImageIcon hero;
@@ -19,6 +25,9 @@ public class CreatorSideBar extends JPanel{
 	private ImageIcon sword;
 	private ImageIcon check;
 
+	/**
+	 * Instantiates a new creator side bar.
+	 */
 	CreatorSideBar() {
 		super();
 		loadImages();
@@ -26,6 +35,9 @@ public class CreatorSideBar extends JPanel{
 		addDataToSideBar();
 	}
 
+	/**
+	 * Load images.
+	 */
 	private void loadImages() {
 		dragon =  scaleImage(new ImageIcon(this.getClass().getResource("res/dragon.png")));
 		hero =  scaleImage(new ImageIcon(this.getClass().getResource("res/hero.png")));
@@ -37,12 +49,21 @@ public class CreatorSideBar extends JPanel{
 
 	}
 
+	/**
+	 * Scale image.
+	 *
+	 * @param im the image icon
+	 * @return the image icon
+	 */
 	private ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
 		Image newimg = img.getScaledInstance(50, 50,java.awt.Image.SCALE_FAST);
 		return new ImageIcon(newimg);
 	}
 
+	/**
+	 * Adds the data to side bar.
+	 */
 	private void addDataToSideBar() {
 		this.add(new JLabel(closedExit));
 		if (!MazeCreatorGrid.getPhase().isExitPlaced())
@@ -77,7 +98,7 @@ public class CreatorSideBar extends JPanel{
 			this.add(new JLabel(check));
 
 		this.add(new JLabel(dard));	
-		int missingDarts = GamePreferences.getNumberOfDragons() - MazeCreatorGrid.getPhase().getNumberOfDardsPlaced();
+		int missingDarts = GamePreferences.getNumberOfDragons() - MazeCreatorGrid.getPhase().getNumberOfDartsPlaced();
 		MazeDisplay.getJogoG().getPrefs();
 		if (missingDarts > 0)
 			this.add(new JLabel("   " + missingDarts));
@@ -87,13 +108,16 @@ public class CreatorSideBar extends JPanel{
 		
 	}
 
+	/**
+	 * Update.
+	 */
 	public void update() {
 		removeAll();
 		//Repaints the content
 		repaint();
 		//Reintroduces the correct content
 		addDataToSideBar();
-		//Valida novamente o conteudo
+		//Revalidates the content
 		revalidate();
 	}
 }

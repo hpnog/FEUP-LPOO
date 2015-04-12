@@ -22,7 +22,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MainMenu.
+ */
 public class MainMenu extends JFrame implements ComponentListener{
+	
+	
 	private static final long serialVersionUID = -9019263358824896833L;
 	private JPanel buttons;
 	private JPanel menuImage;
@@ -34,6 +40,8 @@ public class MainMenu extends JFrame implements ComponentListener{
 
 	/**
 	 * Launch the application.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -138,22 +146,34 @@ public class MainMenu extends JFrame implements ComponentListener{
 		setBounds(100, 100, 500, 500);
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentResized(ComponentEvent arg0) {
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub

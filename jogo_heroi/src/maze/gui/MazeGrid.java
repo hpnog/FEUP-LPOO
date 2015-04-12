@@ -8,7 +8,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeGrid.
+ */
 public class MazeGrid extends JPanel {
+	
+	
 	private static final long serialVersionUID = -6007221560664604069L;
 	private ImageIcon dragon;
 	private ImageIcon sleepingDragon;
@@ -19,12 +25,15 @@ public class MazeGrid extends JPanel {
 	private ImageIcon wall;
 	private ImageIcon openedExit;
 	private ImageIcon closedExit;
-	private ImageIcon dard;
+	private ImageIcon dart;
 	private ImageIcon shield;
 	private ImageIcon fire;
 	private ImageIcon sword;
 	private ImageIcon dragonWithSword;
 	
+	/**
+	 * Instantiates a new maze grid.
+	 */
 	MazeGrid() {
 		super();
 		this.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -37,6 +46,12 @@ public class MazeGrid extends JPanel {
 		loadImages();
 	}
 	
+	/**
+	 * Scale image.
+	 *
+	 * @param im the image icon
+	 * @return the image icon
+	 */
 	ImageIcon scaleImage(ImageIcon im) {
 		Image img = im.getImage();
 		Image newimg = img.getScaledInstance(this.getWidth()/MazeDisplay.getJogoG().getLabirinto().getSize(),
@@ -45,6 +60,9 @@ public class MazeGrid extends JPanel {
 		return new ImageIcon(newimg);
 	}
 	
+	/**
+	 * Load images.
+	 */
 	private void loadImages() {
 		dragon = new ImageIcon(this.getClass().getResource("res/dragon.png"));
 		sleepingDragon = new ImageIcon(this.getClass().getResource("res/sleepingDragon.png"));
@@ -53,7 +71,7 @@ public class MazeGrid extends JPanel {
 		shieldedHero = new ImageIcon(this.getClass().getResource("res/shieldedHero.png"));
 		armedAndShieldedHero = new ImageIcon(this.getClass().getResource("res/armedAndShieldedHero.png"));
 		wall = new ImageIcon(this.getClass().getResource("res/wall.png"));
-		dard = new ImageIcon(this.getClass().getResource("res/dard.png"));
+		dart = new ImageIcon(this.getClass().getResource("res/dart.png"));
 		shield = new ImageIcon(this.getClass().getResource("res/shield.png"));
 		fire = new ImageIcon(this.getClass().getResource("res/fire.png"));
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
@@ -63,6 +81,11 @@ public class MazeGrid extends JPanel {
 		
 	}
 	
+	/**
+	 * Introduces content
+	 *
+	 * @param shot the shot
+	 */
 	private void introduzConteudo(boolean shot) {
 		if (!shot) {
 			MazeDisplay.getJogoG().displayDardos();
@@ -82,7 +105,7 @@ public class MazeGrid extends JPanel {
 		ImageIcon scaledWall = scaleImage(wall);
 		ImageIcon scaledOpenedExit = scaleImage(openedExit);
 		ImageIcon scaledClosedExit = scaleImage(closedExit);
-		ImageIcon scaledDard = scaleImage(dard);
+		ImageIcon scaleddart = scaleImage(dart);
 		ImageIcon scaledShield = scaleImage(shield);
 		ImageIcon scaledFire = scaleImage(fire);
 		ImageIcon scaledSword = scaleImage(sword);
@@ -119,7 +142,7 @@ public class MazeGrid extends JPanel {
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'd') 
 					this.add(new JLabel(scaledSleepingDragon));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == '\\')
-					this.add(new JLabel(scaledDard));
+					this.add(new JLabel(scaleddart));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'E')
 					this.add(new JLabel(scaledSword));
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'S') {
@@ -133,12 +156,13 @@ public class MazeGrid extends JPanel {
 				else if (MazeDisplay.getJogoG().getLabirinto().getLab()[j][i] == 'F')
 					this.add(new JLabel(scaledDragonWithSword));
 				
-			
-				//--------------------------------FALTA-O-FOGO----------------------------------
 			}
 		}
 	}
 	
+	/**
+	 * Game.
+	 */
 	public void game() {
 		//Remove all content
 		removeAll();
@@ -146,10 +170,13 @@ public class MazeGrid extends JPanel {
 		repaint();
 		//Reintroduces the correct content
 		introduzConteudo(false);
-		//Valida novamente o conteudo
+		//Revalidates the content
 		revalidate();
 	}
 	
+	/**
+	 * Game shot.
+	 */
 	public void gameShot() {
 		//Remove all content
 		removeAll();
@@ -157,7 +184,7 @@ public class MazeGrid extends JPanel {
 		repaint();
 		//Reintroduces the correct content
 		introduzConteudo(true);
-		//Valida novamente o conteudo
+		//Revalidates the content
 		revalidate();
 	}
 }

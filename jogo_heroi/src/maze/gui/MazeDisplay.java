@@ -28,7 +28,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MazeDisplay.
+ */
 public class MazeDisplay extends JFrame implements KeyListener, ComponentListener{
+	
+
 	private static final long serialVersionUID = -191089706890276055L;
 	private static Jogo jogoG;
 	private JPanel game;
@@ -41,7 +47,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	private JButton loadGame;
 
 	/**
-	 * Inicia o jogo
+	 * Inicializes the game
 	 */
 	public void createGame() {
 
@@ -71,6 +77,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 			jogoG.random_dragao(i);
 	}
 
+	/**
+	 * Fill game.
+	 */
 	public void fillGame() {
 		jogoG = new Jogo();
 		jogoG.getPrefs();
@@ -98,8 +107,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	/**
-	 * Create the frame.
-	 * @param toLoad 
+	 * Creates the frame.
+	 *
+	 * @param load the load
 	 */
 	public MazeDisplay(boolean load) {
 		setTitle("Defeat the dragons!");
@@ -199,6 +209,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.game();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent arg) {
 		jogoG.getPrefs();
@@ -266,6 +279,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.setSize(getWidth(), getHeight());
 	}
 
+	/**
+	 * Display spits.
+	 */
 	private void displaySpits() {
 		for (int i = 0; i < jogoG.getDragoes().length; i++) {
 			if (jogoG.getDragoes()[i].isAlive()) {
@@ -283,6 +299,13 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		}
 	}
 
+	/**
+	 * Show spit.
+	 *
+	 * @param dragao the dragon
+	 * @param xDiff the x diff
+	 * @param yDiff the y diff
+	 */
 	private void showSpit(Dragao dragao, int xDiff, int yDiff) {
 		char tempo [][] = jogoG.getLabirinto().getLab();
 
@@ -323,6 +346,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		jogoG.getLabirinto().setLab(tempo);
 	}
 
+	/**
+	 * Deep clone.
+	 *
+	 * @param m the m
+	 * @return the char[][]
+	 */
 	public char[][] deepClone(char[][] m) {
 		char[][] c = m.clone();
 		for (int i = 0; i < m.length; i++)
@@ -330,6 +359,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		return c;
 	}
 
+	/**
+	 * Show shot on screen.
+	 *
+	 * @param choice the choice
+	 * @return the char[][]
+	 */
 	private char[][] showShotOnScreen(int choice) {
 		char [][] original = deepClone(jogoG.getLabirinto().getLab());
 
@@ -378,14 +413,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 				xDiff--;
 		}
 
-
-		//FAZER AQUI A DIFERENCIAÇAO DE DIREÇOES, NESTE MOMENTO SO PREVISTA PARA CIMA
-
-		//-------------------------------------------------------------------------------------------------------------------
-
 		return original;
 	}
 
+	/**
+	 * Returns to main menu
+	 */
 	public void returnFunc() {
 		setVisible(false);
 		try {
@@ -396,16 +429,28 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		return;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent arg) {
 		return;
 	}
 
+	/**
+	 * Interprets option
+	 *
+	 * @param arg the arg
+	 * @return the int
+	 */
 	public int interpretaOpcao(KeyEvent arg) {
 		jogoG.getPrefs();
 
@@ -428,12 +473,18 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		return -1;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
@@ -441,7 +492,9 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 	}
 
 	/**
-	 * When window is resized
+	 * When window is resized.
+	 *
+	 * @param arg0 the arg0
 	 */
 	@Override
 	public void componentResized(ComponentEvent arg0) {
@@ -449,46 +502,94 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		mazeGrid.game();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Message dragon killed.
+	 */
 	public static void messageDragonKilled() {
 		JOptionPane.showMessageDialog(null, "You just killed a dragon!");		
 	}
 
+	/**
+	 * Way_out.
+	 */
 	public static void way_out() {
 		JOptionPane.showMessageDialog(null, "You just found the way out!");
 	}
+	
+	/**
+	 * Dragon_still_alive.
+	 */
 	public static void dragon_still_alive() {
 		JOptionPane.showMessageDialog(null, "You cannot exit. \nThere are dragons still alive!");
 	}
+	
+	/**
+	 * Dragon_sleeping.
+	 */
 	public static void dragon_sleeping() {
 		JOptionPane.showMessageDialog(null, "This dragon is asleep");
 	}
+	
+	/**
+	 * Wall.
+	 */
 	public static void wall() {
 		JOptionPane.showMessageDialog(null, "You cannot go through a wall");
 	}
+	
+	/**
+	 * No darts.
+	 */
 	public static void noDarts() {
 		JOptionPane.showMessageDialog(null, "You have no darts");
 	}
+	
+	/**
+	 * Killed by fire.
+	 */
 	public static void killedByFire() {
 		JOptionPane.showMessageDialog(null, "You just died by fire!");
 	}
+	
+	/**
+	 * You died.
+	 */
 	public static void youDied() {
 		JOptionPane.showMessageDialog(null, "You just died!");
 	}
 
+	/**
+	 * Sets the game
+	 *
+	 * @param readObject the new game
+	 */
 	public static void setJogo(Jogo readObject) {
 		jogoG = readObject;
 	}
 
+	/**
+	 * Gets the game g.
+	 *
+	 * @return the game g
+	 */
 	public static Jogo getJogoG() {
 		return jogoG;
 	}
 
+	/**
+	 * Sets the game g.
+	 *
+	 * @param jogoG the new game g
+	 */
 	public static void setJogoG(Jogo jogoG) {
 		MazeDisplay.jogoG = jogoG;
 	}
