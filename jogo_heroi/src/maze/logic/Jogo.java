@@ -14,22 +14,22 @@ public class Jogo implements Serializable {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1470544749104492349L;
 
-	/** The dragoes. */
+	/** The dragon. */
 	private Dragao [] dragoes;
 
-	/** The heroi. */
+	/** The hero. */
 	private Heroi heroi;
 
-	/** The labirinto. */
+	/** The lab. */
 	private Lab labirinto;
 
-	/** The espada. */
+	/** The sword. */
 	private Espada espada;
 
-	/** The escudo. */
+	/** The shield. */
 	private Escudo escudo;
 
-	/** The dardos. */
+	/** The darts. */
 	private Dart [] dardos;
 
 	/** The inter. */
