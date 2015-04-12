@@ -340,7 +340,7 @@ public class MazeCreatorGrid extends JPanel {
 		shieldedHero = new ImageIcon(this.getClass().getResource("res/shieldedHero.png"));
 		armedAndShieldedHero = new ImageIcon(this.getClass().getResource("res/armedAndShieldedHero.png"));
 		wall = new ImageIcon(this.getClass().getResource("res/wall.png"));
-		dard = new ImageIcon(this.getClass().getResource("res/dard.png"));
+		dard = new ImageIcon(this.getClass().getResource("res/dart.png"));
 		shield = new ImageIcon(this.getClass().getResource("res/shield.png"));
 		sword = new ImageIcon(this.getClass().getResource("res/sword.png"));
 		closedExit = new ImageIcon(this.getClass().getResource("res/closedExit.png")); 

@@ -37,7 +37,7 @@ public class GameSideBar extends JPanel{
 	 */
 	private void loadImages() {
 		dragon =  scaleImage(new ImageIcon(this.getClass().getResource("res/dragon.png")));
-		dard =  scaleImage(new ImageIcon(this.getClass().getResource("res/dard.png")));
+		dard =  scaleImage(new ImageIcon(this.getClass().getResource("res/dart.png")));
 		shield =  scaleImage(new ImageIcon(this.getClass().getResource("res/shield.png")));
 		sword =  scaleImage(new ImageIcon(this.getClass().getResource("res/sword.png")));
 		check =  scaleImage(new ImageIcon(this.getClass().getResource("res/check.png")));
