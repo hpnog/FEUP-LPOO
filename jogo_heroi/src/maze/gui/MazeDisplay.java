@@ -248,7 +248,7 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		if (choice != -1)								//Se choice for valido
 			choice = jogoG.interpreta_opcao(choice);	//Reage em funcao de choice
 		mazeGrid.game();		//Atualiza o labirinto
-		if (choice == 10) {
+		if (choice == 10) { 
 			returnFunc();
 			return;
 		}
@@ -270,9 +270,12 @@ public class MazeDisplay extends JFrame implements KeyListener, ComponentListene
 		else {
 			sideBar.update();							//updates the sidebar
 		}
-
+		
 		choice = jogoG.moveAndSpit_dragoes(choice);		//move dragons
 		char [][] original = deepClone(jogoG.getLabirinto().getLab());
+		
+		mazeGrid.game();
+		
 		displaySpits();
 		jogoG.getLabirinto().setLab(original);
 		if (choice == 10) {								//if hero dies by fire
