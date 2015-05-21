@@ -1,0 +1,9 @@
+Move-se para a frente
+Muda de direção quando bate numa parede
+Perde vida quando cai na água/picos/lava
+Morre quando vida = 0
+Verifica se apanha a chave 
+Verifica se apanha os diamantes e a pontuação aumenta
+Não ganha quando passa na saida mas não apanha a chave
+Ganha quando passa na saída com a chave
+Salta quando pressionado espaço
