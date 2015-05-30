@@ -8,7 +8,7 @@ public class GameStateManager {
 	private GameState currentGameState;
 	
 	public static final int MENU = 0;
-	public static final int GAME = 1;
+	public static final int PLAY = 1;
 	
 	public GameStateManager() {
 		setState(MENU);
@@ -20,8 +20,8 @@ public class GameStateManager {
 		if (state == MENU) {
 			currentGameState = new MenuState(this);
 		}
-		else if (state == GAME) {
-			//muda para o jogo
+		else if (state == PLAY) {
+			currentGameState = new PlayState(this);
 		}
 	}
 	
