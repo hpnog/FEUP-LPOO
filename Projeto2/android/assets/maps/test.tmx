@@ -102,6 +102,16 @@
     <property name="blocked" value=""/>
    </properties>
   </tile>
+  <tile id="88">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
+  <tile id="90">
+   <properties>
+    <property name="blocked" value=""/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="133" name="Objs" tilewidth="24" tileheight="24">
   <tile id="0">

@@ -33,14 +33,14 @@ public class Robot extends Sprite {
 		score = 0;
 		collision = collisionLayer;
 		speedY = 0;			//Initializes the speed as 0
-		speedX = 0;
+		speedX = 10;
 		setX(collision.getTileWidth() * x);
 		setY(collision.getTileHeight() * y);
 	}
 
 	public void draw(Batch batch) {
 		update (Gdx.graphics.getDeltaTime());
-		batch.draw(getTexture(), getX(), getY(), getWidth(), getHeight());
+		batch.draw(getTexture(), getX(), getY(), collision.getTileWidth(), collision.getTileHeight());
 	}
 
 	public void update(float deltaTime) {
@@ -62,32 +62,22 @@ public class Robot extends Sprite {
 		setY(getY() + speedY * deltaTime);
 		setX(getX() + speedX * deltaTime);
 		
+		int actualXCell = (int) ((getX() + tileWidth / 2) / tileWidth);
+		int actualYCell = (int) ((getY() + tileHeight) / tileHeight);
+		
 		//Check collisions when moving backwards
 		if (speedX < 0)
 		{
-			//Top Left
-			if (collision.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()) / tileHeight)) != null)
-				collidesX = collision.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-			//Middle Left
-			if (!collidesX && collision.getCell((int) (getX() / tileWidth), (int) (((getY() + getHeight()) / 2) / tileHeight)) != null)
-				collidesX = collision.getCell((int) (getX() / tileWidth), (int) (((getY() + getHeight()) / 2) / tileHeight)).getTile().getProperties().containsKey("blocked");
-			//Bottom Left
-			if (!collidesX && collision.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)) != null)
-				collidesX = collision.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
+			if (!collidesX && collision.getCell(actualXCell - 1, actualYCell) != null)
+				collidesX = collision.getCell(actualXCell - 1, actualYCell).getTile().getProperties().containsKey("blocked");
 		}
 		
 		//Check collisions when moving forwards
 		else if (speedX > 0)
 		{
-			//Top Right
-			if (collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)) != null)
-				collidesX = collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
 			//Middle Right
-			if (!collidesX && collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (((getY() + getHeight()) / 2) / tileHeight)) != null)
-				collidesX = collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (((getY() + getHeight()) / 2) / tileHeight)).getTile().getProperties().containsKey("blocked");
-			//Bottom Right
-			if (!collidesX && collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (getY() / tileHeight)) != null)
-				collidesX = collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
+			if (!collidesX && collision.getCell(actualXCell + 1, actualYCell) != null)
+				collidesX = collision.getCell(actualXCell + 1, actualYCell).getTile().getProperties().containsKey("blocked");
 
 		}
 		
@@ -95,35 +85,23 @@ public class Robot extends Sprite {
 		if (collidesX)
 		{
 			setX(oldX);
-			speedX = 0;
+			speedX = - speedX;
 		}
 		
 		//Check collisions when moving up
 		if (speedY > 0) 
 		{
-			//Top Left
-			if (collision.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()) / tileHeight)) != null)
-				collidesY = collision.getCell((int) (getX() / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
 			//Top Middle
-			if (!collidesY && collision.getCell((int) (((getX() + getWidth()) / 2) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)) != null)
-				collidesY = collision.getCell((int) (((getX() + getWidth()) / 2) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
-			//Top Right
-			if (!collidesY && collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)) != null)
-				collidesY = collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) ((getY() + getHeight()) / tileHeight)).getTile().getProperties().containsKey("blocked");
+			if (!collidesY && collision.getCell(actualXCell, actualYCell + 1) != null)
+				collidesY = collision.getCell(actualXCell, actualYCell + 1).getTile().getProperties().containsKey("blocked");
 		}
 		
 		//Check collisions when moving down
 		else if (speedY < 0)
 		{
-			//Bottom Left
-			if (collision.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)) != null)
-				collidesY = collision.getCell((int) (getX() / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
 			//Bottom Middle
-			if (!collidesY && collision.getCell((int) (((getX() + getWidth()) / 2) / tileWidth), (int) (getY() / tileHeight)) != null)
-				collidesY = collision.getCell((int) (((getX() + getWidth()) / 2) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
-			//Bottom Right
-			if (!collidesY && collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (getY() / tileHeight)) != null)
-				collidesY = collision.getCell((int) ((getX() + getWidth()) / tileWidth), (int) (getY() / tileHeight)).getTile().getProperties().containsKey("blocked");
+			if (!collidesY && collision.getCell(actualXCell, actualYCell - 1) != null)
+				collidesY = collision.getCell(actualXCell, actualYCell - 1).getTile().getProperties().containsKey("blocked");
 		}
 		
 		//Deal with collisions - revert movement and reset speed
