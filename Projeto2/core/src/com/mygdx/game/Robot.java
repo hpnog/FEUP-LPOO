@@ -1,121 +1,90 @@
 package com.mygdx.game;
 
+import static com.mygdx.game.Box2DVariables.PPM;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 
-public class Robot extends Sprite {
-	
-	/**
-	 * gravity - macro for the Gravity speed
-	 */
-	private final int gravity = 30;
-	/**
-	 * jumpingSpeed - macro for the Y speed when jumping
-	 */
-	private final int jumpingSpeed = 50;
+public class Robot extends Element {
+
+	private static int JUMP_TIMEOUT = 10;
+	private static int JUMP_FORCE = 25;
 	
 	private boolean canExit;
 	private int hp;
 	private String name;
 	private int score;
-	private TiledMapTileLayer collision;
-	private float speedX;
-	private float speedY;
+	private int constantSpeedX;
 
-	public Robot(Texture tex, int x, int y, String name, TiledMapTileLayer collisionLayer) {
-		super(tex, x, y, tex.getWidth(), tex.getHeight());
+	private PolygonShape robotShape;
+	private Body robotB;
+	private FixtureDef robotFixDef;
+	private BodyDef robotBody;
+	private int jumpTimeout;
+
+
+	public Robot(Texture tex[], int x, int y, String name, float tileSize, World world) {
+		super(tex, x * tileSize, y * tileSize, tileSize, tileSize);
 		canExit = false;
 		hp = 100;
 		this.name = name;
 		score = 0;
-		collision = collisionLayer;
-		speedY = 0;			//Initializes the speed as 0
-		speedX = 10;
-		setX(collision.getTileWidth() * x);
-		setY(collision.getTileHeight() * y);
+		constantSpeedX = 1;
+
+		initPhysics(world);
+	}
+
+	private void initPhysics(World world)
+	{
+		//create platform-------------------------------------------------------------------------------------
+		robotBody = new BodyDef();
+		robotBody.position.set((getX() + 1) / PPM, (getY() + 1) / PPM);
+		robotBody.type = BodyType.DynamicBody;
+		robotB = world.createBody(robotBody);
+
+		robotShape = new PolygonShape();
+		robotShape.setAsBox((getElementWidth() - 3) / PPM / 2, (getElementHeight() - 2) / PPM / 2);
+
+		robotFixDef = new FixtureDef();
+		robotFixDef.shape = robotShape;
+		robotFixDef.restitution = 0;
+		robotFixDef.friction = 0;
+		robotB.createFixture(robotFixDef);
+
+		jumpTimeout = 0;
+		//---------------------------------------------------------------------------------------------------
 	}
 
 	public void draw(Batch batch) {
-		update (Gdx.graphics.getDeltaTime());
-		batch.draw(getTexture(), getX(), getY(), collision.getTileWidth(), collision.getTileHeight());
+		batch.draw(getSprites()[0].getTexture(), getX() - getElementWidth() / 2 - 1, getY() - getElementHeight() / 2 - 1, getElementWidth(), getElementHeight());
 	}
 
-	public void update(float deltaTime) {
-		
-		//Store the old value of coordinates to prevent collisions
-		float oldX = getX();
-		float oldY = getY();
-		float tileWidth = collision.getTileWidth();
-		float tileHeight = collision.getTileHeight();
-		
-		//Coliding variables initiated
-		boolean collidesX = false;
-		boolean collidesY = false;
-		
-		//Apply gravity
-		speedY -= deltaTime * gravity;
-		
-		//Update coordinates according to speed
-		setY(getY() + speedY * deltaTime);
-		setX(getX() + speedX * deltaTime);
-		
-		int actualXCell = (int) ((getX() + tileWidth / 2) / tileWidth);
-		int actualYCell = (int) ((getY() + tileHeight) / tileHeight);
-		
-		//Check collisions when moving backwards
-		if (speedX < 0)
+	public void update(float deltaTime, World world) {
+		setX(robotB.getPosition().x * PPM);
+		setY(robotB.getPosition().y * PPM);		
+						
+		//Mantaining walking speed
+		if (robotB.getLinearVelocity().x < constantSpeedX)
+			robotB.applyForceToCenter(5, 0, true);
+				
+		//Jumping
+		if (Gdx.input.isTouched() && robotB.getLinearVelocity().y == 0)
+			jumpTimeout = JUMP_TIMEOUT;
+		if (jumpTimeout > 0)
 		{
-			if (!collidesX && collision.getCell(actualXCell - 1, actualYCell) != null)
-				collidesX = collision.getCell(actualXCell - 1, actualYCell).getTile().getProperties().containsKey("blocked");
+			jumpTimeout--;
+			robotB.applyForceToCenter(0, JUMP_FORCE, true);
 		}
-		
-		//Check collisions when moving forwards
-		else if (speedX > 0)
-		{
-			//Middle Right
-			if (!collidesX && collision.getCell(actualXCell + 1, actualYCell) != null)
-				collidesX = collision.getCell(actualXCell + 1, actualYCell).getTile().getProperties().containsKey("blocked");
+	}
 
-		}
-		
-		//Deal with collisions - revert movement and reset speed
-		if (collidesX)
-		{
-			setX(oldX);
-			speedX = - speedX;
-		}
-		
-		//Check collisions when moving up
-		if (speedY > 0) 
-		{
-			//Top Middle
-			if (!collidesY && collision.getCell(actualXCell, actualYCell + 1) != null)
-				collidesY = collision.getCell(actualXCell, actualYCell + 1).getTile().getProperties().containsKey("blocked");
-		}
-		
-		//Check collisions when moving down
-		else if (speedY < 0)
-		{
-			//Bottom Middle
-			if (!collidesY && collision.getCell(actualXCell, actualYCell - 1) != null)
-				collidesY = collision.getCell(actualXCell, actualYCell - 1).getTile().getProperties().containsKey("blocked");
-		}
-		
-		//Deal with collisions - revert movement and reset speed
-		if (collidesY)
-		{
-			setY(oldY);
-			speedY = 0;
-		}
-	}
-	
-	public void checkJump()
-	{
-		//When the screen is touched the robot jumps unless he is not stoped (according to Y axis)
-		if (Gdx.input.isTouched() && speedY == 0)
-			speedY = jumpingSpeed;
-	}
 }

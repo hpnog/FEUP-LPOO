@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.gamestates.GameStateManager;
 
 public class MyJumpyJay extends ApplicationAdapter {
@@ -18,6 +19,7 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		
 		WIDTH = Gdx.graphics.getWidth();
 		HEIGHT = Gdx.graphics.getHeight();
 		
