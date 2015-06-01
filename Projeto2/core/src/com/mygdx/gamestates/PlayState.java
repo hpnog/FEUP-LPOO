@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.MyJumpyJay;
 import com.mygdx.game.Robot;
 
 import static com.mygdx.game.Box2DVariables.PPM;;
@@ -28,12 +29,16 @@ public class PlayState extends GameState {
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera cam;
-	private int height;
-	private int width;
+	private double height;
+	private double width;
 	private Robot robot;
 	private World world;
 	private Box2DDebugRenderer b2dRenderer;
 	private float tileSize;
+	MapProperties props;
+	
+	private float lastX;
+	private float lastY;
 
 	protected PlayState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -54,9 +59,9 @@ public class PlayState extends GameState {
 		//----------------------------------------------------------------------------------------------------
 		
 		//inicializa mapProperties para tirar propriedades do mapa
-		MapProperties props = map.getProperties();
+		props = map.getProperties();
 		height = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
-		width = props.get("width", Integer.class) * props.get("tilewidth", Integer.class);
+		width = ((double) MyJumpyJay.WIDTH / MyJumpyJay.HEIGHT) * height;
 		//----------------------------------------------------------------------------------------------------
 		
 		//Cria Mundo do Box2D---------------------------------------------------------------------------------
@@ -65,9 +70,10 @@ public class PlayState extends GameState {
 		//----------------------------------------------------------------------------------------------------
 		
 		//Creates camera to control the users view------------------------------------------------------------
-		cam = new OrthographicCamera(/*4,4*/width, height);			//swap dimensions to see physics
+		cam = new OrthographicCamera(/*4,4*/(int) width, (int) height);			//swap dimensions to see physics
 		//cam.translate(2, 2);										//to see physics
-		cam.translate(width / 2, height / 2);						
+		
+		cam.translate((int) width / 2, (int) height / 2);						
 		cam.update();
 		//----------------------------------------------------------------------------------------------------
 		
@@ -75,6 +81,9 @@ public class PlayState extends GameState {
 		Texture tex[] = new Texture[1];
 		tex[0] = new Texture(Gdx.files.internal("maps/robots/robot1.png"));
 		robot = new Robot(tex, 2 , 8 , "ROBO", tileSize, world);
+		
+		lastX = robot.getX();
+		lastY = robot.getY();
 		//----------------------------------------------------------------------------------------------------
 
 		//Introduzir info na Box2D---------------------------------------------------------------------------
@@ -105,6 +114,15 @@ public class PlayState extends GameState {
 		renderer.getBatch().end();
 		
 		//b2dRenderer.render(world, cam.combined);					//uncoment to see physics
+		
+		if (robot.getX() > width / 2 && robot.getX() < (props.get("width", Integer.class) * props.get("tilewidth", Integer.class) - (width / 2)))
+			cam.translate(robot.getX() - lastX, 0);
+		if (robot.getY() > height / 2 && robot.getY() < props.get("height", Integer.class) * props.get("tileheight", Integer.class) - (height / 2))
+			cam.translate(0, robot.getY() - lastY);
+		
+		cam.update();
+		lastX = robot.getX();
+		lastY = robot.getY();
 	}
 
 	@Override

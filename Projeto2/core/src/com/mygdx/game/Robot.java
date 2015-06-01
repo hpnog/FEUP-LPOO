@@ -17,29 +17,31 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Robot extends Element {
 
-	private static int JUMP_TIMEOUT = 10;
-	private static int JUMP_FORCE = 25;
+	private static int JUMP_TIMEOUT = 3;
+	private static int JUMP_FORCE = 80;
 	
 	private boolean canExit;
 	private int hp;
 	private String name;
 	private int score;
-	private int constantSpeedX;
+	private float constantSpeedX;
 
 	private PolygonShape robotShape;
 	private Body robotB;
 	private FixtureDef robotFixDef;
 	private BodyDef robotBody;
 	private int jumpTimeout;
+	private float decrease;
 
 
-	public Robot(Texture tex[], int x, int y, String name, float tileSize, World world) {
+	public Robot(Texture tex[], int x, int y, String name, float tileSize, World world)
+	{
 		super(tex, x * tileSize, y * tileSize, tileSize, tileSize);
 		canExit = false;
 		hp = 100;
 		this.name = name;
 		score = 0;
-		constantSpeedX = 1;
+		constantSpeedX = (float) 0.5;
 
 		initPhysics(world);
 	}
@@ -62,6 +64,7 @@ public class Robot extends Element {
 		robotB.createFixture(robotFixDef);
 
 		jumpTimeout = 0;
+		decrease = 1;
 		//---------------------------------------------------------------------------------------------------
 	}
 
@@ -73,17 +76,21 @@ public class Robot extends Element {
 		setX(robotB.getPosition().x * PPM);
 		setY(robotB.getPosition().y * PPM);		
 						
-		//Mantaining walking speed
+		//Mantaining walking speed		
 		if (robotB.getLinearVelocity().x < constantSpeedX)
 			robotB.applyForceToCenter(5, 0, true);
 				
 		//Jumping
 		if (Gdx.input.isTouched() && robotB.getLinearVelocity().y == 0)
+		{
+			decrease = 1;
 			jumpTimeout = JUMP_TIMEOUT;
+		}
 		if (jumpTimeout > 0)
 		{
 			jumpTimeout--;
 			robotB.applyForceToCenter(0, JUMP_FORCE, true);
+			decrease = decrease / 2;
 		}
 	}
 
