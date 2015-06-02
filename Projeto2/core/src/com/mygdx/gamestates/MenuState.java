@@ -12,7 +12,7 @@ public class MenuState extends GameState {
 
 	Texture newGameTexture;
 	Texture exitTexture;
-	
+
 	SimpleButton newGame;
 	SimpleButton exit;
 
@@ -27,7 +27,7 @@ public class MenuState extends GameState {
 	public void init() {
 		newGameTexture = new Texture(Gdx.files.internal("images/singleplayer.png"));
 		exitTexture = new Texture(Gdx.files.internal("images/exit.png"));
-		
+
 		newGame = new SimpleButton(newGameTexture,
 				MyJumpyJay.WIDTH / 2 - MyJumpyJay.WIDTH / 8,
 				MyJumpyJay.HEIGHT / 2 - 3 * MyJumpyJay.HEIGHT / 10,
@@ -38,24 +38,15 @@ public class MenuState extends GameState {
 				MyJumpyJay.HEIGHT / 2 - 4 * MyJumpyJay.HEIGHT / 10,
 				MyJumpyJay.WIDTH / 8,
 				MyJumpyJay.HEIGHT / 20);
-		
+
 		batch = new SpriteBatch();
 	}
+
 	@Override
 	public void update(float dt) {
-		if (Gdx.input.isTouched())
-		{
-			if (newGame.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
-			{
-				gameStateManager.setState(GameStateManager.PLAY);
-			}
-			if (exit.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
-			{
-				this.dispose();
-				Gdx.app.exit();
-			}
-		}
+		handleInput();
 	}
+
 	@Override
 	public void render() {
 		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
@@ -74,11 +65,24 @@ public class MenuState extends GameState {
 		batch.end();
 
 	}
+
 	@Override
 	public void handleInput() {
-		// TODO Auto-generated method stub
+		if (Gdx.input.isTouched())
+		{
+			if (newGame.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
+			{
+				gameStateManager.setState(GameStateManager.PLAY);
+			}
+			if (exit.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
+			{
+				this.dispose();
+				Gdx.app.exit();
 
+			}
+		}
 	}
+
 	@Override
 	public void dispose() {
 		batch.dispose();

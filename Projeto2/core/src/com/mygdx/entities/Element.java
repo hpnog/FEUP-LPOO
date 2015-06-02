@@ -58,4 +58,6 @@ public abstract class Element {
 	public float getY() {
 		return y;
 	}
+
+	public void dispose() {}
 }

@@ -52,6 +52,6 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		
+		manager.dispose();
 	}
 }
