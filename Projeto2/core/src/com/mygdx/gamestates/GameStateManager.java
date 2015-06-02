@@ -30,6 +30,6 @@ public class GameStateManager {
 	}
 	
 	public void draw () {
-		currentGameState.draw();
+		currentGameState.render();
 	}
 }

@@ -3,9 +3,6 @@ package com.mygdx.gamestates;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,14 +11,16 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.entities.Robot;
+import com.mygdx.game.Content;
 import com.mygdx.game.MyJumpyJay;
-import com.mygdx.game.Robot;
 
 import static com.mygdx.game.Box2DVariables.PPM;;
 
@@ -29,18 +28,25 @@ public class PlayState extends GameState {
 
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
+
 	private OrthographicCamera cam;
+	private OrthographicCamera b2dCam;
+
 	private double height;
 	private double width;
 	private Robot robot;
+
 	private World world;
 	private Box2DDebugRenderer b2dRenderer;
+
 	private float tileSize;
 	MapProperties props;
 
-
 	private float lastX;
 	private float lastY;
+
+	public static Content res;
+	private SpriteBatch sb;
 
 	protected PlayState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -49,15 +55,22 @@ public class PlayState extends GameState {
 
 	@Override
 	public void init() {
-
+		
+		sb = new SpriteBatch();
+		res = new Content();
+		res.loadTexture("maps/robots/robotwalkright.png", "robotRight");
+		res.loadTexture("maps/robots/robotwalkleft.png", "robotLeft");
+		res.loadTexture("maps/robots/robotjumpleft.png", "robotJumpLeft");
+		res.loadTexture("maps/robots/robotjumpright.png", "robotJumpRight");
+		
 		//get tiled map---------------------------------------------------------------------------------------
-		map = new TmxMapLoader().load("maps/mapa1.tmx");
+		map = new TmxMapLoader().load("maps/mapa2.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		//----------------------------------------------------------------------------------------------------
 
-		//getFloorLayer---------------------------------------------------------------------------------------
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("Floor");
-		tileSize = layer.getTileWidth();
+		//get Layers---------------------------------------------------------------------------------------
+		TiledMapTileLayer layerFloor = (TiledMapTileLayer) map.getLayers().get("Floor");
+		tileSize = layerFloor.getTileWidth();
 		//----------------------------------------------------------------------------------------------------
 
 		//inicializa mapProperties para tirar propriedades do mapa
@@ -72,17 +85,16 @@ public class PlayState extends GameState {
 		//----------------------------------------------------------------------------------------------------
 
 		//Creates camera to control the users view------------------------------------------------------------
-		cam = new OrthographicCamera(/*4,8*/(int) width, (int) height);			//swap dimensions to see physics
-		//cam.translate(2, 2);										//to see physics
-
-		cam.translate((int) width / 2, (int) height / 2);						
+		cam = new OrthographicCamera();			//swap dimensions to see physics
+		cam.setToOrtho(false, (int) width, (int) height);
 		cam.update();
 		//----------------------------------------------------------------------------------------------------
 
+		b2dCam = new OrthographicCamera();
+		b2dCam.setToOrtho(false, (int) width / PPM, (int) height / PPM);
+		
 		//Loads the robots Texture----------------------------------------------------------------------------
-		Texture tex[] = new Texture[1];
-		tex[0] = new Texture(Gdx.files.internal("maps/robots/robot1.png"));
-		robot = new Robot(tex, 4 , 4 , "ROBO", tileSize, world);
+		createRobot(4, 4);
 
 		lastX = robot.getX();
 		lastY = robot.getY();
@@ -94,48 +106,67 @@ public class PlayState extends GameState {
 
 	}
 
+	private void createRobot(int xIni, int yIni) {
+		//create platform-------------------------------------------------------------------------------------
+		BodyDef robotBody = new BodyDef();
+		robotBody.position.set((xIni * tileSize) / PPM, (yIni * tileSize) / PPM);
+		robotBody.type = BodyType.DynamicBody;
+		Body robotB = world.createBody(robotBody);
+				
+		//create robot
+		robot = new Robot(robotB, xIni, yIni, tileSize, world);
+
+	}
+
 	@Override
 	public void update(float dt) {
 		//Update world
 		world.step(dt, 6, 2);
 
 		if (robot.update(dt, world,
-				(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)),
-				props.get("height", Integer.class) * props.get("tileheight", Integer.class)))
-			gameStateManager.setState(gameStateManager.MENU);
+				(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) / PPM,
+				props.get("height", Integer.class) * props.get("tileheight", Integer.class) / PPM))
+			gameStateManager.setState(GameStateManager.MENU);
 
 	}
 
 	@Override
-	public void draw() {
+	public void render() {
 		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-			//draw tiled map
+		//draw tiled map
 		renderer.setView(cam);
-
 		renderer.render();
 		
-		SpriteBatch batch = new SpriteBatch();
+		sb.setProjectionMatrix(cam.combined);
+		sb.begin();
+		robot.draw(sb);
+		sb.end();
 		
-		batch.setProjectionMatrix(cam.combined);
+		sb.setProjectionMatrix(cam.combined);
 		
-		batch.begin();
-		robot.draw(batch);
-		batch.end();
+		b2dRenderer.render(world, b2dCam.combined);
 
-		 
-
-		//b2dRenderer.render(world, cam.combined);					//uncoment to see physics
-
+		
+		
 		if (robot.getX() > width / 2 && robot.getX() < (props.get("width", Integer.class) * props.get("tilewidth", Integer.class) - (width / 2)))
+		{
 			cam.translate((float) robot.getX() - lastX, 0);
+			b2dCam.translate((float) (robot.getX() - lastX) / PPM, 0);
+		}
 		if (robot.getY() > height / 2 && robot.getY() < props.get("height", Integer.class) * props.get("tileheight", Integer.class) - (height / 2))
+		{
 			cam.translate(0, (float) robot.getY() - lastY);
-
+			b2dCam.translate(0, (float) (robot.getY() - lastY) / PPM);
+		}
+		b2dCam.update();
 		cam.update();
+		
+		
 		lastX = robot.getX();
 		lastY = robot.getY();
+
 	}
 
 	@Override

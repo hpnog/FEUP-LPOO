@@ -52,12 +52,12 @@ public class MenuState extends GameState {
 			if (exit.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
 			{
 				this.dispose();
-				System.exit(0);
+				Gdx.app.exit();
 			}
 		}
 	}
 	@Override
-	public void draw() {
+	public void render() {
 		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		batch.begin();
