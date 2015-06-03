@@ -1,5 +1,7 @@
 package com.mygdx.gamestates;
 
+import handlers.MyContactListener;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +24,7 @@ import com.mygdx.entities.Robot;
 import com.mygdx.game.Content;
 import com.mygdx.game.MyJumpyJay;
 
-import static com.mygdx.game.Box2DVariables.PPM;;
+import static com.mygdx.game.Box2DVariables.*;
 
 public class PlayState extends GameState {
 
@@ -32,8 +34,12 @@ public class PlayState extends GameState {
 	private OrthographicCamera cam;
 	private OrthographicCamera b2dCam;
 
-	private double height;
-	private double width;
+	private double screenHeight;
+	private double screenWidth;
+	
+	private float mapWidth;
+	private float mapHeight;
+	
 	private Robot robot;
 
 	private World world;
@@ -75,35 +81,37 @@ public class PlayState extends GameState {
 
 		//inicializa mapProperties para tirar propriedades do mapa
 		props = map.getProperties();
-		height = 150;
-		width = (MyJumpyJay.WIDTH / (double) MyJumpyJay.HEIGHT) * height;
+		screenHeight = 200;
+		screenWidth = (MyJumpyJay.WIDTH / (double) MyJumpyJay.HEIGHT) * screenHeight;
 		//----------------------------------------------------------------------------------------------------
 
 		//Cria Mundo do Box2D---------------------------------------------------------------------------------
 		world = new World(new Vector2(0, -9.81f), true);
+		world.setContactListener(new MyContactListener());
 		b2dRenderer = new Box2DDebugRenderer();
 		//----------------------------------------------------------------------------------------------------
 
 		//Creates camera to control the users view------------------------------------------------------------
 		cam = new OrthographicCamera();			//swap dimensions to see physics
-		cam.setToOrtho(false, (int) width, (int) height);
+		cam.setToOrtho(false, (int) screenWidth, (int) screenHeight);
 		cam.update();
 		//----------------------------------------------------------------------------------------------------
 
 		b2dCam = new OrthographicCamera();
-		b2dCam.setToOrtho(false, (int) width / PPM, (int) height / PPM);
+		b2dCam.setToOrtho(false, (int) screenWidth / PPM, (int) screenHeight / PPM);
 		
 		//Loads the robots Texture----------------------------------------------------------------------------
-		createRobot(4, 4);
+		createRobot(4, 5);
 
 		lastX = robot.getX();
 		lastY = robot.getY();
 		//----------------------------------------------------------------------------------------------------
 
 		//Introduzir info na Box2D---------------------------------------------------------------------------
-		loadLayerToB2d("Floor");
+		loadLayerToB2d("Floor", BIT_FLOOR, BIT_FLOOR_ROBOT);
 		//----------------------------------------------------------------------------------------------------
-
+		mapWidth = props.get("width", Integer.class) * props.get("tilewidth", Integer.class);
+		mapHeight = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
 	}
 
 	private void createRobot(int xIni, int yIni) {
@@ -120,6 +128,7 @@ public class PlayState extends GameState {
 
 	@Override
 	public void update(float dt) {
+		handleInput();
 		//Update world
 		world.step(dt, 6, 2);
 
@@ -132,7 +141,7 @@ public class PlayState extends GameState {
 
 	@Override
 	public void render() {
-		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
+		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);		
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		//draw tiled map
@@ -147,19 +156,33 @@ public class PlayState extends GameState {
 		sb.setProjectionMatrix(cam.combined);
 		
 		b2dRenderer.render(world, b2dCam.combined);
-
+		
+		cam.position.set(new Vector2(robot.getX(), robot.getY()), 0);
+		b2dCam.position.set(new Vector2(robot.getX() / PPM, robot.getY() / PPM), 0);
+		
+		if (robot.getX() < (screenWidth / 2))
+		{
+			cam.position.set(new Vector2((float) screenWidth / 2, cam.position.y), 0);
+			b2dCam.position.set(new Vector2((float) screenWidth / 2 / PPM, b2dCam.position.y), 0);
+		}
+		else if (robot.getX() > (mapWidth - (screenWidth / 2)))
+		{
+			cam.position.set(new Vector2(mapWidth - ((float) screenWidth / 2), cam.position.y), 0);
+			b2dCam.position.set(new Vector2(mapWidth - ((float) screenWidth / 2) / PPM, b2dCam.position.y), 0);
+		}
+		
+		if (robot.getY() < (screenHeight / 2))
+		{
+			cam.position.set(new Vector2(cam.position.x, (float) screenHeight / 2), 0);
+			b2dCam.position.set(new Vector2(b2dCam.position.x, (float) screenHeight / 2 / PPM), 0);
+		}
+		else if (robot.getY() > (mapHeight - (screenHeight - 2)))
+		{
+			cam.position.set(new Vector2(cam.position.x, mapHeight - (float) screenHeight / 2), 0);
+			b2dCam.position.set(new Vector2(b2dCam.position.x, (mapHeight - (float) screenHeight / 2) / PPM), 0);
+		}
 		
 		
-		if (robot.getX() > width / 2 && robot.getX() < (props.get("width", Integer.class) * props.get("tilewidth", Integer.class) - (width / 2)))
-		{
-			cam.translate((float) robot.getX() - lastX, 0);
-			b2dCam.translate((float) (robot.getX() - lastX) / PPM, 0);
-		}
-		if (robot.getY() > height / 2 && robot.getY() < props.get("height", Integer.class) * props.get("tileheight", Integer.class) - (height / 2))
-		{
-			cam.translate(0, (float) robot.getY() - lastY);
-			b2dCam.translate(0, (float) (robot.getY() - lastY) / PPM);
-		}
 		b2dCam.update();
 		cam.update();
 		
@@ -179,9 +202,11 @@ public class PlayState extends GameState {
 	public void dispose() {
 		map.dispose();
 		renderer.dispose();
+		robot.dispose();
+		
 	}
 
-	private void loadLayerToB2d(String name)
+	private void loadLayerToB2d(String name, short cBits, short mBits)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(name);
 
@@ -210,6 +235,8 @@ public class PlayState extends GameState {
 							shape.createChain(v);
 
 							FixtureDef fdef = new FixtureDef();
+							fdef.filter.categoryBits = cBits;
+							fdef.filter.maskBits = mBits;
 							fdef.friction = 0;
 							fdef.shape = shape;
 
