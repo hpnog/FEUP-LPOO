@@ -33,10 +33,12 @@ public class Robot extends Element {
 	Click click;
 
 	private String currentSprite;
+	public static int exiting;
 
 	public Robot(Body body, float x, float y, float tileSize, World world)
 	{
 		super(body);
+		exiting = -1;
 		robotB = body;
 
 		currentSprite = "robotRight";
@@ -64,7 +66,7 @@ public class Robot extends Element {
 		robotFixDef = new FixtureDef();
 		robotFixDef.shape = robotShape;
 		robotFixDef.filter.categoryBits = BIT_ROBOT;
-		robotFixDef.filter.maskBits = BIT_FLOOR_ROBOT;
+		robotFixDef.filter.maskBits = BIT_FLOOR_ROBOT | BIT_KEY | BIT_DIAMOND | BIT_DOOR_CENTER;
 		Fixture fix = robotB.createFixture(robotFixDef);
 		fix.setUserData("robot");
 
@@ -73,8 +75,8 @@ public class Robot extends Element {
 		FixtureDef fdef = new FixtureDef();
 		shape.setAsBox(width / PPM / 1.5f, height / PPM / 2 / 5, new Vector2(0, - height / PPM / 2), 0);
 		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ROBOT;
-		fdef.filter.maskBits = BIT_FLOOR_ROBOT;
+		fdef.filter.categoryBits = BIT_ROBOT_FOOT;
+		fdef.filter.maskBits = BIT_FLOOR;
 		fdef.isSensor = true;
 		robotB.createFixture(fdef).setUserData("robotFoot");
 		//---------------------------------------------------------------------------------------------------
@@ -86,6 +88,11 @@ public class Robot extends Element {
 	}
 
 	public boolean update(float deltaTime, World world, double width, double height) {
+		System.out.printf("No Robo %d\n", exiting);
+		if (exiting > 0)
+		{
+			return false;
+		}
 		click.update();
 		handleInput();
 

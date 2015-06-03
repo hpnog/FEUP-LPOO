@@ -1,11 +1,15 @@
 package com.mygdx.gamestates;
 
+import java.util.ArrayList;
+
 import handlers.MyContactListener;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -18,8 +22,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.entities.Diamond;
+import com.mygdx.entities.ExitDoor;
+import com.mygdx.entities.Key;
 import com.mygdx.entities.Robot;
 import com.mygdx.game.Content;
 import com.mygdx.game.MyJumpyJay;
@@ -41,15 +50,15 @@ public class PlayState extends GameState {
 	private float mapHeight;
 	
 	private Robot robot;
-
+	private ArrayList<Key> keys;
+	private ArrayList<Diamond> diamonds;
+	private ExitDoor exitDoor;
+	
 	private World world;
 	private Box2DDebugRenderer b2dRenderer;
 
 	private float tileSize;
 	MapProperties props;
-
-	private float lastX;
-	private float lastY;
 
 	public static Content res;
 	private SpriteBatch sb;
@@ -68,6 +77,11 @@ public class PlayState extends GameState {
 		res.loadTexture("maps/robots/robotwalkleft.png", "robotLeft");
 		res.loadTexture("maps/robots/robotjumpleft.png", "robotJumpLeft");
 		res.loadTexture("maps/robots/robotjumpright.png", "robotJumpRight");
+		res.loadTexture("maps/keys/key.png", "key");
+		res.loadTexture("maps/diamonds/diamond.png", "diamond");
+		res.loadTexture("images/openedDoor.png", "openedDoor");
+		res.loadTexture("images/closedDoor.png", "closedDoor");
+		res.loadTexture("images/robotexit.png", "robotExit");
 		
 		//get tiled map---------------------------------------------------------------------------------------
 		map = new TmxMapLoader().load("maps/mapa2.tmx");
@@ -102,13 +116,15 @@ public class PlayState extends GameState {
 		
 		//Loads the robots Texture----------------------------------------------------------------------------
 		createRobot(4, 5);
-
-		lastX = robot.getX();
-		lastY = robot.getY();
-		//----------------------------------------------------------------------------------------------------
+		loadAndCreateKeys();
+		loadAndCreateDiamonds();
+		loadDoor();
+		
+		robot.getX();
+		robot.getY();
 
 		//Introduzir info na Box2D---------------------------------------------------------------------------
-		loadLayerToB2d("Floor", BIT_FLOOR, BIT_FLOOR_ROBOT);
+		loadLayerToB2d("Floor", BIT_FLOOR, BIT_ROBOT_FOOT);
 		//----------------------------------------------------------------------------------------------------
 		mapWidth = props.get("width", Integer.class) * props.get("tilewidth", Integer.class);
 		mapHeight = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
@@ -132,6 +148,18 @@ public class PlayState extends GameState {
 		//Update world
 		world.step(dt, 6, 2);
 
+		for (int i = 0; i < keys.size(); i++)
+		{
+			keys.get(i).update(dt);
+			if (keys.get(i).checkifCaught())
+				exitDoor.keyCaught();
+		}
+		
+		for (int i = 0; i < diamonds.size(); i++)
+			diamonds.get(i).update(dt);
+		
+		exitDoor.update(dt);
+		
 		if (robot.update(dt, world,
 				(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) / PPM,
 				props.get("height", Integer.class) * props.get("tileheight", Integer.class) / PPM))
@@ -150,13 +178,31 @@ public class PlayState extends GameState {
 		
 		sb.setProjectionMatrix(cam.combined);
 		sb.begin();
+		
+		exitDoor.draw(sb);
+		
 		robot.draw(sb);
+		
+		for (int i = 0; i < keys.size(); i++)
+			keys.get(i).draw(sb);
+		
+		for (int i = 0; i < diamonds.size(); i++)
+			diamonds.get(i).draw(sb);
+		
 		sb.end();
 		
 		sb.setProjectionMatrix(cam.combined);
 		
 		b2dRenderer.render(world, b2dCam.combined);
 		
+		controlCamera();
+		
+		robot.getX();
+		robot.getY();
+
+	}
+
+	private void controlCamera() {
 		cam.position.set(new Vector2(robot.getX(), robot.getY()), 0);
 		b2dCam.position.set(new Vector2(robot.getX() / PPM, robot.getY() / PPM), 0);
 		
@@ -168,7 +214,7 @@ public class PlayState extends GameState {
 		else if (robot.getX() > (mapWidth - (screenWidth / 2)))
 		{
 			cam.position.set(new Vector2(mapWidth - ((float) screenWidth / 2), cam.position.y), 0);
-			b2dCam.position.set(new Vector2(mapWidth - ((float) screenWidth / 2) / PPM, b2dCam.position.y), 0);
+			b2dCam.position.set(new Vector2((mapWidth - ((float) screenWidth / 2)) / PPM, b2dCam.position.y), 0);
 		}
 		
 		if (robot.getY() < (screenHeight / 2))
@@ -187,9 +233,6 @@ public class PlayState extends GameState {
 		cam.update();
 		
 		
-		lastX = robot.getX();
-		lastY = robot.getY();
-
 	}
 
 	@Override
@@ -246,4 +289,109 @@ public class PlayState extends GameState {
 			}
 	}
 
+	private void loadAndCreateKeys()
+	{
+		keys = new ArrayList<Key>();
+		
+		MapLayer layer = map.getLayers().get("Key");
+		
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef = new FixtureDef();
+		
+		for (MapObject mo : layer.getObjects())
+		{
+			bdef.type = BodyType.StaticBody;
+						
+			float x = mo.getProperties().get("x", float.class) / PPM;
+			float y = mo.getProperties().get("y", float.class) / PPM;
+			
+			bdef.position.set(x, y);
+			
+			PolygonShape kShape = new PolygonShape();
+			kShape.setAsBox(8 / PPM, 8 / PPM);
+			
+			fdef.shape = kShape;
+			fdef.isSensor = true;
+			fdef.filter.categoryBits = BIT_KEY;
+			fdef.filter.maskBits = BIT_ROBOT;
+						
+			Body body = world.createBody(bdef);
+			Fixture fix = body.createFixture(fdef);
+			fix.setUserData("key");
+			
+			Key k = new Key(body, fix, x, y, 13, 12);
+			keys.add(k);
+			
+			
+		}
+	} 
+
+	private void loadAndCreateDiamonds() {
+		
+		diamonds = new ArrayList<Diamond>();
+		
+		MapLayer layer = map.getLayers().get("Diamond");
+		
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef = new FixtureDef();
+		
+		for (MapObject mo : layer.getObjects())
+		{
+			bdef.type = BodyType.StaticBody;
+						
+			float x = (mo.getProperties().get("x", float.class) + 8) / PPM;
+			float y = (mo.getProperties().get("y", float.class) + 8) / PPM;
+			
+			bdef.position.set(x, y);
+			
+			PolygonShape kShape = new PolygonShape();
+			kShape.setAsBox(8 / PPM, 8 / PPM);
+			
+			fdef.shape = kShape;
+			fdef.isSensor = true;
+			fdef.filter.categoryBits = BIT_DIAMOND;
+			fdef.filter.maskBits = BIT_ROBOT;
+						
+			Body body = world.createBody(bdef);
+			Fixture fix = body.createFixture(fdef);
+			fix.setUserData("diamond");
+			
+			Diamond k = new Diamond(body, fix, x, y, 14, 16);
+			diamonds.add(k);
+			
+			
+		}
+	}
+
+	private void loadDoor() {
+		
+		MapLayer layer = map.getLayers().get("Exit");
+		
+		BodyDef bdef = new BodyDef();
+		FixtureDef fdef = new FixtureDef();
+		
+		for (MapObject mo : layer.getObjects())
+		{
+			bdef.type = BodyType.StaticBody;
+						
+			float x = (mo.getProperties().get("x", float.class)) / PPM;
+			float y = (mo.getProperties().get("y", float.class)) / PPM + 24 / PPM;
+			
+			bdef.position.set(x, y);
+			
+			PolygonShape kShape = new PolygonShape();
+			kShape.setAsBox(32 / PPM / 2, 48 / PPM / 2);
+			
+			fdef.shape = kShape;
+			fdef.isSensor = true;
+			fdef.filter.categoryBits = BIT_DOOR;
+			fdef.filter.maskBits = BIT_ROBOT;
+						
+			Body body = world.createBody(bdef);
+			Fixture fix = body.createFixture(fdef);
+			fix.setUserData("door");
+			
+			exitDoor = new ExitDoor(body, x, y, 32, 48, keys.size());	
+		}
+	}
 }

@@ -13,7 +13,7 @@ public class Animation {
 	public Animation() {}
 	
 	public Animation(TextureRegion[] frames) {
-		this(frames, 1 / 12f);
+		this(frames, 1 / 2f);
 	}
 	
 	public Animation(TextureRegion[] frames, float delay) {

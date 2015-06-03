@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 import static com.mygdx.entities.Robot.jumpReady;
+import static com.mygdx.entities.Robot.exiting;
 
 public class MyContactListener implements ContactListener {
 
@@ -15,14 +16,27 @@ public class MyContactListener implements ContactListener {
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
 		
-		if (fa.getUserData() != null)
-			if (fa.getUserData() == "robotFoot")
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "robotFoot" && fb.getUserData() == "Floor" || fb.getUserData() == "robotFoot" && fa.getUserData() == "Floor")
 				jumpReady++;
+				
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "robot" && fb.getUserData() == "doorCenter" || fb.getUserData() == "robot" && fa.getUserData() == "doorCenter" && exiting == 0)
+				exiting = 1;
 		
-		if (fb.getUserData() != null)
-			if (fb.getUserData() == "robotFoot")
-				jumpReady++;
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "key" && fb.getUserData() == "robot")
+				fa.setUserData("caughtKey");	
+			else if (fa.getUserData() == "robot" && fb.getUserData() == "key")
+				fb.setUserData("caughtKey");
+		
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "diamond" && fb.getUserData() == "robot")
+				fa.setUserData("caughtDiamond");	
+			else if (fa.getUserData() == "robot" && fb.getUserData() == "diamond")
+				fb.setUserData("caughtDiamond");
 	}
+	
 	@Override
 	public void endContact(Contact contact) {
 		Fixture fa = contact.getFixtureA();

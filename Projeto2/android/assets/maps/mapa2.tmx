@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="30" tilewidth="16" tileheight="16" nextobjectid="22">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="35" height="30" tilewidth="16" tileheight="16" nextobjectid="34">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
   <image source="tileset.png" width="176" height="192"/>
   <tile id="0">
@@ -444,11 +444,15 @@
   </data>
  </layer>
  <objectgroup name="Diamond">
-  <object id="18" x="147" y="346" width="19" height="18"/>
-  <object id="19" x="187" y="347" width="19" height="19"/>
+  <object id="22" x="151" y="345" width="14" height="16"/>
+  <object id="27" x="186" y="345" width="14" height="16"/>
+  <object id="32" x="279" y="385" width="14" height="16"/>
  </objectgroup>
  <objectgroup name="Key">
-  <object id="20" x="334" y="394" width="20" height="18"/>
+  <properties>
+   <property name="number" value="1"/>
+  </properties>
+  <object id="29" x="359" y="398" width="13" height="12"/>
  </objectgroup>
  <objectgroup name="Exit">
   <object id="21" x="507" y="363" width="36" height="51"/>
