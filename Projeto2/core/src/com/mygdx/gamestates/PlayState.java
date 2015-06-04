@@ -84,7 +84,7 @@ public class PlayState extends GameState {
 		sb3 = new SpriteBatch();
 		
 		//get tiled map---------------------------------------------------------------------------------------
-		map = new TmxMapLoader().load("maps/tutorial1.tmx");
+		map = new TmxMapLoader().load("maps/mapa3.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		//----------------------------------------------------------------------------------------------------
 
@@ -124,7 +124,7 @@ public class PlayState extends GameState {
 		hudCamText = new OrthographicCamera();
 		hudCamText.setToOrtho(false, (int) screenWidth * 4, (int) screenHeight * 4);
 		//Loads the robots Texture----------------------------------------------------------------------------
-		createRobot(3, (int) 7);
+		createRobot(3, (int) 15);
 		loadAndCreateKeys();
 		loadAndCreateDiamonds();
 		loadDoor();
