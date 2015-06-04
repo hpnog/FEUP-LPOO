@@ -8,6 +8,7 @@ import handlers.MyContactListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -37,13 +38,16 @@ public class PlayState extends GameState {
 
 	private SingletonVandC singleton;
 
+	private BitmapFont font;
+
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
 
 	private OrthographicCamera cam;
 	private OrthographicCamera b2dCam;
 	private OrthographicCamera hudCam;
-	
+	private OrthographicCamera hudCamText;
+
 	private double screenHeight;
 	private double screenWidth;
 
@@ -62,7 +66,7 @@ public class PlayState extends GameState {
 	private float tileSize;
 	MapProperties props;
 
-	private SpriteBatch sb, sb2;
+	private SpriteBatch sb, sb2, sb3;
 
 	protected PlayState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -71,16 +75,16 @@ public class PlayState extends GameState {
 
 	@Override
 	public void init() {
+		font = new BitmapFont(Gdx.files.internal("images/font.fnt"), Gdx.files.internal("images/font.png"), false);
 
 		singleton = SingletonVandC.getSingleton();
 
 		sb = new SpriteBatch();
 		sb2 = new SpriteBatch();
-		
-		loadAssets();
+		sb3 = new SpriteBatch();
 		
 		//get tiled map---------------------------------------------------------------------------------------
-		map = new TmxMapLoader().load("maps/mapa3.tmx");
+		map = new TmxMapLoader().load("maps/tutorial1.tmx");
 		renderer = new OrthogonalTiledMapRenderer(map);
 		//----------------------------------------------------------------------------------------------------
 
@@ -109,10 +113,12 @@ public class PlayState extends GameState {
 
 		b2dCam = new OrthographicCamera();
 		b2dCam.setToOrtho(false, (int) screenWidth / singleton.PPM, (int) screenHeight / singleton.PPM);
-		
+
 		hudCam = new OrthographicCamera();
 		hudCam.setToOrtho(false, (int) screenWidth, (int) screenHeight);
 
+		hudCamText = new OrthographicCamera();
+		hudCamText.setToOrtho(false, (int) screenWidth * 4, (int) screenHeight * 4);
 		//Loads the robots Texture----------------------------------------------------------------------------
 		createRobot(2, (int) (100 - 89));
 		loadAndCreateKeys();
@@ -128,10 +134,6 @@ public class PlayState extends GameState {
 		//----------------------------------------------------------------------------------------------------
 		mapWidth = props.get("width", Integer.class) * props.get("tilewidth", Integer.class);
 		mapHeight = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
-	}
-
-	private void loadAssets() {
-		Assets.load();  
 	}
 
 	private void createRobot(int xIni, int yIni) {
@@ -171,13 +173,13 @@ public class PlayState extends GameState {
 				(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) / singleton.PPM,
 				props.get("height", Integer.class) * props.get("tileheight", Integer.class) / singleton.PPM))
 			endGame();
-		
+
 		if (singleton.exiting >= 1)
 			singleton.exiting++;
-		
+
 		if (singleton.exiting == 200)
 			endGame();
-		
+
 		if (robot.getHp() <= 0)
 			endGame();
 	}
@@ -201,18 +203,30 @@ public class PlayState extends GameState {
 		for (int i = 0; i < diamonds.size(); i++)
 			diamonds.get(i).draw(sb);
 
+
 		sb.end();
 		sb.setProjectionMatrix(cam.combined);
-		
+
+		sb3.begin();
+		sb3.setProjectionMatrix(hudCamText.combined);
+
+		String toPrint = getScoreToPrint();
+		font.setColor(0, 0, 0, 1);
+		font.draw(sb3, toPrint, 5f * ((float) screenWidth / 14), (float) (screenHeight * 4 - 2.5 * screenHeight / 12), (float) (screenWidth / 50), 1, true);
+
+		sb3.end();
+
+
 		sb2.setProjectionMatrix(hudCam.combined);
 		sb2.begin();
+
 		if (robot.getHp() == 3)
 			sb2.draw(Assets.manager.get(Assets.fullLife), (float) (screenWidth - screenWidth / 14), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
 		else if (robot.getHp() == 2)
 			sb2.draw(Assets.manager.get(Assets.twoLifes), (float) (screenWidth - screenWidth / 14), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
 		else
 			sb2.draw(Assets.manager.get(Assets.oneLife), (float) (screenWidth - screenWidth / 14), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
-		
+
 		sb2.end();
 		hudCam.update();
 
@@ -223,6 +237,27 @@ public class PlayState extends GameState {
 		robot.getX();
 		robot.getY();
 
+	}
+
+	private String getScoreToPrint() {
+		String temp = "";
+		if (singleton.levelScore == 0)
+			temp = "000000";
+		else if (singleton.levelScore < 10)
+			temp = "00000" + singleton.levelScore;
+		else if (singleton.levelScore < 100)
+			temp = "0000" + singleton.levelScore;
+		else if (singleton.levelScore < 1000)
+			temp = "000" + singleton.levelScore;
+		else if (singleton.levelScore < 10000)
+			temp = "00" + singleton.levelScore;
+		else if (singleton.levelScore < 100000)
+			temp = "0" + singleton.levelScore;
+		else if (singleton.levelScore < 1000000)
+			temp = "" + singleton.levelScore;
+		else
+			temp = "999999+";
+		return temp;
 	}
 
 	private void controlCamera() {
@@ -247,8 +282,8 @@ public class PlayState extends GameState {
 		}
 		else if (robot.getY() > (mapHeight - (screenHeight - 2)))
 		{
-			cam.position.set(new Vector2(cam.position.x, mapHeight - (float) screenHeight / 2), 0);
-			b2dCam.position.set(new Vector2(b2dCam.position.x, (mapHeight - (float) screenHeight / 2) / singleton.PPM), 0);
+			cam.position.set(new Vector2(cam.position.x, mapHeight - ((float) screenHeight / 2)), 0);
+			b2dCam.position.set(new Vector2(b2dCam.position.x, (mapHeight - ((float) screenHeight / 2)) / singleton.PPM), 0);
 		}
 
 
@@ -270,21 +305,23 @@ public class PlayState extends GameState {
 		renderer.dispose();
 		robot.dispose();
 		sb.dispose();
+		sb2.dispose();
+		sb3.dispose();
 		for (int i = 0; i < keys.size(); i++)	
 			keys.get(i).dispose();
 		for (int i = 0; i < diamonds.size(); i++)
 			diamonds.get(i).dispose();
 		exitDoor.dispose();
 		world.dispose();
+		font.dispose();
 	}
 
 	private void loadLayerToB2d(String name, short cBits, short mBits)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(name);
 
-		tileSize = layer.getTileWidth();
-
 		//Introduzir info na Box2D
+		if (layer != null)
 		for(int y = 0; y < layer.getHeight(); y++)
 			for(int x = 0; x < layer.getWidth(); x++)
 			{
@@ -426,6 +463,6 @@ public class PlayState extends GameState {
 
 	private void endGame()
 	{
-		gameStateManager.setState(singleton.MENU);
+		gameStateManager.setState(singleton.LEVEL);
 	}
 }

@@ -23,6 +23,8 @@ public class GameStateManager {
 		else if (state == singleton.PLAY) {
 			currentGameState = new PlayState(this);
 		}
+		else if (state == singleton.LEVEL)
+			currentGameState = new LevelMenu(this);
 	}
 	
 	public void update (float dt) {

@@ -26,7 +26,7 @@ public class SingletonVandC {
 	//0000 0000 1000 0000
 	public final int BIT_DOOR_CENTER = 128;
 	//0000 0001 0000 0000
-	public static final short BIT_DANGER = 256;
+	public final short BIT_DANGER = 256;
 	
 	public int JUMP_FORCE_Y = 200;
 	public float SPEED_X = 1.3f;
@@ -35,9 +35,11 @@ public class SingletonVandC {
 	public int SCREEN_HEIGHT;
 	public int exiting;
 	public int loseLife = 0;
+	public int levelScore = 0;
 	
 	public final int MENU = 0;
 	public final int PLAY = 1;
+	public final int LEVEL = 2;
 	
 	public Assets assetManager;
 	

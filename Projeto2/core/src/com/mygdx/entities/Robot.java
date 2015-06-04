@@ -29,7 +29,7 @@ public class Robot extends Element {
 	
 	//Para controlar o primeiro toque e para nao saltar
 	private int paused;
-
+	
 	Click click;
 
 	private String currentSprite;
@@ -46,6 +46,7 @@ public class Robot extends Element {
 		robotB = body;
 
 		hp = 3;
+		singleton.levelScore = 0;
 		
 		currentSprite = "robotRight";
 
@@ -128,7 +129,6 @@ public class Robot extends Element {
 
 	public void updateLife()
 	{
-		System.out.println(singleton.loseLife);
 		if (singleton.loseLife > 3 && hurtTimer == 0)
 		{
 			hp--;

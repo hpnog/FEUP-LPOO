@@ -39,7 +39,10 @@ public class Diamond extends Element {
 	public void update(float dt)
 	{
 		if (kFix.getUserData() == "caughtDiamond" && !caught)
+		{
 			caught = true;
+			singleton.levelScore += 10;
+		}
 		
 		animation.update(dt);
 	}

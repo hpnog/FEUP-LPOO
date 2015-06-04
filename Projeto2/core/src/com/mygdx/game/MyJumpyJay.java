@@ -26,7 +26,10 @@ public class MyJumpyJay extends ApplicationAdapter {
 		cam.translate(singleton.SCREEN_WIDTH / 2, singleton.SCREEN_HEIGHT / 2);
 		cam.update();
 		
+		Assets.load();
+		
 		gameStateManager = new GameStateManager();
+
 	}
 
 	@Override

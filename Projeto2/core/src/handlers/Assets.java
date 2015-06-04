@@ -20,6 +20,8 @@ public class Assets {
 	public static final AssetDescriptor<Texture> oneLife = new AssetDescriptor<Texture>("maps/hp/one_health.png", Texture.class);	
 	public static final AssetDescriptor<Texture> twoLifes = new AssetDescriptor<Texture>("maps/hp/two_health.png", Texture.class);	
 	public static final AssetDescriptor<Texture> fullLife = new AssetDescriptor<Texture>("maps/hp/full_health.png", Texture.class);	
+	public static final AssetDescriptor<Texture> backgroundMenu = new AssetDescriptor<Texture>("menu/menu.png", Texture.class);	
+	public static final AssetDescriptor<Texture> tapToStart = new AssetDescriptor<Texture>("menu/taptostart.png", Texture.class);	
 
 	public static void load()
 	{
@@ -37,6 +39,8 @@ public class Assets {
 		manager.load(oneLife);
 		manager.load(twoLifes);
 		manager.load(fullLife);
+		manager.load(backgroundMenu);
+		manager.load(tapToStart);
 		
 		manager.finishLoading();
 	}
