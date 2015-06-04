@@ -28,7 +28,7 @@ public class SingletonVandC {
 	//0000 0001 0000 0000
 	public final short BIT_DANGER = 256;
 	
-	public int JUMP_FORCE_Y = 200;
+	public float JUMP_FORCE_Y = 3.75f;
 	public float SPEED_X = 1.3f;
 	public int jumpReady = 0;
 	public int SCREEN_WIDTH;

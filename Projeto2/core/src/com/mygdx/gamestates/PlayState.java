@@ -91,6 +91,10 @@ public class PlayState extends GameState {
 		//get Layers---------------------------------------------------------------------------------------
 		TiledMapTileLayer layerFloor = (TiledMapTileLayer) map.getLayers().get("Floor");
 		tileSize = layerFloor.getTileWidth();
+		
+		String logM = "tileSize: " + tileSize;
+		Gdx.app.log("MyD", logM);
+		
 		//----------------------------------------------------------------------------------------------------
 
 		//inicializa mapProperties para tirar propriedades do mapa
@@ -120,7 +124,7 @@ public class PlayState extends GameState {
 		hudCamText = new OrthographicCamera();
 		hudCamText.setToOrtho(false, (int) screenWidth * 4, (int) screenHeight * 4);
 		//Loads the robots Texture----------------------------------------------------------------------------
-		createRobot(2, (int) (100 - 89));
+		createRobot(3, (int) 7);
 		loadAndCreateKeys();
 		loadAndCreateDiamonds();
 		loadDoor();
@@ -171,7 +175,8 @@ public class PlayState extends GameState {
 
 		if (robot.update(dt, world,
 				(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) / singleton.PPM,
-				props.get("height", Integer.class) * props.get("tileheight", Integer.class) / singleton.PPM))
+				props.get("height", Integer.class) * props.get("tileheight", Integer.class) / singleton.PPM,
+				exitDoor.getPosition()))
 			endGame();
 
 		if (singleton.exiting >= 1)
@@ -371,6 +376,9 @@ public class PlayState extends GameState {
 			float x = mo.getProperties().get("x", float.class) / singleton.PPM;
 			float y = mo.getProperties().get("y", float.class) / singleton.PPM;
 
+			String pos = "Keys: X: " + x + " Y: " + y;
+			Gdx.app.log("MyD", pos);
+			
 			bdef.position.set(x, y);
 
 			PolygonShape kShape = new PolygonShape();

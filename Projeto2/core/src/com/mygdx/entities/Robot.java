@@ -3,6 +3,7 @@ package com.mygdx.entities;
 import handlers.Assets;
 import handlers.Click;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,10 +27,12 @@ public class Robot extends Element {
 
 	private int hurtTimer = 0;
 	private int hp;
-	
+
+	private float h, s = 0;
+
 	//Para controlar o primeiro toque e para nao saltar
 	private int paused;
-	
+
 	Click click;
 
 	private String currentSprite;
@@ -41,13 +44,13 @@ public class Robot extends Element {
 		singleton = SingletonVandC.getSingleton();
 		singleton.jumpReady = 0;
 		singleton.loseLife = 0;
-		
+
 		singleton.exiting = -1;
 		robotB = body;
 
 		hp = 3;
 		singleton.levelScore = 0;
-		
+
 		currentSprite = "robotRight";
 
 		Texture texture = Assets.manager.get(Assets.robotRight);
@@ -56,7 +59,10 @@ public class Robot extends Element {
 
 		this.x = x * tileSize;
 		this.y = y * tileSize;
-
+		
+		String mess = "Xini = " + this.x + " Yini = " + this.y;
+		Gdx.app.log("MyG", mess);
+		
 		paused = 0;
 
 		//Inicializa o click----------------------------------------------------------------------------------
@@ -95,14 +101,15 @@ public class Robot extends Element {
 		batch.draw(animation.getFrame(), x - width / 2, y - height / 2 - 1.2f);
 	}
 
-	public boolean update(float deltaTime, World world, double width, double height) {
+	public boolean update(float deltaTime, World world, double width, double height, Vector2 doorPos) {
+
 		if (singleton.exiting > 0)
 		{
 			robotB.setLinearVelocity(new Vector2(0, 0));
 			changeAnimation();
 			animation.update(deltaTime);
-			x = (getPosition().x * singleton.PPM + 1 + this.width / 2);
-			y = (getPosition().y * singleton.PPM + this.height / 5);
+			x = (doorPos.x * singleton.PPM);
+			y = (doorPos.y * singleton.PPM - this.height / 2);
 			return false;
 		}
 		click.update();
@@ -118,11 +125,15 @@ public class Robot extends Element {
 
 		if (paused > 0)
 			updateWalkingSpeed();
-		
+
 		updateLife();
-		
+
 		if (checkIfOutOfBounds(width, height))
 			return true;
+
+
+
+
 
 		return false;
 	}
@@ -133,7 +144,7 @@ public class Robot extends Element {
 		{
 			hp--;
 			hurtTimer = 50;
-			robotB.applyForceToCenter(0, singleton.JUMP_FORCE_Y, true);
+			robotB.applyLinearImpulse(new Vector2(0, singleton.JUMP_FORCE_Y), new Vector2((robotB.getPosition().x + width / singleton.PPM), (robotB.getPosition().y + height / singleton.PPM)), true);
 		}
 		else if (hurtTimer > 0)
 		{
@@ -141,13 +152,15 @@ public class Robot extends Element {
 			singleton.loseLife = 0;
 		}
 	}
-	
+
 	private void handleInput() {
 		if (click.gotClicked() && singleton.jumpReady > 0 && paused > 2)
-			{
-			robotB.applyForceToCenter(0, singleton.JUMP_FORCE_Y, true);
+		{
+			
+			robotB.applyLinearImpulse(new Vector2(0, singleton.JUMP_FORCE_Y), new Vector2((robotB.getPosition().x + width / singleton.PPM), (robotB.getPosition().y + height / singleton.PPM)), true);
+		
 			singleton.loseLife = 0;
-			}
+		}
 		else if (click.gotClicked() && paused == 0)
 			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 	}
@@ -268,5 +281,5 @@ public class Robot extends Element {
 	{
 		return hp;
 	}
-	
+
 }
