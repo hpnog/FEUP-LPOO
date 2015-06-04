@@ -1,26 +1,26 @@
 package com.mygdx.gamestates;
 
-import com.mygdx.gamestates.GameState;;
+import com.mygdx.game.SingletonVandC;
+import com.mygdx.gamestates.GameState;
 
 public class GameStateManager {
 	
 	//Current gamestate
 	private GameState currentGameState;
-	
-	public static final int MENU = 0;
-	public static final int PLAY = 1;
+	private SingletonVandC singleton;
 	
 	public GameStateManager() {
-		setState(MENU);
+		singleton = SingletonVandC.getSingleton();
+		setState(singleton.MENU);
 	}
 	
 	public void setState(int state) {
 		if (currentGameState != null)
 			currentGameState.dispose();
-		if (state == MENU) {
+		if (state == singleton.MENU) {
 			currentGameState = new MenuState(this);
 		}
-		else if (state == PLAY) {
+		else if (state == singleton.PLAY) {
 			currentGameState = new PlayState(this);
 		}
 	}

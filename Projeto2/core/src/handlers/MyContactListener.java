@@ -5,9 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
-
-import static com.mygdx.entities.Robot.jumpReady;
-import static com.mygdx.entities.Robot.exiting;
+import com.mygdx.game.SingletonVandC;
 
 public class MyContactListener implements ContactListener {
 
@@ -15,14 +13,15 @@ public class MyContactListener implements ContactListener {
 	public void beginContact(Contact contact) {
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
+		SingletonVandC singleton = SingletonVandC.getSingleton();
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)
 			if (fa.getUserData() == "robotFoot" && fb.getUserData() == "Floor" || fb.getUserData() == "robotFoot" && fa.getUserData() == "Floor")
-				jumpReady++;
+				singleton.jumpReady++;
 				
 		if (fa.getUserData() != null && fb.getUserData() != null)
-			if (fa.getUserData() == "robot" && fb.getUserData() == "doorCenter" || fb.getUserData() == "robot" && fa.getUserData() == "doorCenter" && exiting == 0)
-				exiting = 1;
+			if (fa.getUserData() == "robot" && fb.getUserData() == "doorCenter" || fb.getUserData() == "robot" && fa.getUserData() == "doorCenter" && singleton.exiting == 0)
+				singleton.exiting = 1;
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)
 			if (fa.getUserData() == "key" && fb.getUserData() == "robot")
@@ -35,20 +34,33 @@ public class MyContactListener implements ContactListener {
 				fa.setUserData("caughtDiamond");	
 			else if (fa.getUserData() == "robot" && fb.getUserData() == "diamond")
 				fb.setUserData("caughtDiamond");
+		
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "Danger" && fb.getUserData() == "robot")
+				singleton.loseLife++;
+			else if (fa.getUserData() == "robot" && fb.getUserData() == "Danger")
+				singleton.loseLife++;
 	}
 	
 	@Override
 	public void endContact(Contact contact) {
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
+		SingletonVandC singleton = SingletonVandC.getSingleton();
 		
 		if (fa.getUserData() != null)
 			if (fa.getUserData() == "robotFoot")
-				jumpReady--;
+				singleton.jumpReady--;
 		
 		if (fb.getUserData() != null)
 			if (fb.getUserData() == "robotFoot")
-				jumpReady--;
+				singleton.jumpReady--;
+		
+		if (fa.getUserData() != null && fb.getUserData() != null)
+			if (fa.getUserData() == "Danger" && fb.getUserData() == "robot")
+				singleton.loseLife--;
+			else if (fa.getUserData() == "robot" && fb.getUserData() == "Danger")
+				singleton.loseLife--;
 	}
 	
 	@Override

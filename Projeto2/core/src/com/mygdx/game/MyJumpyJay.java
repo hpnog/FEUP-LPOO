@@ -1,29 +1,29 @@
 package com.mygdx.game;
 
+import handlers.Assets;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.mygdx.gamestates.GameStateManager;
 
 public class MyJumpyJay extends ApplicationAdapter {
 
-	public static int WIDTH;
-	public static int HEIGHT;
+	private SingletonVandC singleton;
 	
 	public static OrthographicCamera cam;
 	
 	private GameStateManager gameStateManager;
-	public AssetManager manager = new AssetManager();
 	
 	@Override
 	public void create () {
+		singleton = SingletonVandC.getSingleton();
 		
-		WIDTH = Gdx.graphics.getWidth();
-		HEIGHT = Gdx.graphics.getHeight();
+		singleton.SCREEN_WIDTH = Gdx.graphics.getWidth();
+		singleton.SCREEN_HEIGHT = Gdx.graphics.getHeight();
 		
-		cam = new OrthographicCamera(WIDTH, HEIGHT);
-		cam.translate(WIDTH / 2, HEIGHT / 2);
+		cam = new OrthographicCamera(singleton.SCREEN_WIDTH, singleton.SCREEN_HEIGHT);
+		cam.translate(singleton.SCREEN_WIDTH / 2, singleton.SCREEN_HEIGHT / 2);
 		cam.update();
 		
 		gameStateManager = new GameStateManager();
@@ -37,12 +37,11 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void pause () {
-		
 	}
 	
 	@Override
 	public void resume () {
-		
+		Assets.manager.finishLoading();
 	}
 
 	@Override
@@ -52,6 +51,6 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		manager.dispose();
+
 	}
 }

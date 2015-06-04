@@ -1,6 +1,6 @@
 package com.mygdx.entities;
 
-import static com.mygdx.game.Box2DVariables.*;
+import handlers.Assets;
 import handlers.Click;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -12,14 +12,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.gamestates.PlayState;
+import com.mygdx.game.SingletonVandC;
 
 public class Robot extends Element {
 
-	private static int JUMP_FORCE_Y = 200;
-	private static float SPEED_X = 1.3f;
-
-	public static int jumpReady = 0;
+	SingletonVandC singleton;
 
 	private int direction = 1;
 
@@ -27,22 +24,32 @@ public class Robot extends Element {
 	private Body robotB;
 	private FixtureDef robotFixDef;
 
+	private int hurtTimer = 0;
+	private int hp;
+	
 	//Para controlar o primeiro toque e para nao saltar
 	private int paused;
 
 	Click click;
 
 	private String currentSprite;
-	public static int exiting;
 
 	public Robot(Body body, float x, float y, float tileSize, World world)
 	{
 		super(body);
-		exiting = -1;
+
+		singleton = SingletonVandC.getSingleton();
+		singleton.jumpReady = 0;
+		singleton.loseLife = 0;
+		
+		singleton.exiting = -1;
 		robotB = body;
 
+		hp = 3;
+		
 		currentSprite = "robotRight";
-		Texture texture = PlayState.res.getTexture(currentSprite);
+
+		Texture texture = Assets.manager.get(Assets.robotRight);
 		TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
 		setAnimation(sprites,  1 / 12f);
 
@@ -61,22 +68,22 @@ public class Robot extends Element {
 	private void initPhysics(World world)
 	{
 		robotShape = new PolygonShape();
-		robotShape.setAsBox(width / PPM / 2,height / PPM / 2);
+		robotShape.setAsBox(width / singleton.PPM / 2,height / singleton.PPM / 2);
 
 		robotFixDef = new FixtureDef();
 		robotFixDef.shape = robotShape;
-		robotFixDef.filter.categoryBits = BIT_ROBOT;
-		robotFixDef.filter.maskBits = BIT_FLOOR_ROBOT | BIT_KEY | BIT_DIAMOND | BIT_DOOR_CENTER;
+		robotFixDef.filter.categoryBits = singleton.BIT_ROBOT;
+		robotFixDef.filter.maskBits = (short) (singleton.BIT_FLOOR_ROBOT | singleton.BIT_KEY | singleton.BIT_DIAMOND | singleton.BIT_DOOR_CENTER | singleton.BIT_DANGER);
 		Fixture fix = robotB.createFixture(robotFixDef);
 		fix.setUserData("robot");
 
 		//create foot sensor
 		PolygonShape shape = new PolygonShape();
 		FixtureDef fdef = new FixtureDef();
-		shape.setAsBox(width / PPM / 1.5f, height / PPM / 2 / 5, new Vector2(0, - height / PPM / 2), 0);
+		shape.setAsBox(width / singleton.PPM / 1.6f, height / singleton.PPM / 2 / 5, new Vector2(0, - height / singleton.PPM / 2), 0);
 		fdef.shape = shape;
-		fdef.filter.categoryBits = BIT_ROBOT_FOOT;
-		fdef.filter.maskBits = BIT_FLOOR;
+		fdef.filter.categoryBits = singleton.BIT_ROBOT_FOOT;
+		fdef.filter.maskBits = singleton.BIT_FLOOR;
 		fdef.isSensor = true;
 		robotB.createFixture(fdef).setUserData("robotFoot");
 		//---------------------------------------------------------------------------------------------------
@@ -88,9 +95,13 @@ public class Robot extends Element {
 	}
 
 	public boolean update(float deltaTime, World world, double width, double height) {
-		System.out.printf("No Robo %d\n", exiting);
-		if (exiting > 0)
+		if (singleton.exiting > 0)
 		{
+			robotB.setLinearVelocity(new Vector2(0, 0));
+			changeAnimation();
+			animation.update(deltaTime);
+			x = (getPosition().x * singleton.PPM + 1 + this.width / 2);
+			y = (getPosition().y * singleton.PPM + this.height / 5);
 			return false;
 		}
 		click.update();
@@ -99,25 +110,46 @@ public class Robot extends Element {
 		animation.update(deltaTime);
 		changeAnimation();
 
-		x = getPosition().x * PPM;
-		y = getPosition().y * PPM;		
+		x = getPosition().x * singleton.PPM;
+		y = getPosition().y * singleton.PPM;		
 
 		updatePause();
 
 		if (paused > 0)
 			updateWalkingSpeed();
-
+		
+		updateLife();
+		
 		if (checkIfOutOfBounds(width, height))
 			return true;
 
 		return false;
 	}
 
+	public void updateLife()
+	{
+		System.out.println(singleton.loseLife);
+		if (singleton.loseLife > 3 && hurtTimer == 0)
+		{
+			hp--;
+			hurtTimer = 50;
+			robotB.applyForceToCenter(0, singleton.JUMP_FORCE_Y, true);
+		}
+		else if (hurtTimer > 0)
+		{
+			hurtTimer--;
+			singleton.loseLife = 0;
+		}
+	}
+	
 	private void handleInput() {
-		if (click.gotClicked() && jumpReady > 0 && paused > 2)
-			robotB.applyForceToCenter(0, JUMP_FORCE_Y, true);
+		if (click.gotClicked() && singleton.jumpReady > 0 && paused > 2)
+			{
+			robotB.applyForceToCenter(0, singleton.JUMP_FORCE_Y, true);
+			singleton.loseLife = 0;
+			}
 		else if (click.gotClicked() && paused == 0)
-			robotB.applyForceToCenter(SPEED_X, 0, true);
+			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 	}
 
 	private void updatePause()
@@ -132,36 +164,48 @@ public class Robot extends Element {
 	private void updateWalkingSpeed()
 	{
 		//Mantém para a frente
-		if (robotB.getLinearVelocity().x > 0 && robotB.getLinearVelocity().x < SPEED_X && paused > 0)
-			robotB.applyForceToCenter(SPEED_X, 0, true);
+		if (robotB.getLinearVelocity().x > 0 && robotB.getLinearVelocity().x < singleton.SPEED_X && paused > 0)
+			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 
 		//Mantem para tras
-		else if (robotB.getLinearVelocity().x < 0 && robotB.getLinearVelocity().x > -SPEED_X && paused > 0)
-			robotB.applyForceToCenter(-SPEED_X, 0, true);
+		else if (robotB.getLinearVelocity().x < 0 && robotB.getLinearVelocity().x > -singleton.SPEED_X && paused > 0)
+			robotB.applyForceToCenter(-singleton.SPEED_X, 0, true);
 
 		//altera velocidades
 		else if (robotB.getLinearVelocity().x == 0 && paused > 1)
 			if (direction > 0)
 			{
 				direction = -1;
-				robotB.applyForceToCenter(-SPEED_X * 50, 0, true);
+				robotB.applyForceToCenter(-singleton.SPEED_X * 50, 0, true);
 			}
 			else
 			{
 				direction = 1;
-				robotB.applyForceToCenter(SPEED_X * 50, 0, true);
+				robotB.applyForceToCenter(singleton.SPEED_X * 50, 0, true);
 			}
 	}
 
 	private void changeAnimation()
 	{
-		if (jumpReady > 0)
+		if (singleton.exiting > 0 && currentSprite != "robotExit")
+		{
+
+			currentSprite = "robotExit";
+			Texture tex = Assets.manager.get(Assets.robotExit);
+			TextureRegion[] sprites = TextureRegion.split(tex, 18, 21)[0];
+			setAnimation(sprites, 1 / 3f);
+			animation.setFrames(sprites, 1/5f, false);
+		}
+		else if (singleton.jumpReady > 0 && currentSprite != "robotExit")
 		{
 			if (direction == 1)
 				if (currentSprite != "robotRight")
 				{
 					currentSprite = "robotRight";
-					Texture texture = PlayState.res.getTexture(currentSprite);
+
+					y = y + 20;
+
+					Texture texture = Assets.manager.get(Assets.robotRight);
 					TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
 					setAnimation(sprites,  1 / 12f);
 				}
@@ -170,21 +214,21 @@ public class Robot extends Element {
 			{
 				if (currentSprite != "robotLeft"){
 					currentSprite = "robotLeft";
-					Texture texture = PlayState.res.getTexture(currentSprite);
+					Texture texture = Assets.manager.get(Assets.robotLeft);
 					TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
 					setAnimation(sprites,  1 / 12f);	
 				}
 				else {}
 			}
 		}
-		else
+		else if (currentSprite != "robotExit")
 		{
 			if (direction == 1)
 			{
 				if (currentSprite != "robotJumpRight")
 				{
 					currentSprite = "robotJumpRight";
-					Texture texture = PlayState.res.getTexture(currentSprite);
+					Texture texture = Assets.manager.get(Assets.robotJumpRight);
 					TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
 					setAnimation(sprites,  1 / 12f);
 				}
@@ -194,7 +238,7 @@ public class Robot extends Element {
 			{
 				if (currentSprite != "robotJumpLeft"){
 					currentSprite = "robotJumpLeft";
-					Texture texture = PlayState.res.getTexture(currentSprite);
+					Texture texture = Assets.manager.get(Assets.robotJumpLeft);
 					TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
 					setAnimation(sprites,  1 / 12f);	
 				}
@@ -220,4 +264,9 @@ public class Robot extends Element {
 		robotShape.dispose();
 	}
 
+	public int getHp()
+	{
+		return hp;
+	}
+	
 }

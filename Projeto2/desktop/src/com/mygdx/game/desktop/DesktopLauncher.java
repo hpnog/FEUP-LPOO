@@ -9,8 +9,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
 		config.title = "Jumpy Jay";
-		config.width = 800;
-		config.height = 400;
+		config.width = 600;
+		config.height = 300;
 		config.resizable = false;
 		
 		new LwjglApplication(new MyJumpyJay(), config);

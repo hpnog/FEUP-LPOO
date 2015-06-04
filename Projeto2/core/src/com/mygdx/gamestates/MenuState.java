@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.MyJumpyJay;
+import com.mygdx.game.SingletonVandC;
 
 public class MenuState extends GameState {
 
@@ -17,6 +17,8 @@ public class MenuState extends GameState {
 	SimpleButton exit;
 
 	SpriteBatch batch;
+	
+	SingletonVandC singleton;
 
 	public MenuState(GameStateManager gameStateManager) {
 		super(gameStateManager);
@@ -25,19 +27,24 @@ public class MenuState extends GameState {
 
 	@Override
 	public void init() {
+		singleton = SingletonVandC.getSingleton();
+		
 		newGameTexture = new Texture(Gdx.files.internal("images/singleplayer.png"));
 		exitTexture = new Texture(Gdx.files.internal("images/exit.png"));
 
+		//singleton.assetManager.load("newGameTexture", Texture.class, Gdx.files.internal("images/singleplayer.png");
+		
+		
 		newGame = new SimpleButton(newGameTexture,
-				MyJumpyJay.WIDTH / 2 - MyJumpyJay.WIDTH / 8,
-				MyJumpyJay.HEIGHT / 2 - 3 * MyJumpyJay.HEIGHT / 10,
-				MyJumpyJay.WIDTH / 4,
-				MyJumpyJay.HEIGHT / 20 );
+				singleton.SCREEN_WIDTH / 2 - singleton.SCREEN_WIDTH / 8,
+				singleton.SCREEN_HEIGHT / 2 - 3 * singleton.SCREEN_HEIGHT / 10,
+				singleton.SCREEN_WIDTH / 4,
+				singleton.SCREEN_HEIGHT / 20 );
 		exit = new SimpleButton(exitTexture,
-				MyJumpyJay.WIDTH / 2 - MyJumpyJay.WIDTH / 16,
-				MyJumpyJay.HEIGHT / 2 - 4 * MyJumpyJay.HEIGHT / 10,
-				MyJumpyJay.WIDTH / 8,
-				MyJumpyJay.HEIGHT / 20);
+				singleton.SCREEN_WIDTH / 2 - singleton.SCREEN_WIDTH / 16,
+				singleton.SCREEN_HEIGHT / 2 - 4 * singleton.SCREEN_HEIGHT / 10,
+				singleton.SCREEN_WIDTH / 8,
+				singleton.SCREEN_HEIGHT / 20);
 
 		batch = new SpriteBatch();
 	}
@@ -53,15 +60,15 @@ public class MenuState extends GameState {
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		batch.begin();
 		batch.draw(newGameTexture,
-				MyJumpyJay.WIDTH / 2 - MyJumpyJay.WIDTH / 8,
-				MyJumpyJay.HEIGHT / 2 - 3 * MyJumpyJay.HEIGHT / 10,
-				MyJumpyJay.WIDTH / 4,
-				MyJumpyJay.HEIGHT / 20 );
+				singleton.SCREEN_WIDTH / 2 - singleton.SCREEN_WIDTH / 8,
+				singleton.SCREEN_HEIGHT / 2 - 3 * singleton.SCREEN_HEIGHT / 10,
+				singleton.SCREEN_WIDTH / 4,
+				singleton.SCREEN_HEIGHT / 20 );
 		batch.draw(exitTexture,
-				MyJumpyJay.WIDTH / 2 - MyJumpyJay.WIDTH / 16,
-				MyJumpyJay.HEIGHT / 2 - 4 * MyJumpyJay.HEIGHT / 10,
-				MyJumpyJay.WIDTH / 8,
-				MyJumpyJay.HEIGHT / 20);
+				singleton.SCREEN_WIDTH / 2 - singleton.SCREEN_WIDTH / 16,
+				singleton.SCREEN_HEIGHT / 2 - 4 * singleton.SCREEN_HEIGHT / 10,
+				singleton.SCREEN_WIDTH / 8,
+				singleton.SCREEN_HEIGHT / 20);
 		batch.end();
 
 	}
@@ -70,24 +77,22 @@ public class MenuState extends GameState {
 	public void handleInput() {
 		if (Gdx.input.isTouched())
 		{
-			if (newGame.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
+			if (newGame.checkIfClicked(Gdx.input.getX(), singleton.SCREEN_HEIGHT - Gdx.input.getY()))
 			{
-				gameStateManager.setState(GameStateManager.PLAY);
+				gameStateManager.setState(singleton.PLAY);
 			}
-			if (exit.checkIfClicked(Gdx.input.getX(), MyJumpyJay.HEIGHT - Gdx.input.getY()))
+			if (exit.checkIfClicked(Gdx.input.getX(), singleton.SCREEN_HEIGHT - Gdx.input.getY()))
 			{
-				this.dispose();
 				Gdx.app.exit();
-
 			}
 		}
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
 		newGameTexture.dispose();
 		exitTexture.dispose();
+		batch.dispose();
 	}
 
 }
