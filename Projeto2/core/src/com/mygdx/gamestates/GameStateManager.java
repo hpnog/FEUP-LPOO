@@ -1,6 +1,7 @@
 package com.mygdx.gamestates;
 
-import com.mygdx.game.SingletonVandC;
+import handlers.SingletonVandC;
+
 import com.mygdx.gamestates.GameState;
 
 public class GameStateManager {
@@ -25,6 +26,8 @@ public class GameStateManager {
 		}
 		else if (state == singleton.LEVEL)
 			currentGameState = new LevelMenu(this);
+		else if (state == singleton.SUCCESS)
+			currentGameState = new LevelSucceded(this);
 	}
 	
 	public void update (float dt) {
@@ -33,5 +36,9 @@ public class GameStateManager {
 	
 	public void draw () {
 		currentGameState.render();
+	}
+
+	public void pause() {
+		currentGameState.pause();
 	}
 }

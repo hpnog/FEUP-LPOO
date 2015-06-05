@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import handlers.Assets;
+import handlers.SingletonVandC;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -29,7 +30,6 @@ public class MyJumpyJay extends ApplicationAdapter {
 		Assets.load();
 		
 		gameStateManager = new GameStateManager();
-
 	}
 
 	@Override
@@ -40,6 +40,8 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void pause () {
+		SingletonVandC.paused = -2;
+		gameStateManager.pause();
 	}
 	
 	@Override

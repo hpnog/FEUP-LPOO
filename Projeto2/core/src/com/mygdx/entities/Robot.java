@@ -1,7 +1,7 @@
 package com.mygdx.entities;
 
 import handlers.Assets;
-import handlers.Click;
+import handlers.SingletonVandC;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.game.SingletonVandC;
 
 public class Robot extends Element {
 
@@ -28,12 +27,7 @@ public class Robot extends Element {
 	private int hurtTimer = 0;
 	private int hp;
 
-	private float h, s = 0;
-
 	//Para controlar o primeiro toque e para nao saltar
-	private int paused;
-
-	Click click;
 
 	private String currentSprite;
 
@@ -63,12 +57,9 @@ public class Robot extends Element {
 		String mess = "Xini = " + this.x + " Yini = " + this.y;
 		Gdx.app.log("MyG", mess);
 		
-		paused = 0;
+		SingletonVandC.paused = -1;
 
-		//Inicializa o click----------------------------------------------------------------------------------
-		click = new Click();
-		//----------------------------------------------------------------------------------------------------
-
+		
 		initPhysics(world);
 	}
 
@@ -103,8 +94,16 @@ public class Robot extends Element {
 
 	public boolean update(float deltaTime, World world, double width, double height, Vector2 doorPos) {
 
+		
+		handleInput();
+		updatePause();
+		
+		if (SingletonVandC.paused < 0)
+			return false;
+		
 		if (singleton.exiting > 0)
 		{
+			
 			robotB.setLinearVelocity(new Vector2(0, 0));
 			changeAnimation();
 			animation.update(deltaTime);
@@ -112,29 +111,21 @@ public class Robot extends Element {
 			y = (doorPos.y * singleton.PPM - this.height / 2);
 			return false;
 		}
-		click.update();
-		handleInput();
 
 		animation.update(deltaTime);
 		changeAnimation();
 
 		x = getPosition().x * singleton.PPM;
 		y = getPosition().y * singleton.PPM;		
-
-		updatePause();
-
-		if (paused > 0)
+				
+		if (SingletonVandC.paused > 0)
 			updateWalkingSpeed();
 
 		updateLife();
 
 		if (checkIfOutOfBounds(width, height))
 			return true;
-
-
-
-
-
+		
 		return false;
 	}
 
@@ -149,43 +140,40 @@ public class Robot extends Element {
 		else if (hurtTimer > 0)
 		{
 			hurtTimer--;
-			singleton.loseLife = 0;
 		}
 	}
 
 	private void handleInput() {
-		if (click.gotClicked() && singleton.jumpReady > 0 && paused > 2)
+		if (singleton.click.gotClicked() && singleton.jumpReady > 0 && SingletonVandC.paused > 0)
 		{
-			
 			robotB.applyLinearImpulse(new Vector2(0, singleton.JUMP_FORCE_Y), new Vector2((robotB.getPosition().x + width / singleton.PPM), (robotB.getPosition().y + height / singleton.PPM)), true);
-		
 			singleton.loseLife = 0;
 		}
-		else if (click.gotClicked() && paused == 0)
+		//Restarts / starts the game
+		else if (singleton.click.gotClicked() && SingletonVandC.paused <= 0)
 			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 	}
 
 	private void updatePause()
 	{
-		if (paused == 0 && click.gotClicked())
-			paused++;
-		else if (paused > 0)
-			paused++;
-
+		if ((SingletonVandC.paused <= 0) && singleton.click.gotClicked())
+			SingletonVandC.paused = 1;
+		else if (SingletonVandC.paused == 1)
+			SingletonVandC.paused++;
 	}
 
 	private void updateWalkingSpeed()
 	{
 		//Mantém para a frente
-		if (robotB.getLinearVelocity().x > 0 && robotB.getLinearVelocity().x < singleton.SPEED_X && paused > 0)
+		if (robotB.getLinearVelocity().x > 0 && robotB.getLinearVelocity().x < singleton.SPEED_X && SingletonVandC.paused > 0)
 			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 
 		//Mantem para tras
-		else if (robotB.getLinearVelocity().x < 0 && robotB.getLinearVelocity().x > -singleton.SPEED_X && paused > 0)
+		else if (robotB.getLinearVelocity().x < 0 && robotB.getLinearVelocity().x > -singleton.SPEED_X && SingletonVandC.paused > 0)
 			robotB.applyForceToCenter(-singleton.SPEED_X, 0, true);
 
 		//altera velocidades
-		else if (robotB.getLinearVelocity().x == 0 && paused > 1)
+		else if (robotB.getLinearVelocity().x == 0 && SingletonVandC.paused > 1)
 			if (direction > 0)
 			{
 				direction = -1;
@@ -202,7 +190,7 @@ public class Robot extends Element {
 	{
 		if (singleton.exiting > 0 && currentSprite != "robotExit")
 		{
-
+			singleton.exiting = 100;
 			currentSprite = "robotExit";
 			Texture tex = Assets.manager.get(Assets.robotExit);
 			TextureRegion[] sprites = TextureRegion.split(tex, 18, 21)[0];

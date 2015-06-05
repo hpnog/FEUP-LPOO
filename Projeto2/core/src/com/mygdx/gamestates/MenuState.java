@@ -2,13 +2,13 @@ package com.mygdx.gamestates;
 
 import handlers.Animation;
 import handlers.Assets;
+import handlers.SingletonVandC;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.SingletonVandC;
 
 public class MenuState extends GameState {
 
@@ -85,6 +85,12 @@ public class MenuState extends GameState {
 	@Override
 	public void dispose() {
 		batch.dispose();
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

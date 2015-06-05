@@ -1,6 +1,7 @@
-package com.mygdx.game;
+package handlers;
 
-import handlers.Assets;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.math.Vector2;
 
 public class SingletonVandC {
 
@@ -40,14 +41,44 @@ public class SingletonVandC {
 	public final int MENU = 0;
 	public final int PLAY = 1;
 	public final int LEVEL = 2;
+	public final int SUCCESS = 3;
+	
+	public static int paused;
+	
+	//Inicializa o click----------------------------------------------------------------------------------
+	public Click click = new Click();
+	//----------------------------------------------------------------------------------------------------
+
+	public static Vector2[] initialPositions;
 	
 	public Assets assetManager;
 	
+	public static int[] totalScore;
+	public static int currentLevel;
+	
+	public Pixmap screenShot;
+	
 	private SingletonVandC() {
 		assetManager = new Assets();
+		initializeInitialPos();
 	}
 	
 	public static SingletonVandC getSingleton(){
 		return singleton;
+	}
+	
+	private void initializeInitialPos()
+	{
+		initialPositions = new Vector2[10];
+		initialPositions[0] = new Vector2(2 , 7);
+		initialPositions[1] = new Vector2(2 , 6);
+		initialPositions[2] = new Vector2(2 , 7);
+		initialPositions[3] = new Vector2(2 , 8);
+		initialPositions[4] = new Vector2(2 , 9);
+		initialPositions[5] = new Vector2(2 , 7);
+		initialPositions[6] = new Vector2(2 , 7);
+		initialPositions[7] = new Vector2(2 , 2);
+		//initialPositions[8] = new Vector2( , );
+		initialPositions[9] = new Vector2(2 , 15);
 	}
 }

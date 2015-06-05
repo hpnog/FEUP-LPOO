@@ -13,5 +13,6 @@ public abstract class GameState {
 	public abstract void render();
 	public abstract void handleInput();
 	public abstract void dispose();
+	public abstract void pause();
 
 }

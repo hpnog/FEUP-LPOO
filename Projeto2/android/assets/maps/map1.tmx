@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="5">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="4">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
   <image source="tileset.png" width="176" height="192"/>
   <tile id="0">
@@ -436,14 +436,15 @@
    <image width="90" height="30" source="taptoplay.jpg"/>
   </tile>
  </tileset>
+ <tileset firstgid="135" name="Diamond" tilewidth="1" tileheight="1"/>
  <layer name="Background" width="50" height="40">
   <data encoding="base64" compression="zlib">
-   eJztwwENAAAMw6DKmH+lF3JIWDVVVVVVVVVVff4A8f27gQ==
+   eJztz7ENwDAAwzCf0f8v7dQbogY0wN3atufnvp3+oUNHkY4WHS06WnS06GjR0aKj5aaO0x8AAACA7QUBZLfB
   </data>
  </layer>
  <layer name="Tile Layer 3" width="50" height="40">
   <data encoding="base64" compression="zlib">
-   eJztzTEBAAAIA6CV19x28PARCpAAAAAAAMBOHT199AAAvw0mywEM
+   eJztzUENAAAIBKArr7kt4Xw4KEACAAAAAAD/1dHTRw8AsG8Ac1gBDA==
   </data>
  </layer>
  <layer name="Floor" width="50" height="40">
@@ -452,10 +453,10 @@
   </data>
  </layer>
  <objectgroup name="Exit">
-  <object id="1" x="735.03" y="495.182" width="32" height="48"/>
+  <object id="1" x="735" y="497" width="32" height="48"/>
  </objectgroup>
  <objectgroup name="Key">
-  <object id="3" x="558" y="453" width="13" height="12"/>
+  <object id="3" x="444" y="475" width="13" height="12"/>
  </objectgroup>
  <objectgroup name="Diamond"/>
 </map>
