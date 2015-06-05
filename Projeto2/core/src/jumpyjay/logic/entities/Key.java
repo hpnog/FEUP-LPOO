@@ -1,7 +1,7 @@
-package com.mygdx.entities;
+package jumpyjay.logic.entities;
 
-import handlers.Assets;
-import handlers.SingletonVandC;
+import jumpyjay.handlers.Assets;
+import jumpyjay.handlers.SingletonVandC;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;

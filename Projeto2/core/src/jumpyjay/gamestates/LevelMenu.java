@@ -1,12 +1,12 @@
-package com.mygdx.gamestates;
+package jumpyjay.gamestates;
 
 import java.io.IOException;
 
-import resCode.SimpleButton;
-import handlers.Animation;
-import handlers.Assets;
-import handlers.SaveAndLoad;
-import handlers.SingletonVandC;
+import jumpyjay.handlers.Animation;
+import jumpyjay.handlers.Assets;
+import jumpyjay.handlers.SaveAndLoad;
+import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.resclasses.SimpleButton;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

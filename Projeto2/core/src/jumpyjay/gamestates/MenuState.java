@@ -1,8 +1,8 @@
-package com.mygdx.gamestates;
+package jumpyjay.gamestates;
 
-import handlers.Animation;
-import handlers.Assets;
-import handlers.SingletonVandC;
+import jumpyjay.handlers.Animation;
+import jumpyjay.handlers.Assets;
+import jumpyjay.handlers.SingletonVandC;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

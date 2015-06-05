@@ -1,12 +1,12 @@
-package com.mygdx.game;
+package jumpyjay.game;
 
-import handlers.Assets;
-import handlers.SingletonVandC;
+import jumpyjay.gamestates.GameStateManager;
+import jumpyjay.handlers.Assets;
+import jumpyjay.handlers.SingletonVandC;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.mygdx.gamestates.GameStateManager;
 
 public class MyJumpyJay extends ApplicationAdapter {
 

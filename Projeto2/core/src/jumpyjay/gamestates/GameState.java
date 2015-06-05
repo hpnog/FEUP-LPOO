@@ -1,4 +1,4 @@
-package com.mygdx.gamestates;
+package jumpyjay.gamestates;
 
 public abstract class GameState {
 	

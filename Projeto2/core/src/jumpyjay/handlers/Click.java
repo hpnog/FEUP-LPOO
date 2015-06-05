@@ -1,4 +1,4 @@
-package handlers;
+package jumpyjay.handlers;
 
 import com.badlogic.gdx.Gdx;
 

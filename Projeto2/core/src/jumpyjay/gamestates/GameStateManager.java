@@ -1,8 +1,7 @@
-package com.mygdx.gamestates;
+package jumpyjay.gamestates;
 
-import handlers.SingletonVandC;
-
-import com.mygdx.gamestates.GameState;
+import jumpyjay.gamestates.GameState;
+import jumpyjay.handlers.SingletonVandC;
 
 public class GameStateManager {
 	

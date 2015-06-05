@@ -1,6 +1,6 @@
-package com.mygdx.entities;
+package jumpyjay.logic.entities;
 
-import handlers.Animation;
+import jumpyjay.handlers.Animation;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

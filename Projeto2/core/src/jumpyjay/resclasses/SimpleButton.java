@@ -1,4 +1,4 @@
-package resCode;
+package jumpyjay.resclasses;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -1,12 +1,16 @@
-package com.mygdx.gamestates;
+package jumpyjay.gamestates;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import handlers.Assets;
-import handlers.MyContactListener;
-import handlers.SaveAndLoad;
-import handlers.SingletonVandC;
+import jumpyjay.handlers.Assets;
+import jumpyjay.handlers.MyContactListener;
+import jumpyjay.handlers.SaveAndLoad;
+import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.logic.entities.Diamond;
+import jumpyjay.logic.entities.ExitDoor;
+import jumpyjay.logic.entities.Key;
+import jumpyjay.logic.entities.Robot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,10 +35,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.mygdx.entities.Diamond;
-import com.mygdx.entities.ExitDoor;
-import com.mygdx.entities.Key;
-import com.mygdx.entities.Robot;
 
 public class PlayState extends GameState {
 	private SingletonVandC singleton;

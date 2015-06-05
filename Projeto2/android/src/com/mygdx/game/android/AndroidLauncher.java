@@ -1,10 +1,10 @@
 package com.mygdx.game.android;
 
+import jumpyjay.game.MyJumpyJay;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.mygdx.game.MyJumpyJay;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

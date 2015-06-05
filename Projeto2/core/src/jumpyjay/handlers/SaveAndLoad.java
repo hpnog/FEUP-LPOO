@@ -1,4 +1,4 @@
-package handlers;
+package jumpyjay.handlers;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
