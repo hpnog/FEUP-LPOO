@@ -24,15 +24,27 @@ public class MyContactListener implements ContactListener {
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)
 			if (fa.getUserData() == "key" && fb.getUserData() == "robot")
-				fa.setUserData("caughtKey");	
+			{
+				fa.setUserData("caughtKey");
+				SoundHandler.playCaught();
+			}
 			else if (fa.getUserData() == "robot" && fb.getUserData() == "key")
+			{
 				fb.setUserData("caughtKey");
+				SoundHandler.playCaught();
+			}
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)
 			if (fa.getUserData() == "diamond" && fb.getUserData() == "robot")
-				fa.setUserData("caughtDiamond");	
+			{
+				fa.setUserData("caughtDiamond");
+				Assets.manager.get(Assets.diamondSound).play(1.0f);
+			}
 			else if (fa.getUserData() == "robot" && fb.getUserData() == "diamond")
+			{
 				fb.setUserData("caughtDiamond");
+				Assets.manager.get(Assets.diamondSound).play(1.0f);
+			}
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)
 			if (fa.getUserData() == "Danger" && fb.getUserData() == "robot")
@@ -63,14 +75,8 @@ public class MyContactListener implements ContactListener {
 	}
 	
 	@Override
-	public void preSolve(Contact contact, Manifold oldManifold) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void preSolve(Contact contact, Manifold oldManifold) {}
 	@Override
-	public void postSolve(Contact contact, ContactImpulse impulse) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void postSolve(Contact contact, ContactImpulse impulse) {}
 
 }

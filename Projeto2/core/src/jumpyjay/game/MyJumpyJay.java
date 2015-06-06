@@ -3,6 +3,7 @@ package jumpyjay.game;
 import jumpyjay.gamestates.GameStateManager;
 import jumpyjay.handlers.Assets;
 import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.handlers.SoundHandler;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +26,8 @@ public class MyJumpyJay extends ApplicationAdapter {
 		cam.update();
 		
 		Assets.load();
+		
+		SoundHandler.playMusic();
 		
 		gameStateManager = new GameStateManager();
 	}

@@ -2,6 +2,7 @@ package jumpyjay.logic.entities;
 
 import jumpyjay.handlers.Assets;
 import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.handlers.SoundHandler;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -133,6 +134,8 @@ public class Robot extends Element {
 	{
 		if (singleton.loseLife > 3 && hurtTimer == 0)
 		{
+			if (hp > 1)
+				SoundHandler.playLostLife();
 			hp--;
 			hurtTimer = 50;
 			robotB.applyLinearImpulse(new Vector2(0, singleton.JUMP_FORCE_Y), new Vector2((robotB.getPosition().x + width / singleton.PPM), (robotB.getPosition().y + height / singleton.PPM)), true);
@@ -148,6 +151,7 @@ public class Robot extends Element {
 		{
 			robotB.applyLinearImpulse(new Vector2(0, singleton.JUMP_FORCE_Y), new Vector2((robotB.getPosition().x + width / singleton.PPM), (robotB.getPosition().y + height / singleton.PPM)), true);
 			singleton.loseLife = 0;
+			SoundHandler.playJump();
 		}
 		//Restarts / starts the game
 		else if (singleton.click.gotClicked() && SingletonVandC.paused <= 0)

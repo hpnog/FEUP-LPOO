@@ -7,6 +7,7 @@ import jumpyjay.handlers.Assets;
 import jumpyjay.handlers.MyContactListener;
 import jumpyjay.handlers.SaveAndLoad;
 import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.handlers.SoundHandler;
 import jumpyjay.logic.entities.Diamond;
 import jumpyjay.logic.entities.ExitDoor;
 import jumpyjay.logic.entities.Key;
@@ -150,7 +151,13 @@ public class PlayState extends GameState {
 	public void update(float dt) {
 		handleInput();
 		singleton.click.update();
-
+		
+		if (win == -1)
+		{
+			SoundHandler.playDead();
+			win--;
+		}
+		
 		if ((win == 1 || SingletonVandC.paused < 0) && !singleton.click.gotClicked())
 			return;
 
@@ -239,7 +246,7 @@ public class PlayState extends GameState {
 
 		if (win == 1)
 			sb2.draw(Assets.manager.get(Assets.successScreen), (float) screenWidth / 4,(float) screenHeight / 6,(float) (screenWidth - (screenWidth / 2)), (float)(screenHeight - (screenHeight / 3)));
-		else if (win == -1)
+		else if (win <= -1)
 			sb2.draw(Assets.manager.get(Assets.failedScreen), (float) screenWidth / 4,(float) screenHeight / 6,(float) (screenWidth - (screenWidth / 2)), (float)(screenHeight - (screenHeight / 3)));
 
 		sb2.end();
@@ -259,7 +266,7 @@ public class PlayState extends GameState {
 			font.draw(sb3, toPrint, 30f * ((float) screenWidth / 11.75f), (float) (screenHeight * 2.55), (float) (screenWidth / 50), 1, true);
 			font.draw(sb3, toPrint2, 30f * ((float) screenWidth / 11.75f), (float) (screenHeight * 1.75), (float) (screenWidth / 50), 1, true);
 		}
-		else if (win == -1)
+		else if (win <= -1)
 		{
 			String toPrint2 = getHiScoreToPrint(SingletonVandC.currentLevel);
 			font.draw(sb3, toPrint2, 30f * ((float) screenWidth / 11.75f), (float) (screenHeight * 2.5), (float) (screenWidth / 50), 1, true);
@@ -361,7 +368,7 @@ public class PlayState extends GameState {
 
 	@Override
 	public void handleInput() {
-		if (win == 1 || win == -1) //se ja ganhou
+		if (win == 1 || win <= -1) //se ja ganhou
 		{
 
 			if (Gdx.input.justTouched() && (Gdx.input.getY() > (singleton.SCREEN_HEIGHT / 2 + (0.3 * singleton.SCREEN_HEIGHT / 2))) && (Gdx.input.getY() < (singleton.SCREEN_HEIGHT / 2 + (0.7 * singleton.SCREEN_HEIGHT / 2))))
@@ -545,11 +552,15 @@ public class PlayState extends GameState {
 
 	private void endGame(int i)
 	{
-		win = i;		//a trocar para perder
+		if (i == -1 && win <= -1) {}
+		else win = i;		//a trocar para perder
 
 		if (win == 1)
+		{
 			if (singleton.levelScore > SingletonVandC.totalScore[SingletonVandC.currentLevel-1])
 				SingletonVandC.totalScore[SingletonVandC.currentLevel - 1] = singleton.levelScore;
+			SoundHandler.playWon();
+		}
 
 		try {
 			SaveAndLoad.saveGame();

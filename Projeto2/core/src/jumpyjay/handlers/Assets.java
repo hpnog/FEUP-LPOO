@@ -2,6 +2,7 @@ package jumpyjay.handlers;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Assets {
@@ -37,7 +38,14 @@ public class Assets {
 	public static final AssetDescriptor<Texture> successScreen = new AssetDescriptor<Texture>("maps/successScreen.png", Texture.class);	
 	public static final AssetDescriptor<Texture> pausedScreen = new AssetDescriptor<Texture>("maps/pausedScreen.png", Texture.class);	
 	public static final AssetDescriptor<Texture> failedScreen = new AssetDescriptor<Texture>("maps/failedScreen.png", Texture.class);	
+	public static final AssetDescriptor<Sound> music = new AssetDescriptor<Sound>("sound/music.mp3", Sound.class);	
+	public static final AssetDescriptor<Sound> wonSound = new AssetDescriptor<Sound>("sound/won.mp3", Sound.class);	
+	public static final AssetDescriptor<Sound> diamondSound = new AssetDescriptor<Sound>("sound/gotDiamond.mp3", Sound.class);	
+	public static final AssetDescriptor<Sound> jumpSound = new AssetDescriptor<Sound>("sound/jump.mp3", Sound.class);	
+	public static final AssetDescriptor<Sound> diedSound = new AssetDescriptor<Sound>("sound/died.mp3", Sound.class);	
+	public static final AssetDescriptor<Sound> lostLifeSound = new AssetDescriptor<Sound>("sound/lostLife.mp3", Sound.class);	
 
+	
 	public static void load()
 	{
 		manager.clear();
@@ -71,12 +79,19 @@ public class Assets {
 		manager.load(successScreen);
 		manager.load(pausedScreen);
 		manager.load(failedScreen);
+		
+		manager.load(music);
+		manager.load(wonSound);
+		manager.load(diamondSound);
+		manager.load(lostLifeSound);
+		manager.load(diedSound);
+		manager.load(jumpSound);
 
 		manager.finishLoading();
 	}
 	
 	public static void dispose() 
 	{
-
+		manager.clear();
 	}
 }

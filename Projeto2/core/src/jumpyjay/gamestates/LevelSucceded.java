@@ -58,9 +58,6 @@ public class LevelSucceded extends GameState {
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() {}
 
 }
