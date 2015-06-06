@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 public class ExitDoor extends Element {
 
 	private SingletonVandC singleton;
-	
+
 	private int keysToCatch;
 	private Texture openedDoorTex;
 	private Texture closedDoorTex;
@@ -22,7 +22,7 @@ public class ExitDoor extends Element {
 		super(body);
 
 		singleton = SingletonVandC.getSingleton();
-		
+
 		keysToCatch = keys;
 
 		this.x = x * singleton.PPM;
@@ -30,8 +30,11 @@ public class ExitDoor extends Element {
 		this.width = width;
 		this.height = height;
 
-		openedDoorTex = Assets.manager.get(Assets.openedDoor);
-		closedDoorTex = Assets.manager.get(Assets.closedDoor);
+		if (!SingletonVandC.testing)
+		{
+			openedDoorTex = Assets.manager.get(Assets.openedDoor);
+			closedDoorTex = Assets.manager.get(Assets.closedDoor);
+		}
 
 		//create foot sensor
 		PolygonShape shape = new PolygonShape();
@@ -62,16 +65,11 @@ public class ExitDoor extends Element {
 		return keysToCatch;
 	}
 
-	public void setKeysToCatch(int is)
-	{
-		keysToCatch = is;
-	}
 	public void keyCaught()
 	{
 		keysToCatch--;
 		if (keysToCatch == 0)
 			singleton.exiting = 0;
 	}
-
 
 }

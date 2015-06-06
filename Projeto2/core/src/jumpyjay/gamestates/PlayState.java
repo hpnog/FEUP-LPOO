@@ -453,9 +453,6 @@ public class PlayState extends GameState {
 			float x = mo.getProperties().get("x", float.class) / singleton.PPM;
 			float y = mo.getProperties().get("y", float.class) / singleton.PPM;
 
-			String pos = "Keys: X: " + x + " Y: " + y;
-			Gdx.app.log("MyD", pos);
-
 			bdef.position.set(x, y);
 
 			PolygonShape kShape = new PolygonShape();

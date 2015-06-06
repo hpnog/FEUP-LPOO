@@ -13,14 +13,14 @@ public class Key extends Element {
 
 	private boolean caught;
 	private Fixture kFix;
-	
+
 	private SingletonVandC singleton;
 
 	public Key(Body body, Fixture fix, float x, float y, float width, float height) {
 		super(body);
 
 		singleton = SingletonVandC.getSingleton();
-		
+
 		kFix = fix;
 		caught = false;
 
@@ -29,16 +29,19 @@ public class Key extends Element {
 		this.width = width;
 		this.height = height;
 
-		Texture texture = Assets.manager.get(Assets.key);
-		TextureRegion[] sprites = TextureRegion.split(texture, 13, 12)[0];
-		setAnimation(sprites,  1/3f);
+		if (!SingletonVandC.testing)
+		{
+			Texture texture = Assets.manager.get(Assets.key);
+			TextureRegion[] sprites = TextureRegion.split(texture, 13, 12)[0];
+			setAnimation(sprites,  1/3f);
+		}
 	}
 
 	public void update(float dt, boolean justCaught)
 	{
 		animation.update(dt);
 	}
-	
+
 	public boolean checkifCaught()
 	{
 		if (kFix.getUserData() == "caughtKey" && !caught)
@@ -57,17 +60,6 @@ public class Key extends Element {
 	public boolean isCaught()
 	{
 		return caught;
-	}
-
-	public boolean setCaught(boolean is)
-	{
-		if (!caught && is == true)
-		{
-			caught = is;
-			return true;
-		}
-		caught = is;
-		return false;
 	}
 
 }
