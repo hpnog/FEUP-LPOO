@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class Diamond extends Element {
 
 	private SingletonVandC singleton;
-	
+
 	private boolean caught;
 	private Fixture kFix;
 
@@ -20,7 +20,7 @@ public class Diamond extends Element {
 		super(body);
 
 		singleton = SingletonVandC.getSingleton();
-		
+
 		kFix = fix;
 		caught = false;
 
@@ -29,11 +29,12 @@ public class Diamond extends Element {
 		this.width = width;
 		this.height = height;
 
-		
-		
-		Texture texture = Assets.manager.get(Assets.diamond);
-		TextureRegion[] sprites = TextureRegion.split(texture, 14, 16)[0];
-		setAnimation(sprites,  1/10f);
+		if (!SingletonVandC.testing)
+		{
+			Texture texture = Assets.manager.get(Assets.diamond);
+			TextureRegion[] sprites = TextureRegion.split(texture, 14, 16)[0];
+			setAnimation(sprites,  1/10f);
+		}
 	}
 
 	public void update(float dt)
@@ -43,7 +44,7 @@ public class Diamond extends Element {
 			caught = true;
 			singleton.levelScore += 10;
 		}
-		
+
 		animation.update(dt);
 	}
 
@@ -55,11 +56,6 @@ public class Diamond extends Element {
 	public boolean isCaught()
 	{
 		return caught;
-	}
-
-	public void setCaught(boolean is)
-	{
-		caught = is;
 	}
 
 }

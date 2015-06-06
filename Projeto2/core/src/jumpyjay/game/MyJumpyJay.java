@@ -18,10 +18,7 @@ public class MyJumpyJay extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-		singleton = SingletonVandC.getSingleton();
-		
-		singleton.SCREEN_WIDTH = Gdx.graphics.getWidth();
-		singleton.SCREEN_HEIGHT = Gdx.graphics.getHeight();
+		init();
 		
 		cam = new OrthographicCamera(singleton.SCREEN_WIDTH, singleton.SCREEN_HEIGHT);
 		cam.translate(singleton.SCREEN_WIDTH / 2, singleton.SCREEN_HEIGHT / 2);
@@ -32,6 +29,14 @@ public class MyJumpyJay extends ApplicationAdapter {
 		gameStateManager = new GameStateManager();
 	}
 
+	public void init()
+	{
+		singleton = SingletonVandC.getSingleton();
+		
+		singleton.SCREEN_WIDTH = Gdx.graphics.getWidth();
+		singleton.SCREEN_HEIGHT = Gdx.graphics.getHeight();
+	}
+	
 	@Override
 	public void render () {		
 		gameStateManager.update(Gdx.graphics.getDeltaTime());

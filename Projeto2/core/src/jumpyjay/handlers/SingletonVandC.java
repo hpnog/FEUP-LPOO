@@ -45,6 +45,8 @@ public class SingletonVandC {
 	
 	public static int paused;
 	
+	public static boolean testing = false;
+	
 	//Inicializa o click----------------------------------------------------------------------------------
 	public Click click = new Click();
 	//----------------------------------------------------------------------------------------------------
