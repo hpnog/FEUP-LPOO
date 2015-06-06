@@ -134,7 +134,7 @@ public class PlayState extends GameState {
 		//Loads the robots Texture----------------------------------------------------------------------------
 	}
 
-	private void createRobot(int xIni, int yIni) {
+	public void createRobot(int xIni, int yIni) {
 		//create platform-------------------------------------------------------------------------------------
 		BodyDef robotBody = new BodyDef();
 		robotBody.position.set((xIni * tileSize) / singleton.PPM, (yIni * tileSize) / singleton.PPM);

@@ -47,19 +47,19 @@ public class Robot extends Element {
 
 		currentSprite = "robotRight";
 
-		Texture texture = Assets.manager.get(Assets.robotRight);
-		TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
-		setAnimation(sprites,  1 / 12f);
+		if (!SingletonVandC.testing)
+		{
+			Texture texture = Assets.manager.get(Assets.robotRight);
+			TextureRegion[] sprites = TextureRegion.split(texture, 21, 21)[0];
+			setAnimation(sprites,  1 / 12f);
+		}
 
 		this.x = x * tileSize;
 		this.y = y * tileSize;
-		
-		String mess = "Xini = " + this.x + " Yini = " + this.y;
-		Gdx.app.log("MyG", mess);
-		
+
 		SingletonVandC.paused = -1;
 
-		
+
 		initPhysics(world);
 	}
 
@@ -94,16 +94,16 @@ public class Robot extends Element {
 
 	public boolean update(float deltaTime, World world, double width, double height, Vector2 doorPos) {
 
-		
+
 		handleInput();
 		updatePause();
-		
+
 		if (SingletonVandC.paused < 0)
 			return false;
-		
+
 		if (singleton.exiting > 0)
 		{
-			
+
 			robotB.setLinearVelocity(new Vector2(0, 0));
 			changeAnimation();
 			animation.update(deltaTime);
@@ -117,7 +117,7 @@ public class Robot extends Element {
 
 		x = getPosition().x * singleton.PPM;
 		y = getPosition().y * singleton.PPM;		
-				
+
 		if (SingletonVandC.paused > 0)
 			updateWalkingSpeed();
 
@@ -125,7 +125,7 @@ public class Robot extends Element {
 
 		if (checkIfOutOfBounds(width, height))
 			return true;
-		
+
 		return false;
 	}
 
@@ -154,7 +154,7 @@ public class Robot extends Element {
 			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 	}
 
-	private void updatePause()
+	public void updatePause()
 	{
 		if ((SingletonVandC.paused <= 0) && singleton.click.gotClicked())
 			SingletonVandC.paused = 1;
@@ -162,7 +162,7 @@ public class Robot extends Element {
 			SingletonVandC.paused++;
 	}
 
-	private void updateWalkingSpeed()
+	public void updateWalkingSpeed()
 	{
 		//Mantém para a frente
 		if (robotB.getLinearVelocity().x > 0 && robotB.getLinearVelocity().x < singleton.SPEED_X && SingletonVandC.paused > 0)
@@ -248,7 +248,7 @@ public class Robot extends Element {
 		}
 	}
 
-	private boolean checkIfOutOfBounds(double width, double height) {
+	public boolean checkIfOutOfBounds(double width, double height) {
 		if (x < 0)
 			return true;
 		else if (y < 0)
