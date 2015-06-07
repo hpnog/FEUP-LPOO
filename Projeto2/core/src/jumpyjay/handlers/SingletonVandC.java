@@ -146,7 +146,7 @@ public class SingletonVandC {
 		initialPositions[5] = new Vector2(2 , 8);
 		initialPositions[6] = new Vector2(2 , 7);
 		initialPositions[7] = new Vector2(2 , 2);
-		//initialPositions[8] = new Vector2( , );
-		initialPositions[9] = new Vector2(2 , 15);
+		initialPositions[8] = new Vector2(8 , 2);
+		initialPositions[9] = new Vector2(2 , 10);
 	}
 }
