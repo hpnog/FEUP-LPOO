@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Diamond.
  */
@@ -18,7 +18,7 @@ public class Diamond extends Element {
 	/** The singleton. */
 	private SingletonVandC singleton;
 
-	/** The caught. */
+	/** Boolean to check if the diamond was caught or not */
 	private boolean caught;
 	
 	/** The k fix. */
@@ -28,11 +28,11 @@ public class Diamond extends Element {
 	 * Instantiates a new diamond.
 	 *
 	 * @param body the body
-	 * @param fix the fix
-	 * @param x the x
-	 * @param y the y
-	 * @param width the width
-	 * @param height the height
+	 * @param fix the fixture
+	 * @param x the x coord of the diamond.
+	 * @param y the y coord of the diamond.
+	 * @param width the width of the diamond.
+	 * @param height the height of the diamond.
 	 */
 	public Diamond(Body body, Fixture fix, float x, float y, float width, float height) {
 		super(body);
@@ -55,7 +55,7 @@ public class Diamond extends Element {
 		}
 	}
 
-	/* (non-Javadoc)
+	/** 
 	 * @see jumpyjay.logic.entities.Element#update(float)
 	 */
 	public void update(float dt)
@@ -70,7 +70,7 @@ public class Diamond extends Element {
 	}
 
 	/**
-	 * Draw.
+	 * Draws the diamond
 	 *
 	 * @param batch the batch
 	 */
@@ -80,7 +80,7 @@ public class Diamond extends Element {
 	}
 
 	/**
-	 * Checks if is caught.
+	 * Checks if the diamond is caught
 	 *
 	 * @return true, if is caught
 	 */

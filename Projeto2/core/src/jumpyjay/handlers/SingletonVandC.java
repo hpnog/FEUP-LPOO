@@ -3,7 +3,7 @@ package jumpyjay.handlers;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.Vector2;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SingletonVandC.
  */
@@ -13,7 +13,7 @@ public class SingletonVandC {
 	private static SingletonVandC singleton = new SingletonVandC();
 	
 	//PIXELS PER METER
-	/** The ppm. */
+	/** The pixels per meter. */
 	public final float PPM = 100;
 	//CATEGORY BITS
 	//0000 0000 0000 0010
@@ -95,7 +95,7 @@ public class SingletonVandC {
 	/** The testing. */
 	public static boolean testing = false;
 	
-	//Inicializa o click----------------------------------------------------------------------------------
+	//Initializes o click----------------------------------------------------------------------------------
 	/** The click. */
 	public Click click = new Click();
 	//----------------------------------------------------------------------------------------------------

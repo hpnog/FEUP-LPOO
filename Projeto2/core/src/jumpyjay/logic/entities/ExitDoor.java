@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ExitDoor.
  */
@@ -19,24 +19,24 @@ public class ExitDoor extends Element {
 	/** The singleton. */
 	private SingletonVandC singleton;
 
-	/** The keys to catch. */
+	/** The keys to catch to open the door */
 	private int keysToCatch;
 	
-	/** The opened door tex. */
+	/** The opened door texture. */
 	private Texture openedDoorTex;
 	
-	/** The closed door tex. */
+	/** The closed door texture. */
 	private Texture closedDoorTex;
 
 	/**
 	 * Instantiates a new exit door.
 	 *
 	 * @param body the body
-	 * @param x the x
-	 * @param y the y
-	 * @param width the width
-	 * @param height the height
-	 * @param keys the keys
+	 * @param x the x coord of the door
+	 * @param y the y coord of the door 
+	 * @param width the width of the door
+	 * @param height the height of the door
+	 * @param keys the keys to catch
 	 */
 	public ExitDoor(Body body, float x, float y, float width, float height, int keys) {
 		super(body);
@@ -68,7 +68,7 @@ public class ExitDoor extends Element {
 		//---------------------------------------------------------------------------------------------------
 	}
 
-	/* (non-Javadoc)
+	/* 
 	 * @see jumpyjay.logic.entities.Element#update(float)
 	 */
 	public void update(float dt)
@@ -77,7 +77,7 @@ public class ExitDoor extends Element {
 	}
 
 	/**
-	 * Draw.
+	 * Draws the door
 	 *
 	 * @param batch the batch
 	 */
@@ -99,7 +99,7 @@ public class ExitDoor extends Element {
 	}
 
 	/**
-	 * Key caught.
+	 * When the key is caught, updates
 	 */
 	public void keyCaught()
 	{

@@ -32,13 +32,13 @@ public class Robot extends Element {
 	/** The robot b. */
 	private Body robotB;
 	
-	/** The robot fix def. */
+	/** The robot fixture def. */
 	private FixtureDef robotFixDef;
 
 	/** The hurt timer. */
 	private int hurtTimer = 0;
 	
-	/** The hp. */
+	/** The level of health. */
 	private int hp;
 
 	//Para controlar o primeiro toque e para nao saltar
@@ -50,9 +50,9 @@ public class Robot extends Element {
 	 * Instantiates a new robot.
 	 *
 	 * @param body the body
-	 * @param x the x
-	 * @param y the y
-	 * @param tileSize the tile size
+	 * @param x the x coord of the robot
+	 * @param y the y coord of the robot
+	 * @param tileSize the tile size of the robot
 	 * @param world the world
 	 */
 	public Robot(Body body, float x, float y, float tileSize, World world)
@@ -88,7 +88,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Inits the physics.
+	 * Initiates the physics.
 	 *
 	 * @param world the world
 	 */
@@ -117,7 +117,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Draw.
+	 * Draws the robot
 	 *
 	 * @param batch the batch
 	 */
@@ -127,12 +127,12 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Update.
+	 * Updates the robot
 	 *
 	 * @param deltaTime the delta time
 	 * @param world the world
-	 * @param width the width
-	 * @param height the height
+	 * @param width the width of the robot
+	 * @param height the height of the robot
 	 * @param doorPos the door pos
 	 * @return true, if successful
 	 */
@@ -176,7 +176,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Update life.
+	 * Updates life.
 	 */
 	public void updateLife()
 	{
@@ -210,7 +210,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Update pause.
+	 * Updates the state of pause.
 	 */
 	public void updatePause()
 	{
@@ -221,7 +221,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Update walking speed.
+	 * Updates the walking speed.
 	 */
 	public void updateWalkingSpeed()
 	{
@@ -248,7 +248,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Change animation.
+	 * Changes animation (walking or jumping)
 	 */
 	private void changeAnimation()
 	{
@@ -313,7 +313,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Check if out of bounds.
+	 * Check if the robot is out of bounds.
 	 *
 	 * @param width the width
 	 * @param height the height
@@ -332,7 +332,7 @@ public class Robot extends Element {
 			return false;
 	}
 
-	/* (non-Javadoc)
+	/* 
 	 * @see jumpyjay.logic.entities.Element#dispose()
 	 */
 	public void dispose() {
@@ -340,7 +340,7 @@ public class Robot extends Element {
 	}
 
 	/**
-	 * Gets the hp.
+	 * Gets the health of the robot
 	 *
 	 * @return the hp
 	 */

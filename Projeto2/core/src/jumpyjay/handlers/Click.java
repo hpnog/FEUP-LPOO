@@ -2,20 +2,20 @@ package jumpyjay.handlers;
 
 import com.badlogic.gdx.Gdx;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Click.
  */
 public class Click {
 	
-	/** The has been clicked before. */
+	/** Cheks if it has been clicked before. */
 	boolean hasBeenClickedBefore = true;
 	
-	/** The has just been clicked. */
+	/** Cheks if it has just been clicked. */
 	boolean hasJustBeenClicked = true;
 	
 	/**
-	 * Update.
+	 * Updates state
 	 */
 	public void update()
 	{
@@ -24,7 +24,7 @@ public class Click {
 	}
 	
 	/**
-	 * Got clicked.
+	 * Checks if the screen got clicked
 	 *
 	 * @return true, if successful
 	 */

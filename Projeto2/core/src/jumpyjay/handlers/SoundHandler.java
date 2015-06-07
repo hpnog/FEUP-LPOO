@@ -2,7 +2,7 @@ package jumpyjay.handlers;
 
 import com.badlogic.gdx.audio.Music;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SoundHandler.
  */
@@ -17,7 +17,7 @@ public class SoundHandler {
 	private SoundHandler() {}
 	
 	/**
-	 * Play music.
+	 * Plays music.
 	 */
 	public static void playMusic()
 	{
@@ -29,7 +29,7 @@ public class SoundHandler {
 	}
 	
 	/**
-	 * Play caught.
+	 * Plays sound effect for when something is caught
 	 */
 	public static void playCaught()
 	{
@@ -38,7 +38,7 @@ public class SoundHandler {
 	}
 	
 	/**
-	 * Play won.
+	 * Plays sound effect for when the player completes a level.
 	 */
 	public static void playWon()
 	{
@@ -47,7 +47,7 @@ public class SoundHandler {
 	}
 	
 	/**
-	 * Play jump.
+	 * Plays sound effect for when the player jumps.
 	 */
 	public static void playJump()
 	{
@@ -56,7 +56,7 @@ public class SoundHandler {
 	}
 	
 	/**
-	 * Play lost life.
+	 * Plays sound effect for when the player looses a life.
 	 */
 	public static void playLostLife()
 	{
@@ -65,7 +65,7 @@ public class SoundHandler {
 	}
 	
 	/**
-	 * Play dead.
+	 * Plays sound effect for when the player fails a level.
 	 */
 	public static void playDead()
 	{
