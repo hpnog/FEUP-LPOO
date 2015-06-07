@@ -9,9 +9,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MyJumpyJay.
+ * 
+ * This class is the one that "starts" the application in the first place
  */
 public class MyJumpyJay extends ApplicationAdapter {
 
@@ -24,8 +25,11 @@ public class MyJumpyJay extends ApplicationAdapter {
 	/** The game state manager. */
 	private GameStateManager gameStateManager;
 	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#create()
+	/** 
+	 * Create
+	 * 
+	 * Initializes da camera, calls the method that loads the assets and starts playing the background music.
+	 * Initializes also the GameManager.
 	 */
 	@Override
 	public void create () {
@@ -43,7 +47,7 @@ public class MyJumpyJay extends ApplicationAdapter {
 	}
 
 	/**
-	 * Inits the.
+	 * Inits the singleton.
 	 */
 	public void init()
 	{
@@ -53,8 +57,10 @@ public class MyJumpyJay extends ApplicationAdapter {
 		singleton.SCREEN_HEIGHT = Gdx.graphics.getHeight();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#render()
+	/**
+	 * Render
+	 * 
+	 * Responsible for rendering the screen
 	 */
 	@Override
 	public void render () {		
@@ -62,8 +68,10 @@ public class MyJumpyJay extends ApplicationAdapter {
 		gameStateManager.draw();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#pause()
+	/**
+	 * Pause
+	 * 
+	 * Controls what happens when the user pauses the Aplication / receives a call or anything else that may force the Aplication to pause
 	 */
 	@Override
 	public void pause () {
@@ -71,24 +79,26 @@ public class MyJumpyJay extends ApplicationAdapter {
 		gameStateManager.pause();
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#resume()
+	/**
+	 * Resume
+	 * 
+	 * After Pause, the user may return to the Aplication, in which case this method resumes the action
 	 */
 	@Override
 	public void resume () {
 		Assets.manager.finishLoading();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#resize(int, int)
+	/**
+	 * Resize
 	 */
 	@Override
 	public void resize (int width, int height) {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationAdapter#dispose()
+	/**
+	 * Dispose
 	 */
 	@Override
 	public void dispose () {
