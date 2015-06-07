@@ -139,11 +139,11 @@ public class SingletonVandC {
 	{
 		initialPositions = new Vector2[10];
 		initialPositions[0] = new Vector2(2 , 7);
-		initialPositions[1] = new Vector2(2 , 6);
+		initialPositions[1] = new Vector2(2 , 5);
 		initialPositions[2] = new Vector2(2 , 7);
-		initialPositions[3] = new Vector2(2 , 8);
-		initialPositions[4] = new Vector2(2 , 9);
-		initialPositions[5] = new Vector2(2 , 7);
+		initialPositions[3] = new Vector2(2 , 7);
+		initialPositions[4] = new Vector2(2 , 7);
+		initialPositions[5] = new Vector2(2 , 8);
 		initialPositions[6] = new Vector2(2 , 7);
 		initialPositions[7] = new Vector2(2 , 2);
 		//initialPositions[8] = new Vector2( , );

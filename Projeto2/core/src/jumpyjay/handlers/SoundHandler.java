@@ -23,8 +23,9 @@ public class SoundHandler {
 	{
 		music = Assets.manager.get(Assets.music);
 		music.setVolume(0.5f);
-		music.play();
 		music.setLooping(true);
+		music.play();
+				
 	}
 	
 	/**

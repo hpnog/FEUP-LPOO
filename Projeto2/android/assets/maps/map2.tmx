@@ -455,6 +455,6 @@
   <object id="29" x="359" y="398" width="13" height="12"/>
  </objectgroup>
  <objectgroup name="Exit">
-  <object id="21" x="507" y="363" width="36" height="51"/>
+  <object id="21" x="507" y="365" width="36" height="51"/>
  </objectgroup>
 </map>
