@@ -9,14 +9,24 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MyJumpyJay.
+ */
 public class MyJumpyJay extends ApplicationAdapter {
 
+	/** The singleton. */
 	private SingletonVandC singleton;
 	
+	/** The cam. */
 	public static OrthographicCamera cam;
 	
+	/** The game state manager. */
 	private GameStateManager gameStateManager;
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#create()
+	 */
 	@Override
 	public void create () {
 		init();
@@ -32,6 +42,9 @@ public class MyJumpyJay extends ApplicationAdapter {
 		gameStateManager = new GameStateManager();
 	}
 
+	/**
+	 * Inits the.
+	 */
 	public void init()
 	{
 		singleton = SingletonVandC.getSingleton();
@@ -40,28 +53,43 @@ public class MyJumpyJay extends ApplicationAdapter {
 		singleton.SCREEN_HEIGHT = Gdx.graphics.getHeight();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#render()
+	 */
 	@Override
 	public void render () {		
 		gameStateManager.update(Gdx.graphics.getDeltaTime());
 		gameStateManager.draw();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#pause()
+	 */
 	@Override
 	public void pause () {
 		SingletonVandC.paused = -2;
 		gameStateManager.pause();
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#resume()
+	 */
 	@Override
 	public void resume () {
 		Assets.manager.finishLoading();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#resize(int, int)
+	 */
 	@Override
 	public void resize (int width, int height) {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationAdapter#dispose()
+	 */
 	@Override
 	public void dispose () {
 

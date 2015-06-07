@@ -13,8 +13,15 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RobotTest.
+ */
 public class RobotTest {
 
+	/**
+	 * Robot initial test.
+	 */
 	@Test(timeout=5000)
 	public void robotInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -45,6 +52,9 @@ public class RobotTest {
 		testRobot.dispose();
 	}
 
+	/**
+	 * Robot falling test.
+	 */
 	@Test(timeout=5000)
 	public void robotFallingTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -86,6 +96,9 @@ public class RobotTest {
 		testRobot.dispose();
 	}
 
+	/**
+	 * Robot dies from falling test.
+	 */
 	@Test(timeout=5000)
 	public void robotDiesFromFallingTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -127,6 +140,9 @@ public class RobotTest {
 		testRobot.dispose();
 	}
 
+	/**
+	 * Robot dies from loosing health.
+	 */
 	@Test(timeout=5000)
 	public void robotDiesFromLoosingHealth() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();

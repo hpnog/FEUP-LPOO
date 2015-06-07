@@ -15,36 +15,79 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LevelMenu.
+ */
 public class LevelMenu extends GameState {
 
+	/** The batch. */
 	SpriteBatch batch;	
+	
+	/** The singleton. */
 	SingletonVandC singleton;
+	
+	/** The cam. */
 	OrthographicCamera cam;
 
+	/** The moving. */
 	private int moving = 0;
+	
+	/** The robot x. */
 	private int robotX = -2;
 
+	/** The level one. */
 	private SimpleButton levelOne;
+	
+	/** The level two. */
 	private SimpleButton levelTwo;
+	
+	/** The level three. */
 	private SimpleButton levelThree;
+	
+	/** The level four. */
 	private SimpleButton levelFour;
+	
+	/** The level five. */
 	private SimpleButton levelFive;
+	
+	/** The level six. */
 	private SimpleButton levelSix;
+	
+	/** The level seven. */
 	private SimpleButton levelSeven;
+	
+	/** The level eight. */
 	private SimpleButton levelEight;
+	
+	/** The level nine. */
 	private SimpleButton levelNine;
+	
+	/** The level ten. */
 	private SimpleButton levelTen;
+	
+	/** The blocked level. */
 	private SimpleButton blockedLevel;
 
+	/** The piy. */
 	private float pix, piy;
 
+	/** The robot. */
 	Animation robot;
 
+	/**
+	 * Instantiates a new level menu.
+	 *
+	 * @param gameStateManager the game state manager
+	 */
 	public LevelMenu(GameStateManager gameStateManager) {
 		super(gameStateManager);
 		init();
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#init()
+	 */
 	@Override
 	public void init() {
 		SingletonVandC.currentLevel = 0;
@@ -85,6 +128,9 @@ public class LevelMenu extends GameState {
 		blockedLevel = new SimpleButton(Assets.manager.get(Assets.blockedLevel), pix, 5 * piy, piy, piy);
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#update(float)
+	 */
 	@Override
 	public void update(float dt) {
 		if (moving == 0 && robotX < singleton.SCREEN_WIDTH / 14)
@@ -101,6 +147,9 @@ public class LevelMenu extends GameState {
 			gameStateManager.setState(singleton.PLAY);
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#render()
+	 */
 	@Override
 	public void render() {
 		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
@@ -141,6 +190,9 @@ public class LevelMenu extends GameState {
 		batch.end();
 	}
 
+	/**
+	 * Render sound related buttons.
+	 */
 	private void renderSoundRelatedButtons() {
 		if (SingletonVandC.music)
 			batch.draw(Assets.manager.get(Assets.enabledMusic), singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
@@ -153,6 +205,12 @@ public class LevelMenu extends GameState {
 
 	}
 
+	/**
+	 * Draw level.
+	 *
+	 * @param string the string
+	 * @param i the i
+	 */
 	private void drawLevel(SimpleButton string, int i) {
 		if (isAccessible(i))
 			string.draw(batch);
@@ -160,6 +218,12 @@ public class LevelMenu extends GameState {
 			blockedLevel.draw(batch, string.getX(), string.getY());
 	}
 
+	/**
+	 * Checks if is accessible.
+	 *
+	 * @param i the i
+	 * @return true, if is accessible
+	 */
 	private boolean isAccessible(int i) {
 		if (i < 2)
 			return true;
@@ -168,6 +232,9 @@ public class LevelMenu extends GameState {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#handleInput()
+	 */
 	@Override
 	public void handleInput() {
 		SingletonVandC.currentLevel = 0;
@@ -233,17 +300,29 @@ public class LevelMenu extends GameState {
 		}
 	}
 
+	/**
+	 * Touched.
+	 *
+	 * @param level the level
+	 * @return true, if successful
+	 */
 	private boolean touched(SimpleButton level) {
 		if (Gdx.input.getX() > level.getX() && Gdx.input.getX() < (level.getX() + level.getWidth()) && Gdx.input.getY() < (singleton.SCREEN_HEIGHT - level.getY()) && Gdx.input.getY() > (singleton.SCREEN_HEIGHT - (level.getY() + level.getHeight())))
 			return true;
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#dispose()
+	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#pause()
+	 */
 	@Override
 	public void pause() {}
 

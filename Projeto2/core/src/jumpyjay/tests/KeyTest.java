@@ -15,8 +15,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class KeyTest.
+ */
 public class KeyTest {
 
+	/**
+	 * Key initial test.
+	 */
 	@Test(timeout=5000)
 	public void KeyInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -57,6 +64,9 @@ public class KeyTest {
 		k.dispose();
 	}
 	
+	/**
+	 * Key caught test.
+	 */
 	@Test(timeout=5000)
 	public void KeyCaughtTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();

@@ -14,23 +14,47 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Robot.
+ */
 public class Robot extends Element {
 
+	/** The singleton. */
 	SingletonVandC singleton;
 
+	/** The direction. */
 	private int direction = 1;
 
+	/** The robot shape. */
 	private PolygonShape robotShape;
+	
+	/** The robot b. */
 	private Body robotB;
+	
+	/** The robot fix def. */
 	private FixtureDef robotFixDef;
 
+	/** The hurt timer. */
 	private int hurtTimer = 0;
+	
+	/** The hp. */
 	private int hp;
 
 	//Para controlar o primeiro toque e para nao saltar
 
+	/** The current sprite. */
 	private String currentSprite;
 
+	/**
+	 * Instantiates a new robot.
+	 *
+	 * @param body the body
+	 * @param x the x
+	 * @param y the y
+	 * @param tileSize the tile size
+	 * @param world the world
+	 */
 	public Robot(Body body, float x, float y, float tileSize, World world)
 	{
 		super(body);
@@ -63,6 +87,11 @@ public class Robot extends Element {
 		initPhysics(world);
 	}
 
+	/**
+	 * Inits the physics.
+	 *
+	 * @param world the world
+	 */
 	private void initPhysics(World world)
 	{
 		robotShape = new PolygonShape();
@@ -87,11 +116,26 @@ public class Robot extends Element {
 		//---------------------------------------------------------------------------------------------------
 	}
 
+	/**
+	 * Draw.
+	 *
+	 * @param batch the batch
+	 */
 	public void draw(Batch batch) {
 
 		batch.draw(animation.getFrame(), x - width / 2, y - height / 2 - 1.2f);
 	}
 
+	/**
+	 * Update.
+	 *
+	 * @param deltaTime the delta time
+	 * @param world the world
+	 * @param width the width
+	 * @param height the height
+	 * @param doorPos the door pos
+	 * @return true, if successful
+	 */
 	public boolean update(float deltaTime, World world, double width, double height, Vector2 doorPos) {
 
 		handleInput();
@@ -131,6 +175,9 @@ public class Robot extends Element {
 		return false;
 	}
 
+	/**
+	 * Update life.
+	 */
 	public void updateLife()
 	{
 		if (singleton.loseLife > 3 && hurtTimer == 0)
@@ -147,6 +194,9 @@ public class Robot extends Element {
 		}
 	}
 
+	/**
+	 * Handle input.
+	 */
 	private void handleInput() {
 		if (singleton.click.gotClicked() && singleton.jumpReady > 0 && SingletonVandC.paused > 0)
 		{
@@ -159,6 +209,9 @@ public class Robot extends Element {
 			robotB.applyForceToCenter(singleton.SPEED_X, 0, true);
 	}
 
+	/**
+	 * Update pause.
+	 */
 	public void updatePause()
 	{
 		if ((SingletonVandC.paused <= 0) && singleton.click.gotClicked())
@@ -167,6 +220,9 @@ public class Robot extends Element {
 			SingletonVandC.paused++;
 	}
 
+	/**
+	 * Update walking speed.
+	 */
 	public void updateWalkingSpeed()
 	{
 		//Mantém para a frente
@@ -191,6 +247,9 @@ public class Robot extends Element {
 			}
 	}
 
+	/**
+	 * Change animation.
+	 */
 	private void changeAnimation()
 	{
 		if (singleton.exiting > 0 && currentSprite != "robotExit")
@@ -253,6 +312,13 @@ public class Robot extends Element {
 		}
 	}
 
+	/**
+	 * Check if out of bounds.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @return true, if successful
+	 */
 	public boolean checkIfOutOfBounds(double width, double height) {
 		if (x < 0)
 			return true;
@@ -266,10 +332,18 @@ public class Robot extends Element {
 			return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.logic.entities.Element#dispose()
+	 */
 	public void dispose() {
 		robotShape.dispose();
 	}
 
+	/**
+	 * Gets the hp.
+	 *
+	 * @return the hp
+	 */
 	public int getHp()
 	{
 		return hp;

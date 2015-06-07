@@ -15,8 +15,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExitDoorTest.
+ */
 public class ExitDoorTest {
 
+	/**
+	 * Exit door initial test.
+	 */
 	@Test(timeout=5000)
 	public void ExitDoorInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -56,6 +63,9 @@ public class ExitDoorTest {
 		exitDoor.dispose();
 	}
 
+	/**
+	 * Exit door catching keys test.
+	 */
 	@Test(timeout=5000)
 	public void ExitDoorCatchingKeysTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();

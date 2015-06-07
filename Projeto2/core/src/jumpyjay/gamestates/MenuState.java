@@ -11,23 +11,46 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MenuState.
+ */
 public class MenuState extends GameState {
 
+	/** The batch. */
 	SpriteBatch batch;	
+	
+	/** The singleton. */
 	SingletonVandC singleton;
+	
+	/** The cam. */
 	OrthographicCamera cam;
 
+	/** The moving. */
 	private int moving = 0;
+	
+	/** The robot x. */
 	private int robotX = 0;
 
+	/** The robot. */
 	Animation robot;
+	
+	/** The tap. */
 	Animation tap;
 
+	/**
+	 * Instantiates a new menu state.
+	 *
+	 * @param gameStateManager the game state manager
+	 */
 	public MenuState(GameStateManager gameStateManager) {
 		super(gameStateManager);
 		init();
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#init()
+	 */
 	@Override
 	public void init() {
 		singleton = SingletonVandC.getSingleton();
@@ -49,6 +72,9 @@ public class MenuState extends GameState {
 		robotX = singleton.SCREEN_WIDTH / 14;
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#update(float)
+	 */
 	@Override
 	public void update(float dt) {
 		if (moving == 1)
@@ -61,6 +87,9 @@ public class MenuState extends GameState {
 			gameStateManager.setState(singleton.LEVEL);
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#render()
+	 */
 	@Override
 	public void render() {
 		Gdx.gl20.glClearColor(217 / (float) 256, 208 / (float) 256, 179 / (float) 256, 1);
@@ -80,6 +109,9 @@ public class MenuState extends GameState {
 		batch.end();
 	}
 
+	/**
+	 * Render sound related buttons.
+	 */
 	private void renderSoundRelatedButtons() {
 		if (SingletonVandC.music)
 			batch.draw(Assets.manager.get(Assets.enabledMusic), singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
@@ -94,6 +126,9 @@ public class MenuState extends GameState {
 
 
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#handleInput()
+	 */
 	@Override
 	public void handleInput() {
 		if (Gdx.input.justTouched())
@@ -109,11 +144,17 @@ public class MenuState extends GameState {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#dispose()
+	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#pause()
+	 */
 	@Override
 	public void pause() {}
 

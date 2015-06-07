@@ -15,8 +15,15 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DiamondTest.
+ */
 public class DiamondTest {
 
+	/**
+	 * Diamond initial test.
+	 */
 	@Test(timeout=5000)
 	public void DiamondInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
@@ -53,6 +60,9 @@ public class DiamondTest {
 		k.dispose();
 	}
 	
+	/**
+	 * Diamond caught test.
+	 */
 	@Test(timeout=5000)
 	public void DiamondCaughtTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();

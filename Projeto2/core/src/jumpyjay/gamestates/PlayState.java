@@ -37,36 +37,92 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class PlayState.
+ */
 public class PlayState extends GameState {
+	
+	/** The singleton. */
 	private SingletonVandC singleton;
+	
+	/** The font. */
 	private BitmapFont font;
+	
+	/** The map. */
 	private TiledMap map;
+	
+	/** The renderer. */
 	private OrthogonalTiledMapRenderer renderer;
+	
+	/** The cam. */
 	private OrthographicCamera cam;
+	
+	/** The b2d cam. */
 	private OrthographicCamera b2dCam;
+	
+	/** The hud cam. */
 	private OrthographicCamera hudCam;
+	
+	/** The hud cam text. */
 	private OrthographicCamera hudCamText;
+	
+	/** The screen height. */
 	private double screenHeight;
+	
+	/** The screen width. */
 	private double screenWidth;
+	
+	/** The map width. */
 	private float mapWidth;
+	
+	/** The map height. */
 	private float mapHeight;
+	
+	/** The robot. */
 	private Robot robot;
+	
+	/** The keys. */
 	private ArrayList<Key> keys;
+	
+	/** The diamonds. */
 	private ArrayList<Diamond> diamonds;
+	
+	/** The exit door. */
 	private ExitDoor exitDoor;
+	
+	/** The world. */
 	private World world;
+	
+	/** The b2d renderer. */
 	@SuppressWarnings("unused")					//Para efeitos de Debug
 	private Box2DDebugRenderer b2dRenderer;
+	
+	/** The win. */
 	private int win = 0;
+	
+	/** The tile size. */
 	private float tileSize;
+	
+	/** The props. */
 	MapProperties props;
+	
+	/** The sb3. */
 	private SpriteBatch sb, sb2, sb3;
 
+	/**
+	 * Instantiates a new play state.
+	 *
+	 * @param gameStateManager the game state manager
+	 */
 	protected PlayState(GameStateManager gameStateManager) {
 		super(gameStateManager);
 		init();
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#init()
+	 */
 	@Override
 	public void init() {
 		font = new BitmapFont(Gdx.files.internal("images/font.fnt"), Gdx.files.internal("images/font.png"), false);
@@ -102,6 +158,9 @@ public class PlayState extends GameState {
 		mapHeight = props.get("height", Integer.class) * props.get("tileheight", Integer.class);
 	}
 
+	/**
+	 * Load to map.
+	 */
 	private void loadToMap() {
 		createRobot((int) SingletonVandC.initialPositions[SingletonVandC.currentLevel - 1].x, (int) SingletonVandC.initialPositions[SingletonVandC.currentLevel - 1].y);
 		loadAndCreateKeys();
@@ -117,6 +176,9 @@ public class PlayState extends GameState {
 		//----------------------------------------------------------------------------------------------------
 	}
 
+	/**
+	 * Start cameras.
+	 */
 	private void startCameras() {
 		//Creates camera to control the users view------------------------------------------------------------
 		cam = new OrthographicCamera();			//swap dimensions to see physics
@@ -135,6 +197,12 @@ public class PlayState extends GameState {
 		//Loads the robots Texture----------------------------------------------------------------------------
 	}
 
+	/**
+	 * Creates the robot.
+	 *
+	 * @param xIni the x ini
+	 * @param yIni the y ini
+	 */
 	public void createRobot(int xIni, int yIni) {
 		//create platform-------------------------------------------------------------------------------------
 		BodyDef robotBody = new BodyDef();
@@ -147,6 +215,9 @@ public class PlayState extends GameState {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#update(float)
+	 */
 	@Override
 	public void update(float dt) {
 		handleInput();
@@ -176,6 +247,9 @@ public class PlayState extends GameState {
 			endGame(-1);
 	}
 
+	/**
+	 * Update exit.
+	 */
 	private void updateExit() {
 		if (singleton.exiting >= 1)
 			singleton.exiting++;
@@ -187,6 +261,11 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/**
+	 * Update objects.
+	 *
+	 * @param dt the dt
+	 */
 	private void updateObjects(float dt) {
 		for (int i = 0; i < keys.size(); i++)
 		{
@@ -201,11 +280,17 @@ public class PlayState extends GameState {
 		exitDoor.update(dt);
 	}
 
+	/**
+	 * Check and open door.
+	 */
 	private void checkAndOpenDoor() {
 		if (singleton.exiting == 1 && exitDoor.getKeysToCatch() > 0)
 			singleton.exiting = 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#render()
+	 */
 	@Override
 	public void render() {
 
@@ -229,6 +314,9 @@ public class PlayState extends GameState {
 
 	}
 
+	/**
+	 * Render sound related buttons.
+	 */
 	private void renderSoundRelatedButtons() {
 		sb2.begin();
 		if (SingletonVandC.music)
@@ -242,6 +330,9 @@ public class PlayState extends GameState {
 		sb2.end();
 	}
 
+	/**
+	 * Render life and menus.
+	 */
 	private void renderLifeAndMenus() {
 		sb2.setProjectionMatrix(hudCam.combined);
 		sb2.begin();
@@ -266,6 +357,9 @@ public class PlayState extends GameState {
 		sb2.end();
 	}
 
+	/**
+	 * Render text.
+	 */
 	private void renderText() {
 		sb3.begin();
 		sb3.setProjectionMatrix(hudCamText.combined);
@@ -289,6 +383,9 @@ public class PlayState extends GameState {
 		sb3.end();
 	}
 
+	/**
+	 * Render objects.
+	 */
 	private void renderObjects() {
 		sb.setProjectionMatrix(cam.combined);
 		sb.begin();
@@ -305,6 +402,11 @@ public class PlayState extends GameState {
 		sb.setProjectionMatrix(cam.combined);
 	}
 
+	/**
+	 * Gets the score to print.
+	 *
+	 * @return the score to print
+	 */
 	private String getScoreToPrint() {
 		String temp = "";
 		if (singleton.levelScore == 0)
@@ -326,6 +428,12 @@ public class PlayState extends GameState {
 		return temp;
 	}
 
+	/**
+	 * Gets the hi score to print.
+	 *
+	 * @param i the i
+	 * @return the hi score to print
+	 */
 	private String getHiScoreToPrint(int i) {
 		String temp = "";
 		if (SingletonVandC.totalScore[i-1] <= 0)
@@ -347,6 +455,9 @@ public class PlayState extends GameState {
 		return temp;
 	}
 
+	/**
+	 * Control camera.
+	 */
 	private void controlCamera() {
 		cam.position.set(new Vector2(robot.getX(), robot.getY()), 0);
 		b2dCam.position.set(new Vector2(robot.getX() / singleton.PPM, robot.getY() / singleton.PPM), 0);
@@ -380,6 +491,9 @@ public class PlayState extends GameState {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#handleInput()
+	 */
 	@Override
 	public void handleInput() {
 		if (Gdx.input.justTouched())
@@ -415,6 +529,9 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#dispose()
+	 */
 	@Override
 	public void dispose() {
 		map.dispose();
@@ -435,6 +552,13 @@ public class PlayState extends GameState {
 		diamonds.clear();
 	}
 
+	/**
+	 * Load layer to b2d.
+	 *
+	 * @param name the name
+	 * @param cBits the c bits
+	 * @param mBits the m bits
+	 */
 	private void loadLayerToB2d(String name, short cBits, short mBits)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(name);
@@ -474,6 +598,9 @@ public class PlayState extends GameState {
 				}
 	}
 
+	/**
+	 * Load and create keys.
+	 */
 	private void loadAndCreateKeys()
 	{
 		keys = new ArrayList<Key>();
@@ -511,6 +638,9 @@ public class PlayState extends GameState {
 		}
 	} 
 
+	/**
+	 * Load and create diamonds.
+	 */
 	private void loadAndCreateDiamonds() {
 
 		diamonds = new ArrayList<Diamond>();
@@ -548,6 +678,9 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/**
+	 * Load door.
+	 */
 	private void loadDoor() {
 
 		MapLayer layer = map.getLayers().get("Exit");
@@ -580,6 +713,11 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/**
+	 * End game.
+	 *
+	 * @param i the i
+	 */
 	private void endGame(int i)
 	{
 		if (i == -1 && win <= -1) {}
@@ -599,6 +737,9 @@ public class PlayState extends GameState {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see jumpyjay.gamestates.GameState#pause()
+	 */
 	@Override
 	public void pause() {
 	}

@@ -8,10 +8,22 @@ import java.io.ObjectOutputStream;
 
 import com.badlogic.gdx.Gdx;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SaveAndLoad.
+ */
 public class SaveAndLoad {
 
+	/**
+	 * Instantiates a new save and load.
+	 */
 	private SaveAndLoad() {}
 
+	/**
+	 * Save game.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static void saveGame() throws IOException {
 		try
 		{
@@ -28,6 +40,12 @@ public class SaveAndLoad {
 		}
 	}
 
+	/**
+	 * Load game.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws ClassNotFoundException the class not found exception
+	 */
 	public static void loadGame() throws IOException, ClassNotFoundException {
 		int[] toRet;
 		if (!Gdx.files.local("savedGame.dat").file().exists())
