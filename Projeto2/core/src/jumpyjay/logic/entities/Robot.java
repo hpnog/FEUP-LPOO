@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Robot.
  */
@@ -40,8 +39,6 @@ public class Robot extends Element {
 	
 	/** The level of health. */
 	private int hp;
-
-	//Para controlar o primeiro toque e para nao saltar
 
 	/** The current sprite. */
 	private String currentSprite;
@@ -332,8 +329,8 @@ public class Robot extends Element {
 			return false;
 	}
 
-	/* 
-	 * @see jumpyjay.logic.entities.Element#dispose()
+	/**
+	 * Dispose disposes the robots shape
 	 */
 	public void dispose() {
 		robotShape.dispose();

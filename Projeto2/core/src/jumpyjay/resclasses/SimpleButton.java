@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimpleButton.
  */
@@ -17,8 +16,8 @@ public class SimpleButton {
      * Instantiates a new simple button.
      *
      * @param texture the texture
-     * @param x the x
-     * @param y the y
+     * @param x the x coordinate
+     * @param y the y coordinate
      * @param width the width
      * @param height the height
      */
@@ -41,7 +40,7 @@ public class SimpleButton {
     /**
      * Draw.
      *
-     * @param b the b
+     * @param b the batch
      */
     public void draw(SpriteBatch b)
     {
@@ -51,9 +50,9 @@ public class SimpleButton {
     /**
      * Draw.
      *
-     * @param b the b
-     * @param x the x
-     * @param y the y
+     * @param b the batch
+     * @param x the x coordinate
+     * @param y the y coordinate
      */
     public void draw(SpriteBatch b, int x, int y)
     {
@@ -64,9 +63,9 @@ public class SimpleButton {
     /**
      * Check if clicked.
      *
-     * @param ix the ix
-     * @param iy the iy
-     * @return true, if successful
+     * @param ix the initial x coordinate
+     * @param iy the initial y coordinate
+     * @return true, if clicked
      */
     public boolean checkIfClicked (float ix, float iy) {
         if (ix > skin.getX() && ix < skin.getX() + skin.getWidth()) {
@@ -78,9 +77,9 @@ public class SimpleButton {
     }
     
     /**
-     * Gets the x.
+     * Gets the x coordinate.
      *
-     * @return the x
+     * @return the x coordinate
      */
     public int getX()
     {
@@ -88,9 +87,9 @@ public class SimpleButton {
     }
     
     /**
-     * Gets the y.
+     * Gets the y coordinate.
      *
-     * @return the y
+     * @return the y coordinate
      */
     public int getY()
     {

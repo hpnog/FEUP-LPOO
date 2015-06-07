@@ -37,7 +37,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class PlayState.
  */
@@ -95,7 +94,7 @@ public class PlayState extends GameState {
 	private World world;
 	
 	/** The b2d renderer. */
-	@SuppressWarnings("unused")					//Para efeitos de Debug
+	@SuppressWarnings("unused")										//For debugging purposes
 	private Box2DDebugRenderer b2dRenderer;
 	
 	/** The win. */
@@ -120,8 +119,10 @@ public class PlayState extends GameState {
 		init();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#init()
+	/**
+	 * Init initializes the main structure of the game itself
+	 * 
+	 * initializes the font, singleton, sprite batches map, ant respective renderer, layers, size variables, box2d world, respective renderer and cameras.
 	 */
 	@Override
 	public void init() {
@@ -160,6 +161,8 @@ public class PlayState extends GameState {
 
 	/**
 	 * Load to map.
+	 * 
+	 * loads also the maps info to the box2d world
 	 */
 	private void loadToMap() {
 		createRobot((int) SingletonVandC.initialPositions[SingletonVandC.currentLevel - 1].x, (int) SingletonVandC.initialPositions[SingletonVandC.currentLevel - 1].y);
@@ -170,10 +173,8 @@ public class PlayState extends GameState {
 		robot.getX();
 		robot.getY();
 
-		//Introduzir info na Box2D---------------------------------------------------------------------------
 		loadLayerToB2d("Floor", singleton.BIT_FLOOR, singleton.BIT_ROBOT_FOOT);
 		loadLayerToB2d("Danger", singleton.BIT_DANGER, singleton.BIT_ROBOT_FOOT);
-		//----------------------------------------------------------------------------------------------------
 	}
 
 	/**
@@ -194,14 +195,13 @@ public class PlayState extends GameState {
 
 		hudCamText = new OrthographicCamera();
 		hudCamText.setToOrtho(false, (int) screenWidth * 5, (int) screenHeight * 5);
-		//Loads the robots Texture----------------------------------------------------------------------------
 	}
 
 	/**
 	 * Creates the robot.
 	 *
-	 * @param xIni the x ini
-	 * @param yIni the y ini
+	 * @param xIni the x initial coordinate
+	 * @param yIni the y initial coordinate
 	 */
 	public void createRobot(int xIni, int yIni) {
 		//create platform-------------------------------------------------------------------------------------
@@ -215,8 +215,10 @@ public class PlayState extends GameState {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#update(float)
+	/**
+	 * update updates the game, handles the input, checks if user has won/lost and takes respective actions, updates all the elements of the game
+	 * 
+	 * @param dt time since the last update took place
 	 */
 	@Override
 	public void update(float dt) {
@@ -264,7 +266,7 @@ public class PlayState extends GameState {
 	/**
 	 * Update objects.
 	 *
-	 * @param dt the dt
+	 * @param dt the time since the last update
 	 */
 	private void updateObjects(float dt) {
 		for (int i = 0; i < keys.size(); i++)
@@ -281,15 +283,15 @@ public class PlayState extends GameState {
 	}
 
 	/**
-	 * Check and open door.
+	 * Check checks if door can be opened and opens door.
 	 */
 	private void checkAndOpenDoor() {
 		if (singleton.exiting == 1 && exitDoor.getKeysToCatch() > 0)
 			singleton.exiting = 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#render()
+	/**
+	 * render renders all the elements in the screen with 3 cameras. Calls functions to render specific parts
 	 */
 	@Override
 	public void render() {
@@ -429,10 +431,10 @@ public class PlayState extends GameState {
 	}
 
 	/**
-	 * Gets the hi score to print.
+	 * Gets the high score to print.
 	 *
-	 * @param i the i
-	 * @return the hi score to print
+	 * @param i the index of the level
+	 * @return the high score to print
 	 */
 	private String getHiScoreToPrint(int i) {
 		String temp = "";
@@ -491,8 +493,10 @@ public class PlayState extends GameState {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#handleInput()
+	/**
+	 * handle input
+	 * 
+	 * handles the users input, related to the game or any of the buttons
 	 */
 	@Override
 	public void handleInput() {
@@ -529,8 +533,10 @@ public class PlayState extends GameState {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#dispose()
+	/**
+	 * dispose
+	 * 
+	 * disposes the assets loaded and created for the game
 	 */
 	@Override
 	public void dispose() {
@@ -545,7 +551,6 @@ public class PlayState extends GameState {
 		for (int i = 0; i < diamonds.size(); i++)
 			diamonds.get(i).dispose();
 		exitDoor.dispose();
-		//world.dispose();								/////////////////////////VER OUTRA VEZ//////////////////////////////
 		font.dispose();
 
 		keys.clear();
@@ -555,15 +560,14 @@ public class PlayState extends GameState {
 	/**
 	 * Load layer to b2d.
 	 *
-	 * @param name the name
-	 * @param cBits the c bits
-	 * @param mBits the m bits
+	 * @param name the layer
+	 * @param cBits the category bits
+	 * @param mBits the mask bits
 	 */
 	private void loadLayerToB2d(String name, short cBits, short mBits)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(name);
 
-		//Introduzir info na Box2D
 		if (layer != null)
 			for(int y = 0; y < layer.getHeight(); y++)
 				for(int x = 0; x < layer.getWidth(); x++)
@@ -716,12 +720,12 @@ public class PlayState extends GameState {
 	/**
 	 * End game.
 	 *
-	 * @param i the i
+	 * @param i the indicator of the state of the game
 	 */
 	private void endGame(int i)
 	{
 		if (i == -1 && win <= -1) {}
-		else win = i;		//a trocar para perder
+		else win = i;		
 
 		if (win == 1)
 		{
@@ -737,8 +741,8 @@ public class PlayState extends GameState {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#pause()
+	/**
+	 * pause
 	 */
 	@Override
 	public void pause() {
