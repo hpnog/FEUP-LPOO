@@ -6,6 +6,7 @@ import jumpyjay.handlers.Animation;
 import jumpyjay.handlers.Assets;
 import jumpyjay.handlers.SaveAndLoad;
 import jumpyjay.handlers.SingletonVandC;
+import jumpyjay.handlers.SoundHandler;
 import jumpyjay.resclasses.SimpleButton;
 
 import com.badlogic.gdx.Gdx;
@@ -90,12 +91,12 @@ public class LevelMenu extends GameState {
 			robotX += 10;
 		if (moving == 1)
 			robotX += 10;
-		
+
 		robot.update(dt);
-		
+
 		if (SingletonVandC.currentLevel == 0)
 			handleInput();
-		
+
 		if (robotX > singleton.SCREEN_WIDTH)
 			gameStateManager.setState(singleton.PLAY);
 	}
@@ -135,7 +136,21 @@ public class LevelMenu extends GameState {
 		blockedLevel.draw(batch,(int) (9 * pix),(int) (5 * piy));
 		blockedLevel.draw(batch,(int) (10 * pix),(int) (5 * piy));
 
+		renderSoundRelatedButtons();
+
 		batch.end();
+	}
+
+	private void renderSoundRelatedButtons() {
+		if (SingletonVandC.music)
+			batch.draw(Assets.manager.get(Assets.enabledMusic), singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
+		else
+			batch.draw(Assets.manager.get(Assets.disabledMusic), singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
+		if (SingletonVandC.sound)
+			batch.draw(Assets.manager.get(Assets.enabledSound), singleton.SCREEN_WIDTH - 2 * singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
+		else
+			batch.draw(Assets.manager.get(Assets.disabledSound), singleton.SCREEN_WIDTH - 2 * singleton.SCREEN_WIDTH / 15, singleton.SCREEN_HEIGHT / 30, singleton.SCREEN_WIDTH / 20, singleton.SCREEN_HEIGHT / 12);
+
 	}
 
 	private void drawLevel(SimpleButton string, int i) {
@@ -158,8 +173,15 @@ public class LevelMenu extends GameState {
 		SingletonVandC.currentLevel = 0;
 		if (!Gdx.input.justTouched())
 			return;		
-				
-		if (touched(levelOne) && isAccessible(1))
+
+		if ((Gdx.input.getX() > (singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15)) && (Gdx.input.getX() < (singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15 + singleton.SCREEN_WIDTH / 20)) &&
+				(Gdx.input.getY() < (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30)) && (Gdx.input.getY() > (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30 - singleton.SCREEN_HEIGHT / 12)))
+			SoundHandler.changeMusicState();
+		else if ((Gdx.input.getX() > (singleton.SCREEN_WIDTH - 2 * (singleton.SCREEN_WIDTH / (float) 15))) && (Gdx.input.getX() < (singleton.SCREEN_WIDTH - 2 * (singleton.SCREEN_WIDTH / (float) 15) + singleton.SCREEN_WIDTH / 20)) &&
+				(Gdx.input.getY() < (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30)) && (Gdx.input.getY() > (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30 - singleton.SCREEN_HEIGHT / 12)))
+				SoundHandler.changeSoundState();
+		
+		else if (touched(levelOne) && isAccessible(1))
 		{
 			SingletonVandC.currentLevel = 1;
 			moving = 1;
@@ -216,7 +238,6 @@ public class LevelMenu extends GameState {
 			return true;
 		return false;
 	}
-
 
 	@Override
 	public void dispose() {

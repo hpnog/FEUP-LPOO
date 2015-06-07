@@ -18,6 +18,7 @@ public class Assets {
 	public static final AssetDescriptor<Texture> openedDoor = new AssetDescriptor<Texture>("images/openedDoor.png", Texture.class);	
 	public static final AssetDescriptor<Texture> closedDoor = new AssetDescriptor<Texture>("images/closedDoor.png", Texture.class);	
 	public static final AssetDescriptor<Texture> robotExit = new AssetDescriptor<Texture>("images/robotexit.png", Texture.class);	
+	public static final AssetDescriptor<Texture> zeroLives = new AssetDescriptor<Texture>("maps/hp/zero_health.png", Texture.class);	
 	public static final AssetDescriptor<Texture> oneLife = new AssetDescriptor<Texture>("maps/hp/one_health.png", Texture.class);	
 	public static final AssetDescriptor<Texture> twoLifes = new AssetDescriptor<Texture>("maps/hp/two_health.png", Texture.class);	
 	public static final AssetDescriptor<Texture> fullLife = new AssetDescriptor<Texture>("maps/hp/full_health.png", Texture.class);	
@@ -38,6 +39,12 @@ public class Assets {
 	public static final AssetDescriptor<Texture> successScreen = new AssetDescriptor<Texture>("maps/successScreen.png", Texture.class);	
 	public static final AssetDescriptor<Texture> pausedScreen = new AssetDescriptor<Texture>("maps/pausedScreen.png", Texture.class);	
 	public static final AssetDescriptor<Texture> failedScreen = new AssetDescriptor<Texture>("maps/failedScreen.png", Texture.class);	
+	public static final AssetDescriptor<Texture> enabledSound = new AssetDescriptor<Texture>("sound/enabledSound.png", Texture.class);	
+	public static final AssetDescriptor<Texture> enabledMusic = new AssetDescriptor<Texture>("sound/enabledMusic.png", Texture.class);	
+	public static final AssetDescriptor<Texture> disabledSound = new AssetDescriptor<Texture>("sound/disabledSound.png", Texture.class);	
+	public static final AssetDescriptor<Texture> disabledMusic = new AssetDescriptor<Texture>("sound/disabledMusic.png", Texture.class);	
+	
+	//-------------------SOUND------------------
 	public static final AssetDescriptor<Sound> music = new AssetDescriptor<Sound>("sound/music.mp3", Sound.class);	
 	public static final AssetDescriptor<Sound> wonSound = new AssetDescriptor<Sound>("sound/won.mp3", Sound.class);	
 	public static final AssetDescriptor<Sound> diamondSound = new AssetDescriptor<Sound>("sound/gotDiamond.mp3", Sound.class);	
@@ -59,6 +66,7 @@ public class Assets {
 		manager.load(openedDoor);
 		manager.load(closedDoor);
 		manager.load(robotExit);
+		manager.load(zeroLives);
 		manager.load(oneLife);
 		manager.load(twoLifes);
 		manager.load(fullLife);
@@ -79,6 +87,10 @@ public class Assets {
 		manager.load(successScreen);
 		manager.load(pausedScreen);
 		manager.load(failedScreen);
+		manager.load(enabledSound);
+		manager.load(enabledMusic);
+		manager.load(disabledSound);
+		manager.load(disabledMusic);
 		
 		manager.load(music);
 		manager.load(wonSound);

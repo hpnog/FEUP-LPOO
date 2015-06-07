@@ -43,7 +43,11 @@ public class SingletonVandC {
 	public final int LEVEL = 2;
 	public final int SUCCESS = 3;
 	
+	public static boolean sound = true;
+	public static boolean music = true;
+	
 	public static int paused;
+	public static long musicId;
 	
 	public static boolean testing = false;
 	

@@ -38,12 +38,12 @@ public class MyContactListener implements ContactListener {
 			if (fa.getUserData() == "diamond" && fb.getUserData() == "robot")
 			{
 				fa.setUserData("caughtDiamond");
-				Assets.manager.get(Assets.diamondSound).play(1.0f);
+				SoundHandler.playCaught();
 			}
 			else if (fa.getUserData() == "robot" && fb.getUserData() == "diamond")
 			{
 				fb.setUserData("caughtDiamond");
-				Assets.manager.get(Assets.diamondSound).play(1.0f);
+				SoundHandler.playCaught();
 			}
 		
 		if (fa.getUserData() != null && fb.getUserData() != null)

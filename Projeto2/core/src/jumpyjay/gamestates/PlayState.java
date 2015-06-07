@@ -151,13 +151,13 @@ public class PlayState extends GameState {
 	public void update(float dt) {
 		handleInput();
 		singleton.click.update();
-		
+
 		if (win == -1)
 		{
 			SoundHandler.playDead();
 			win--;
 		}
-		
+
 		if ((win == 1 || SingletonVandC.paused < 0) && !singleton.click.gotClicked())
 			return;
 
@@ -218,8 +218,7 @@ public class PlayState extends GameState {
 		renderLifeAndMenus();
 
 		renderText();
-
-
+		renderSoundRelatedButtons();
 		hudCam.update();
 
 		//b2dRenderer.render(world, b2dCam.combined);
@@ -230,6 +229,19 @@ public class PlayState extends GameState {
 
 	}
 
+	private void renderSoundRelatedButtons() {
+		sb2.begin();
+		if (SingletonVandC.music)
+			sb2.draw(Assets.manager.get(Assets.enabledMusic),(float) screenWidth - (float) screenWidth / 15, (float) screenHeight / 30, (float) screenWidth / 20, (float) screenHeight / 12);
+		else
+			sb2.draw(Assets.manager.get(Assets.disabledMusic), (float) screenWidth - (float) screenWidth / 15, (float) screenHeight / 30, (float) screenWidth / 20, (float) screenHeight / 12);
+		if (SingletonVandC.sound)
+			sb2.draw(Assets.manager.get(Assets.enabledSound), (float) screenWidth - 2 * (float) screenWidth / 15, (float) screenHeight / 30, (float) screenWidth / 20, (float) screenHeight / 12);
+		else
+			sb2.draw(Assets.manager.get(Assets.disabledSound), (float) screenWidth - 2 * (float) screenWidth / 15, (float) screenHeight / 30, (float) screenWidth / 20, (float) screenHeight / 12);
+		sb2.end();
+	}
+
 	private void renderLifeAndMenus() {
 		sb2.setProjectionMatrix(hudCam.combined);
 		sb2.begin();
@@ -238,8 +250,10 @@ public class PlayState extends GameState {
 			sb2.draw(Assets.manager.get(Assets.fullLife), (float) (screenWidth - screenWidth / 12), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
 		else if (robot.getHp() == 2)
 			sb2.draw(Assets.manager.get(Assets.twoLifes), (float) (screenWidth - screenWidth / 12), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
-		else
+		else if (robot.getHp() == 1)
 			sb2.draw(Assets.manager.get(Assets.oneLife), (float) (screenWidth - screenWidth / 12), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
+		else
+			sb2.draw(Assets.manager.get(Assets.zeroLives), (float) (screenWidth - screenWidth / 12), (float) (screenHeight - screenHeight / 12), (float) (screenWidth / 15), (float) (screenHeight / 15));
 
 		if (SingletonVandC.paused == -2)
 			sb2.draw(Assets.manager.get(Assets.pausedScreen), (float) screenWidth / 4,(float) screenHeight / 6,(float) (screenWidth - (screenWidth / 2)), (float)(screenHeight - (screenHeight / 3)));
@@ -368,6 +382,22 @@ public class PlayState extends GameState {
 
 	@Override
 	public void handleInput() {
+		if (Gdx.input.justTouched())
+		{
+			if ((Gdx.input.getX() > (singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15)) && (Gdx.input.getX() < (singleton.SCREEN_WIDTH - singleton.SCREEN_WIDTH / 15 + singleton.SCREEN_WIDTH / 20)) &&
+					(Gdx.input.getY() < (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30)) && (Gdx.input.getY() > (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30 - singleton.SCREEN_HEIGHT / 12)))
+			{
+				SoundHandler.changeMusicState();
+				singleton.click.update();
+			}
+			else if ((Gdx.input.getX() > (singleton.SCREEN_WIDTH - 2 * (singleton.SCREEN_WIDTH / (float) 15))) && (Gdx.input.getX() < (singleton.SCREEN_WIDTH - 2 * (singleton.SCREEN_WIDTH / (float) 15) + singleton.SCREEN_WIDTH / 20)) &&
+					(Gdx.input.getY() < (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30)) && (Gdx.input.getY() > (singleton.SCREEN_HEIGHT - singleton.SCREEN_HEIGHT / 30 - singleton.SCREEN_HEIGHT / 12)))
+			{
+				SoundHandler.changeSoundState();
+				singleton.click.update();
+			}
+		}
+
 		if (win == 1 || win <= -1) //se ja ganhou
 		{
 
