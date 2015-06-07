@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class ExitDoorTest {
 
-	@Test
+	@Test(timeout=5000)
 	public void ExitDoorInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;
@@ -56,7 +56,7 @@ public class ExitDoorTest {
 		exitDoor.dispose();
 	}
 
-	@Test
+	@Test(timeout=5000)
 	public void ExitDoorCatchingKeysTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;

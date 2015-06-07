@@ -1,7 +1,6 @@
 package jumpyjay.handlers;
 
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 public class SoundHandler {
 	public static Music music;

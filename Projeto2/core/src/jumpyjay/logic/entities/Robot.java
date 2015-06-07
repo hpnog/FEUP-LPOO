@@ -4,7 +4,6 @@ import jumpyjay.handlers.Assets;
 import jumpyjay.handlers.SingletonVandC;
 import jumpyjay.handlers.SoundHandler;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -95,7 +94,6 @@ public class Robot extends Element {
 
 	public boolean update(float deltaTime, World world, double width, double height, Vector2 doorPos) {
 
-
 		handleInput();
 		updatePause();
 
@@ -113,8 +111,11 @@ public class Robot extends Element {
 			return false;
 		}
 
-		animation.update(deltaTime);
-		changeAnimation();
+		if (!SingletonVandC.testing)
+		{
+			animation.update(deltaTime);
+			changeAnimation();
+		}
 
 		x = getPosition().x * singleton.PPM;
 		y = getPosition().y * singleton.PPM;		
@@ -202,7 +203,7 @@ public class Robot extends Element {
 			animation.setFrames(sprites, 1/5f, false);
 		}
 		else if (singleton.jumpReady > 0 && currentSprite != "robotExit")
-		{
+		{ 
 			if (direction == 1)
 				if (currentSprite != "robotRight")
 				{
@@ -257,10 +258,10 @@ public class Robot extends Element {
 			return true;
 		else if (y < 0)
 			return true;
-		/*else if (x + width > width)
+		else if (x + this.width > width)
 			return true;
-		else if (y + height > height)
-			return true;*/
+		else if (y + this.height > height)
+			return true;
 		else	
 			return false;
 	}

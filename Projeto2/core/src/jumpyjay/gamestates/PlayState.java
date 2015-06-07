@@ -167,7 +167,7 @@ public class PlayState extends GameState {
 		updateObjects(dt);
 
 		//Check out of bounds
-		if (robot.update(dt, world,	(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) / singleton.PPM,props.get("height", Integer.class) * props.get("tileheight", Integer.class) / singleton.PPM,exitDoor.getPosition()))
+		if (robot.update(dt, world,	(props.get("width", Integer.class) * props.get("tilewidth", Integer.class)) * singleton.PPM,props.get("height", Integer.class) * props.get("tileheight", Integer.class) * singleton.PPM,exitDoor.getPosition()))
 			endGame(-1);
 
 		updateExit();

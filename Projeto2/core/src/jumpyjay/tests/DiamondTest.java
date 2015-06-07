@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class DiamondTest {
 
-	@Test
+	@Test(timeout=5000)
 	public void DiamondInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;
@@ -53,7 +53,7 @@ public class DiamondTest {
 		k.dispose();
 	}
 	
-	@Test
+	@Test(timeout=5000)
 	public void DiamondCaughtTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;

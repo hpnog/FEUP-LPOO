@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class KeyTest {
 
-	@Test
+	@Test(timeout=5000)
 	public void KeyInitialTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;
@@ -57,7 +57,7 @@ public class KeyTest {
 		k.dispose();
 	}
 	
-	@Test
+	@Test(timeout=5000)
 	public void KeyCaughtTest() {
 		SingletonVandC singleton = SingletonVandC.getSingleton();
 		SingletonVandC.testing = true;
