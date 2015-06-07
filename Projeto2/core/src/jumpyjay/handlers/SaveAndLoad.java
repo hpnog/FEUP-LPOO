@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 import com.badlogic.gdx.Gdx;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class SaveAndLoad.
  */
@@ -20,7 +20,7 @@ public class SaveAndLoad {
 	private SaveAndLoad() {}
 
 	/**
-	 * Save game.
+	 * Saves game.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
@@ -41,7 +41,7 @@ public class SaveAndLoad {
 	}
 
 	/**
-	 * Load game.
+	 * Loads game.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws ClassNotFoundException the class not found exception

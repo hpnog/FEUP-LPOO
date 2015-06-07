@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The listener interface for receiving myContact events.
  * The class that is interested in processing a myContact
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
  */
 public class MyContactListener implements ContactListener {
 
-	/* (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.physics.box2d.ContactListener#beginContact(com.badlogic.gdx.physics.box2d.Contact)
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class MyContactListener implements ContactListener {
 				singleton.loseLife++;
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.physics.box2d.ContactListener#endContact(com.badlogic.gdx.physics.box2d.Contact)
 	 */
 	@Override
@@ -92,13 +92,13 @@ public class MyContactListener implements ContactListener {
 				singleton.loseLife--;
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.physics.box2d.ContactListener#preSolve(com.badlogic.gdx.physics.box2d.Contact, com.badlogic.gdx.physics.box2d.Manifold)
 	 */
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see com.badlogic.gdx.physics.box2d.ContactListener#postSolve(com.badlogic.gdx.physics.box2d.Contact, com.badlogic.gdx.physics.box2d.ContactImpulse)
 	 */
 	@Override

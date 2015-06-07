@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Assets.
  */
@@ -138,7 +138,7 @@ public class Assets {
 
 	
 	/**
-	 * Load.
+	 * Loads
 	 */
 	public static void load()
 	{
@@ -190,7 +190,7 @@ public class Assets {
 	}
 	
 	/**
-	 * Dispose.
+	 * Disposes
 	 */
 	public static void dispose() 
 	{

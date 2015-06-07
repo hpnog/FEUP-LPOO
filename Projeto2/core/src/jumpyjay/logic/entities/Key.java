@@ -9,16 +9,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Key.
  */
 public class Key extends Element {
 
-	/** The caught. */
+	/** Boolean to see if the key is caught or not */
 	private boolean caught;
 	
-	/** The k fix. */
+	/** The k fixture */
 	private Fixture kFix;
 
 	/** The singleton. */
@@ -28,11 +28,11 @@ public class Key extends Element {
 	 * Instantiates a new key.
 	 *
 	 * @param body the body
-	 * @param fix the fix
-	 * @param x the x
-	 * @param y the y
-	 * @param width the width
-	 * @param height the height
+	 * @param fix the fixture
+	 * @param x the x coord of the key.
+	 * @param y the y coord of the key.
+	 * @param width the width of the key.
+	 * @param height the height of the key.
 	 */
 	public Key(Body body, Fixture fix, float x, float y, float width, float height) {
 		super(body);
@@ -56,10 +56,10 @@ public class Key extends Element {
 	}
 
 	/**
-	 * Update.
+	 * Updates the animation
 	 *
-	 * @param dt the dt
-	 * @param justCaught the just caught
+	 * @param dt the time that has passed since the last update
+	 * @param justCaught if true, the element is caught
 	 */
 	public void update(float dt, boolean justCaught)
 	{
@@ -67,7 +67,7 @@ public class Key extends Element {
 	}
 
 	/**
-	 * Checkif caught.
+	 * Check if caught.
 	 *
 	 * @return true, if successful
 	 */
@@ -82,7 +82,7 @@ public class Key extends Element {
 	}
 
 	/**
-	 * Draw.
+	 * Draws the key 
 	 *
 	 * @param batch the batch
 	 */
@@ -92,7 +92,7 @@ public class Key extends Element {
 	}
 
 	/**
-	 * Checks if is caught.
+	 * Checks if the key is caught.
 	 *
 	 * @return true, if is caught
 	 */
