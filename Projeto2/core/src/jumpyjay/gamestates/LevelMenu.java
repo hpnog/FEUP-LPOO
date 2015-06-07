@@ -15,9 +15,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LevelMenu.
+ * 
+ * The menu between the first menu and each level.
+ * This menu displays all levels for the user to choose which level he wants to go to.
+ * The levels that are blocked are shown as a locker.
  */
 public class LevelMenu extends GameState {
 
@@ -69,7 +72,6 @@ public class LevelMenu extends GameState {
 	/** The blocked level. */
 	private SimpleButton blockedLevel;
 
-	/** The piy. */
 	private float pix, piy;
 
 	/** The robot. */
@@ -85,8 +87,12 @@ public class LevelMenu extends GameState {
 		init();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#init()
+	/** 
+	 * Init initiates the game state.
+	 * 
+	 * Loads the game.
+	 * Initializes the camera, Sprite Batch and buttons.
+	 * Initializes also the robot sprite in the bottom of the screen.
 	 */
 	@Override
 	public void init() {
@@ -128,8 +134,11 @@ public class LevelMenu extends GameState {
 		blockedLevel = new SimpleButton(Assets.manager.get(Assets.blockedLevel), pix, 5 * piy, piy, piy);
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#update(float)
+	/** 
+	 * update updated the current state of the level menu
+	 * 
+	 * controls the robots movement if a choice has been made
+	 * switches game state if the robot reached the end of the screen
 	 */
 	@Override
 	public void update(float dt) {
@@ -147,8 +156,12 @@ public class LevelMenu extends GameState {
 			gameStateManager.setState(singleton.PLAY);
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#render()
+	/**
+	 * Render
+	 * 
+	 * renders all the images, buttons and the robot in the screen
+	 * 
+	 * For now, as only 10 levels are allowed, the last 10 are always lockers
 	 */
 	@Override
 	public void render() {
@@ -191,7 +204,7 @@ public class LevelMenu extends GameState {
 	}
 
 	/**
-	 * Render sound related buttons.
+	 * Render renders all sound related buttons considering the sound state.
 	 */
 	private void renderSoundRelatedButtons() {
 		if (SingletonVandC.music)
@@ -208,8 +221,8 @@ public class LevelMenu extends GameState {
 	/**
 	 * Draw level.
 	 *
-	 * @param string the string
-	 * @param i the i
+	 * @param string the name of the button
+	 * @param i the index of the level
 	 */
 	private void drawLevel(SimpleButton string, int i) {
 		if (isAccessible(i))
@@ -219,9 +232,9 @@ public class LevelMenu extends GameState {
 	}
 
 	/**
-	 * Checks if is accessible.
+	 * Checks if level is accessible.
 	 *
-	 * @param i the i
+	 * @param i the index of the level
 	 * @return true, if is accessible
 	 */
 	private boolean isAccessible(int i) {
@@ -232,8 +245,10 @@ public class LevelMenu extends GameState {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#handleInput()
+	/**
+	 * handle Input
+	 * 
+	 *  handles the input of the user and checks if he clicks on any of the buttons, level related or sound related
 	 */
 	@Override
 	public void handleInput() {
@@ -303,7 +318,7 @@ public class LevelMenu extends GameState {
 	/**
 	 * Touched.
 	 *
-	 * @param level the level
+	 * @param level the level button
 	 * @return true, if successful
 	 */
 	private boolean touched(SimpleButton level) {
@@ -312,16 +327,16 @@ public class LevelMenu extends GameState {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#dispose()
+	/** 
+	 * Dispose disposes the batch
 	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#pause()
+	/** 
+	 * pause
 	 */
 	@Override
 	public void pause() {}

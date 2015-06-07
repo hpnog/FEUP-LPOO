@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LevelSucceded.
  */
@@ -32,7 +31,7 @@ public class LevelSucceded extends GameState {
 	Animation robot;
 
 	/**
-	 * Instantiates a new level succeded.
+	 * Instantiates a new level succeeded.
 	 *
 	 * @param gameStateManager the game state manager
 	 */
@@ -41,8 +40,8 @@ public class LevelSucceded extends GameState {
 		init();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#init()
+	/**
+	 * Init initializes the screen, singleton, batch and camera
 	 */
 	@Override
 	public void init() {
@@ -54,16 +53,16 @@ public class LevelSucceded extends GameState {
 		cam.update();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#update(float)
+	/** 
+	 * update 
 	 */
 	@Override
 	public void update(float dt) {
 		handleInput();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#render()
+	/** 
+	 * render renders on screen the info in the end of a succesful level
 	 */
 	@Override
 	public void render() {
@@ -94,8 +93,10 @@ public class LevelSucceded extends GameState {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#handleInput()
+	/**
+	 * handle Input
+	 * 
+	 *  handles the input of the user and checks if he clicks on any of the buttons
 	 */
 	@Override
 	public void handleInput() {
@@ -110,16 +111,16 @@ public class LevelSucceded extends GameState {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#dispose()
+	/** 
+	 * Dispose disposes the batch
 	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#pause()
+	/** 
+	 * pause
 	 */
 	@Override
 	public void pause() {}

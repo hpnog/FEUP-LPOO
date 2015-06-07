@@ -1,8 +1,9 @@
 package jumpyjay.gamestates;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GameState.
+ * 
+ * This is the abstract class for every gamestate
  */
 public abstract class GameState {
 	
@@ -12,21 +13,21 @@ public abstract class GameState {
 	/**
 	 * Instantiates a new game state.
 	 *
-	 * @param gameStateManager the game state manager
+	 * @param gameStateManager
 	 */
 	protected GameState(GameStateManager gameStateManager) {
 		this.gameStateManager = gameStateManager;
 	}
 	
 	/**
-	 * Inits the.
+	 * Inits the gamestate.
 	 */
 	public abstract void init();
 	
 	/**
 	 * Update.
 	 *
-	 * @param dt the dt
+	 * @param dt the time since the last update
 	 */
 	public abstract void update (float dt);
 	

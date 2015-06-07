@@ -3,13 +3,13 @@ package jumpyjay.gamestates;
 import jumpyjay.gamestates.GameState;
 import jumpyjay.handlers.SingletonVandC;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GameStateManager.
+ * 
+ * Class that manages the swap between gamestates.
  */
 public class GameStateManager {
 	
-	//Current gamestate
 	/** The current game state. */
 	private GameState currentGameState;
 	
@@ -27,7 +27,7 @@ public class GameStateManager {
 	/**
 	 * Sets the state.
 	 *
-	 * @param state the new state
+	 * @param state the new game state
 	 */
 	public void setState(int state) {
 		if (currentGameState != null)
@@ -47,7 +47,7 @@ public class GameStateManager {
 	/**
 	 * Update.
 	 *
-	 * @param dt the dt
+	 * @param dt the time since the last update
 	 */
 	public void update (float dt) {
 		currentGameState.update(dt);

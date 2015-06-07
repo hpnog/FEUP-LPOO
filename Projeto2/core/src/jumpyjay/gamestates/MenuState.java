@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MenuState.
  */
@@ -48,8 +47,10 @@ public class MenuState extends GameState {
 		init();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#init()
+	/**
+	 * Init initializes the menu state
+	 * 
+	 * Initializes the singleton, batch, camera, robot and tap to start animation.
 	 */
 	@Override
 	public void init() {
@@ -72,8 +73,10 @@ public class MenuState extends GameState {
 		robotX = singleton.SCREEN_WIDTH / 14;
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#update(float)
+	/**
+	 * update updates the state of the menu state
+	 * 
+	 * @param dt time since the last update
 	 */
 	@Override
 	public void update(float dt) {
@@ -87,8 +90,8 @@ public class MenuState extends GameState {
 			gameStateManager.setState(singleton.LEVEL);
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#render()
+	/**
+	 * render renders on screen the robot, tap to start animation and background
 	 */
 	@Override
 	public void render() {
@@ -110,7 +113,7 @@ public class MenuState extends GameState {
 	}
 
 	/**
-	 * Render sound related buttons.
+	 * Render renders sound related buttons.
 	 */
 	private void renderSoundRelatedButtons() {
 		if (SingletonVandC.music)
@@ -124,10 +127,8 @@ public class MenuState extends GameState {
 
 	}
 
-
-
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#handleInput()
+	/**
+	 * handle Input handles the users input considering the buttons
 	 */
 	@Override
 	public void handleInput() {
@@ -144,16 +145,16 @@ public class MenuState extends GameState {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#dispose()
+	/**
+	 * dispose disposes the batch
 	 */
 	@Override
 	public void dispose() {
 		batch.dispose();
 	}
 
-	/* (non-Javadoc)
-	 * @see jumpyjay.gamestates.GameState#pause()
+	/**
+	 * pause
 	 */
 	@Override
 	public void pause() {}
