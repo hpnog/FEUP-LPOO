@@ -52,8 +52,6 @@ public class SaveAndLoad {
 				a.printStackTrace();
 			}
 		}
-		for (int i = 0; i < SingletonVandC.totalScore.length; i++)
-			System.out.println(SingletonVandC.totalScore[i]);
 	}
 
 }

@@ -2,6 +2,7 @@ package jumpyjay.handlers;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -45,7 +46,7 @@ public class Assets {
 	public static final AssetDescriptor<Texture> disabledMusic = new AssetDescriptor<Texture>("sound/disabledMusic.png", Texture.class);	
 	
 	//-------------------SOUND------------------
-	public static final AssetDescriptor<Sound> music = new AssetDescriptor<Sound>("sound/music.mp3", Sound.class);	
+	public static final AssetDescriptor<Music> music = new AssetDescriptor<Music>("sound/music.mp3", Music.class);	
 	public static final AssetDescriptor<Sound> wonSound = new AssetDescriptor<Sound>("sound/won.mp3", Sound.class);	
 	public static final AssetDescriptor<Sound> diamondSound = new AssetDescriptor<Sound>("sound/gotDiamond.mp3", Sound.class);	
 	public static final AssetDescriptor<Sound> jumpSound = new AssetDescriptor<Sound>("sound/jump.mp3", Sound.class);	

@@ -1,12 +1,19 @@
 package jumpyjay.handlers;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 public class SoundHandler {
+	public static Music music;
 	
 	private SoundHandler() {}
 	
 	public static void playMusic()
 	{
-		SingletonVandC.musicId = Assets.manager.get(Assets.music).loop(0.3f);
+		music = Assets.manager.get(Assets.music);
+		music.setVolume(0.5f);
+		music.play();
+		music.setLooping(true);
 	}
 	
 	public static void playCaught()
@@ -43,12 +50,14 @@ public class SoundHandler {
 		if (SingletonVandC.music)
 		{
 			SingletonVandC.music = false;
-			Assets.manager.get(Assets.music).stop(SingletonVandC.musicId);
+			music.stop();
 		}
 		else
 		{
 			SingletonVandC.music = true;
-			SingletonVandC.musicId = Assets.manager.get(Assets.music).loop(0.3f);
+			music.setVolume(0.5f);
+			music.play();
+			music.setLooping(true);
 		}
 	}
 
