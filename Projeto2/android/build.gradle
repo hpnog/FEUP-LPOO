@@ -14,6 +14,20 @@ android {
 
         instrumentTest.setRoot('tests')
     }
+    
+    signingConfigs {
+        release {
+            storeFile file("JoaoNogueira_MartaLopes.keystore")
+            storePassword "lpoojay"
+            keyAlias "lpoojay_alias"
+            keyPassword "lpoojay_key"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 
