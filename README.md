@@ -1,4 +1,4 @@
-# LPOO-code
+# FEUP - LPOO
 
 Este repositório contém o código realizado em fichas e projetos da Unidade Curricular de LPOO - FEUP.
 
