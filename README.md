@@ -1,13 +1,22 @@
-# FEUP - LPOO
+# LPOO - @ FEUP
+## Object Oriented Programming Languages course
 
-Este repositório contém o código realizado em fichas e projetos da Unidade Curricular de LPOO - FEUP.
+This repository contains all code developed in projects of Object Oriented Programming Languages course @ FEUP
 
-## Primeiro Projeto
+## What I learned
 
-### Explicação
+ * Basics of Java;
+ * Basics of Mobile Development;
+ * Basics of Android;
+ * Basic Project Setup;
+ * Gameplayy Programmng.
 
-Cria um labirinto, escolhe o seu tamanho e número de dragões!
-Consegues sair do labirinto?
+## First project
+
+### Explanation
+
+Create a maze, choose its size and number of dragons (game).
+Can you exit the maze?
 
 ### Screenshots
 ***
@@ -26,14 +35,14 @@ Consegues sair do labirinto?
 
 ![alt tag](http://i.imgur.com/C4tSzZZ.png)
 
-## Segundo Projeto
+## Second Project
 
-### Explicação
+### Explanaton
 
-Este projeto é baseado no jogo Jack N' Jill disponível na Play Store.
-Jumpy Jay é um jogo de plataformas onde o utilizador vai controlar o Robot Jay.
-Este robot movimenta-se sozinho mantendo a mesma direção até embater numa parede ou num objeto que não seja letal, onde vai mudar de direção.
-O jogador apenas vai controlar o salto deste robot tentando apanhar os diamantes para aumentar o seu score, e apanhando a chave para poder abrir a saída e assim sair para terminar o nível. Existem vários tipos de perigos: os espinhos e a lava vão tirar apenas uma vida ao robot, sendo que este começa com 3 vidas no início de cada nível, os precipícios são os perigos onde se o robot cair, perde instantaneamente.
+This game is based on the Jack N' Jill game available on the PlayStore.
+Jumpy Jay is a platform game here the player controls the Robot Jay.
+The Robot moves on its own in a single direction until it hits an obstacle, at which point it changes direction. On hitting a lethal obstacle, the robot loses a life.
+The player only controls the jumping of the robot. Being challenged to catch all the keys and exit the level.
 
 ### Screenshots
 ***
